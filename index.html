@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.42</title>
+<title>ProfiClick Calculator v7.4.43</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--text:#172033;--muted:#717988;--line:#dfead8;--soft:#f7fbf3}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -130,7 +130,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.42";
+const APP_VERSION = "v7.4.43";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
@@ -170,7 +170,19 @@ function init(){
 }
 function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); $("moveDate").value = d.toISOString().slice(0,10); }
 function fillCities(){ const vals = {cityA:$("cityA").value || "haifa", cityB:$("cityB").value || "netanya"}; for(const id of ["cityA","cityB"]){ const s=$(id); s.innerHTML=""; cities.forEach(([v,n])=>s.add(new Option(n[lang],v))); s.value = vals[id] || (id==="cityA"?"haifa":"netanya");}}
-function fillFloors(){ for(const id of ["floorA","floorB"]){ const old = $(id).value || "0"; const s=$(id); s.innerHTML=""; for(let i=0;i<=30;i++) s.add(new Option(i===0 ? (lang==="he"?"0 / בית":"0 / дом") : String(i),String(i))); s.value=old;}}
+function floorZeroLabel(){
+  if(lang==="en") return "0 / house";
+  if(lang==="he") return "0 / בית";
+  return "0 / дом";
+}
+function fillFloors(){
+  for(const id of ["floorA","floorB"]){
+    const old = $(id).value || "0";
+    const s=$(id); s.innerHTML="";
+    for(let i=0;i<=30;i++) s.add(new Option(i===0 ? floorZeroLabel() : String(i),String(i)));
+    s.value=old;
+  }
+}
 function selectOption(cat,id,name,price){
   cat.opts.forEach(([oid])=>selected.delete(oid));
   selected.set(id,{key:cat.key,catObj:cat.cat,nameObj:name,price});
@@ -220,15 +232,18 @@ function calc(){
   let hard=0; if($("hardA").checked) hard+=80; if($("hardB").checked) hard+=80;
   let raw = itemsSum + route + floors + hard;
 
-  // Business minimums: real moving orders should not be too cheap.
-  let min = 500;                 // minimum local/light order
-  if(route >= 300) min = 900;    // nearby city
-  if(route >= 450) min = 1200;   // Haifa-Netanya / longer city move
-  if(route >= 700) min = 1600;   // long distance
-  if(itemCount >= 2) min = Math.max(min, 900);
-  if(itemCount >= 3) min = Math.max(min, 1500);
-  if(itemCount >= 6) min = Math.max(min, 2200);
-  if(itemsSum >= 2000) min = Math.max(min, Math.round(itemsSum * 0.9));
+  // Simple real-world minimums:
+  // local job: minimum call-out ₪250
+  // nearby city: moderate minimum
+  // long city-to-city: higher minimum
+  let min = 250;
+  if(route >= 180) min = 500;
+  if(route >= 350) min = 750;
+  if(route >= 600) min = 1000;
+
+  // For multiple items, raise the minimum gently, but do not overinflate local jobs.
+  if(itemCount >= 3) min = Math.max(min, cityA===cityB ? 650 : 900);
+  if(itemCount >= 6) min = Math.max(min, cityA===cityB ? 900 : 1200);
 
   const total=Math.max(raw,min); return {total,itemsSum,route,floors,hard,min,minApplied:total>raw,itemCount};
 }
@@ -245,10 +260,90 @@ function render(){
 function applyLang(){ document.documentElement.lang=lang; document.documentElement.dir=lang==="he"?"rtl":"ltr"; $("appTitle").innerHTML=T("title"); $("appSub").textContent=T("sub"); $("langBtn").textContent=lang.toUpperCase(); document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=T(el.dataset.t);}); $("toast").textContent=T("copied"); fillCities(); fillFloors(); buildItems(); render();}
 function cycleLang(){ lang=langs[(langs.indexOf(lang)+1)%langs.length]; applyLang(); }
 function clearCalc(){ selected.clear(); boxesCount=0; $("addrA").value=""; $("addrB").value=""; $("floorA").value="0"; $("floorB").value="0"; $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false; buildItems(); render();}
-function quoteText(){
-  const c=calc(); const picked=Array.from(selected.values()).map(x=>"• "+(x.catObj?x.catObj[lang]:x.cat)+" · "+(x.nameObj?x.nameObj[lang]:x.name)+" · ₪"+x.price); if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
-  return `${T("quoteTitle")}\n\n${T("moveDate")}: ${$("moveDate").value || "-"} ${$("moveTime").value || ""}\n\n${T("from")}:\n${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}\n${T("floor")}: ${$("floorA").value}\n${T("lift")}: ${$("liftA").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardA").checked ? T("yes") : T("no")}\n\n${T("to")}:\n${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}\n${T("floor")}: ${$("floorB").value}\n${T("lift")}: ${$("liftB").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardB").checked ? T("yes") : T("no")}\n\n${T("itemList")}:\n${picked.join("\n") || "—"}\n\n${T("breakdown")}:\n${T("itemsWord")}: ₪${c.itemsSum}\n${T("routeWord")}: ₪${c.route}\n${T("floorsWord")}: ₪${c.floors}\n${c.minApplied ? T("minApplied")+": ₪"+c.min+"\n" : ""}${T("approx")}: ₪${c.total}\n\n${T("reason")}\n\n${T("link")}:\n${APP_URL}`;
+function orderId(){
+  const d = new Date();
+  return "PC-" + d.getFullYear().toString().slice(2) + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0") + "-" + String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0");
 }
+function quoteText(){
+  const c=calc();
+  const picked=Array.from(selected.values()).map(x=>"• "+(x.catObj?x.catObj[lang]:x.cat)+" · "+(x.nameObj?x.nameObj[lang]:x.name)+" · ₪"+x.price);
+  if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
+  const id = orderId();
+  const respondUrl = APP_URL + "?order=" + encodeURIComponent(id);
+  const a = `${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}`;
+  const b = `${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}`;
+
+  if(lang==="en"){
+    return `🟢 *ProfiClick*
+Price calculator
+${respondUrl}
+
+╭──────────────╮
+🚚 *Moving request*
+#${id}
+📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+
+📍 *A*  ${a}
+🏢 Floor ${$("floorA").value} · Elevator ${$("liftA").checked ? "yes" : "no"} · Access ${$("hardA").checked ? "hard" : "normal"}
+
+📍 *B*  ${b}
+🏢 Floor ${$("floorB").value} · Elevator ${$("liftB").checked ? "yes" : "no"} · Access ${$("hardB").checked ? "hard" : "normal"}
+
+📦 *Items:* ${picked.length} item(s)
+${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) + " more" : ""}
+
+💰 *Approx. price: ₪${c.total}*
+⏱ Respond in ProfiClick within 1 hour
+╰──────────────╯`;
+  }
+
+  if(lang==="he"){
+    return `🟢 *ProfiClick*
+מחשבון מחירים
+${respondUrl}
+
+╭──────────────╮
+🚚 *בקשת הובלה*
+#${id}
+📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+
+📍 *א׳*  ${a}
+🏢 קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · גישה ${$("hardA").checked ? "קשה" : "רגילה"}
+
+📍 *ב׳*  ${b}
+🏢 קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · גישה ${$("hardB").checked ? "קשה" : "רגילה"}
+
+📦 *פריטים:* ${picked.length}
+${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) : ""}
+
+💰 *מחיר משוער: ₪${c.total}*
+⏱ מענה ב‑ProfiClick בתוך שעה
+╰──────────────╯`;
+  }
+
+  return `🟢 *ProfiClick*
+Калькулятор цен
+${respondUrl}
+
+╭──────────────╮
+🚚 *Заявка на перевозку*
+#${id}
+📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+
+📍 *A*  ${a}
+🏢 Этаж ${$("floorA").value} · Лифт ${$("liftA").checked ? "да" : "нет"} · Доступ ${$("hardA").checked ? "сложный" : "обычный"}
+
+📍 *B*  ${b}
+🏢 Этаж ${$("floorB").value} · Лифт ${$("liftB").checked ? "да" : "нет"} · Доступ ${$("hardB").checked ? "сложный" : "обычный"}
+
+📦 *Вещи:* ${picked.length} поз.
+${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) + " ещё" : ""}
+
+💰 *Примерная цена: ₪${c.total}*
+⏱ Откликнуться в ProfiClick в течение 1 часа
+╰──────────────╯`;
+}
+
 function copyCalc(){ navigator.clipboard?.writeText(quoteText()); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}
 function sendWhatsApp(){
   const text = quoteText();
