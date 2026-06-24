@@ -8,20 +8,19 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.37</title>
+<title>ProfiClick Calculator v7.4.38</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--text:#172033;--muted:#717988;--line:#dfead8;--soft:#f7fbf3}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;width:100%;height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);overflow:hidden}
 .app{width:100%;max-width:430px;height:100dvh;margin:0 auto;background:linear-gradient(180deg,#eff8ec,#fbfdf9);position:relative;overflow:hidden}
-.header{position:absolute;top:0;left:0;right:0;z-index:10;padding:calc(env(safe-area-inset-top) + 6px) 9px 6px;background:#eff8ec}
-.hero{height:86px;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:9px 11px}
-.logo{width:38px;height:38px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:950;flex:0 0 38px}
+.header{position:absolute;top:0;left:0;right:0;z-index:10;padding:calc(env(safe-area-inset-top) + 1px) 9px 3px;background:#eff8ec}
+.hero{height:82px;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:8px 11px}
+.logo{width:38px;height:38px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:950;flex:0 0 38px}
 .hero h1{font-size:21px;line-height:.92;margin:0;font-weight:950;letter-spacing:-.04em}.hero p{margin:3px 0 0;font-size:10px;font-weight:850;opacity:.92}
-.heroText{min-width:0;flex:1}
-.hBtns{display:flex;gap:6px;align-items:center}
+.heroText{min-width:0;flex:1}.hBtns{display:flex;gap:6px;align-items:center}
 .roundBtn{width:38px;height:38px;border:0;border-radius:999px;background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:950;display:flex;align-items:center;justify-content:center}
-.main{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 104px);bottom:143px;overflow:auto;-webkit-overflow-scrolling:touch;padding:0 9px 12px}
+.main{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 92px);bottom:128px;overflow:auto;-webkit-overflow-scrolling:touch;padding:0 9px 12px}
 .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:7px}
 .title{font-size:19px;font-weight:950;margin:0 0 6px;letter-spacing:-.03em}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .field{border:1px solid var(--line);border-radius:15px;background:#fff;padding:7px 8px;min-height:47px}
@@ -29,14 +28,18 @@ html,body{margin:0;width:100%;height:100%;background:var(--bg);font-family:-appl
 input,select{width:100%;min-height:28px;border:0;background:#fff;outline:0;font-size:14px;font-weight:900;color:var(--text);font-family:inherit}
 select{-webkit-appearance:menulist;appearance:menulist}
 input[type="date"],input[type="time"]{font-size:13px}
-.floorBox{min-height:92px}
-.check{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:11.5px;color:var(--muted);font-weight:900;line-height:1.05}
+.floorBox{min-height:92px}.check{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:11.5px;color:var(--muted);font-weight:900;line-height:1.05}
 .check input{width:19px;height:19px;accent-color:var(--g);flex:0 0 19px;min-height:19px}
 .itemsBtn{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;font-size:15px;font-weight:950;text-align:left;display:flex;justify-content:space-between;align-items:center;color:var(--text)}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-height:55px;overflow:hidden}.chip{background:#eef8e8;color:#2f6f21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:950}
+.pickedList{display:grid;gap:6px;margin-top:7px}
+.pickRow{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:#fff;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-weight:950}
+.pickRow .ok{width:24px;height:24px;border-radius:8px;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px}
+.pickRow small{display:block;color:var(--muted);font-size:10px;font-weight:850;margin-top:1px}
+.pickRow b{color:#2f6f21;font-size:13px;white-space:nowrap}
+.empty{background:#eef8e8;color:#2f6f21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:950;display:inline-flex;margin-top:6px}
 .breakdown{margin-top:7px;border-top:1px solid var(--line);padding-top:7px;color:var(--muted);font-size:11px;font-weight:850;line-height:1.35}
-.footer{position:absolute;left:0;right:0;bottom:0;z-index:12;padding:8px 9px calc(env(safe-area-inset-bottom) + 8px);background:#fbfdf9;box-shadow:0 -8px 24px rgba(35,63,31,.08)}
-.totalCard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:7px}.total{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:8px 10px}.total b{font-size:15px}.total small{display:block;color:var(--muted);font-size:10.5px;font-weight:850}.money{font-size:27px;font-weight:950;color:#2f6f21}
+.footer{position:absolute;left:0;right:0;bottom:-3px;z-index:12;padding:7px 9px max(4px, env(safe-area-inset-bottom));background:#fbfdf9;box-shadow:0 -8px 24px rgba(35,63,31,.08)}
+.totalCard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:6px}.total{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:8px 10px}.total b{font-size:15px}.total small{display:block;color:var(--muted);font-size:10.5px;font-weight:850}.money{font-size:27px;font-weight:950;color:#2f6f21}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.btn{border:0;border-radius:16px;padding:11px 7px;font-size:14px;font-weight:950;font-family:inherit}.clear{background:#eef8e8;color:#2f6f21}.copy{background:linear-gradient(var(--g),var(--g2));color:#fff}
 .sheetBg{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:30;display:none;align-items:flex-end}.sheetBg.show{display:flex}
 .sheet{width:100%;max-height:76dvh;background:#fff;border-radius:24px 24px 0 0;padding:13px 11px calc(env(safe-area-inset-bottom) + 12px);overflow:auto;-webkit-overflow-scrolling:touch}
@@ -51,7 +54,7 @@ input[type="date"],input[type="time"]{font-size:13px}
 html[dir="rtl"] body,html[dir="rtl"] input,html[dir="rtl"] select{text-align:right}
 html[dir="rtl"] .itemsBtn{text-align:right}
 @media(max-height:760px){
-.hero{height:78px}.logo{width:34px;height:34px;flex-basis:34px}.hero h1{font-size:19px}.hero p{font-size:9.5px}.roundBtn{width:34px;height:34px}.main{top:calc(env(safe-area-inset-top) + 95px);bottom:132px}.title{font-size:17px}.card{padding:7px;margin-bottom:5px}.footer{padding-top:6px}.btn{padding:10px 7px}.money{font-size:24px}
+.hero{height:76px}.logo{width:34px;height:34px;flex-basis:34px}.hero h1{font-size:19px}.hero p{font-size:9.5px}.roundBtn{width:34px;height:34px}.main{top:calc(env(safe-area-inset-top) + 86px);bottom:120px}.title{font-size:17px}.card{padding:7px;margin-bottom:5px}.footer{padding-top:5px}.btn{padding:10px 7px}.money{font-size:24px}
 }
 </style>
 </head>
@@ -59,8 +62,8 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="app">
   <header class="header">
     <div class="hero">
-      <div class="logo">₪</div>
-      <div class="heroText"><h1 id="appTitle">ProfiClick<br>Калькулятор</h1><p id="appSub">Калькулятор перевозок</p></div>
+      <div class="logo">PC</div>
+      <div class="heroText"><h1 id="appTitle">ProfiClick<br>Калькулятор</h1><p id="appSub">Калькулятор перевозок · v7.4.38</p></div>
       <div class="hBtns">
         <button class="roundBtn" id="shareApp" type="button">↗</button>
         <button class="roundBtn" id="langBtn" type="button">RU</button>
@@ -106,9 +109,9 @@ html[dir="rtl"] .itemsBtn{text-align:right}
     </section>
 
     <section class="card">
-      <div class="title" data-t="items">Список вещей</div>
-      <button class="itemsBtn" id="openItems" type="button"><span data-t="chooseItems">Выбрать вещи галочками</span><span>⌄</span></button>
-      <div class="chips" id="chips"><span class="chip" data-t="nothingSelected">Ничего не выбрано</span></div>
+      <div class="title" data-t="calcTitleShort">Калькулятор</div>
+      <button class="itemsBtn" id="openItems" type="button"><span data-t="chooseItems">Выбор вещей</span><span>⌄</span></button>
+      <div id="pickedList" class="pickedList"></div>
       <div class="breakdown" id="breakdown">—</div>
     </section>
   </main>
@@ -122,7 +125,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 
   <div class="sheetBg" id="sheetBg">
     <div class="sheet">
-      <div class="sheetHead"><b data-t="items">Список вещей</b><button class="x" id="closeItems" type="button">×</button></div>
+      <div class="sheetHead"><b data-t="chooseItems">Выбор вещей</b><button class="x" id="closeItems" type="button">×</button></div>
       <div id="itemsList"></div>
     </div>
   </div>
@@ -130,298 +133,118 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 </div>
 
 <script>
-const APP_VERSION = "v7.4.37";
+const APP_VERSION = "v7.4.38";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
-
 const tr = {
-  ru:{title:"ProfiClick<br>Калькулятор", sub:"Калькулятор перевозок · v7.4.37", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", items:"Список вещей", chooseItems:"Выбрать вещи галочками", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", calcTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт"},
-  en:{title:"ProfiClick<br>Calculator", sub:"Moving cost calculator · v7.4.37", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", items:"Items list", chooseItems:"Choose items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", calcTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown"},
-  he:{title:"ProfiClick<br>מחשבון", sub:"מחשבון הובלות · v7.4.37", dateTitle:"תאריך ושעה", date:"תאריך", time:"שעה", route:"מסלול", pointA:"נקודה א׳", pointB:"נקודה ב׳", addressA:"כתובת א׳", addressB:"כתובת ב׳", floorsAccess:"קומות וגישה", floorA:"נקודה א׳ · קומה", floorB:"נקודה ב׳ · קומה", hasLift:"יש מעלית", hardAccess:"גישה קשה", items:"רשימת פריטים", chooseItems:"בחר פריטים", nothingSelected:"לא נבחרו פריטים", totalApprox:"סה״כ משוער", clear:"נקה", copy:"העתק", copied:"הועתק", choose:"בחר פריטים", positions:"פריטים + מסלול", shareText:"חשב עלות הובלה", calcTitle:"🚚 הצעת מחיר ProfiClick", moveDate:"📅 תאריך", from:"📍 נקודה א׳", to:"📍 נקודה ב׳", floor:"קומה", lift:"מעלית", yes:"כן", no:"לא", hard:"גישה קשה", itemList:"📦 פריטים", approx:"💰 מחיר משוער", reason:"המחיר כולל מסלול, קומות, מעלית, גישה קשה ופריטים שנבחרו.", link:"📲 חשב הובלה", minApplied:"הוחל מחיר מינימום", breakdown:"פירוט"}
+  ru:{title:"ProfiClick<br>Калькулятор", sub:"Калькулятор перевозок · v7.4.38", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", calcTitleShort:"Калькулятор", chooseItems:"Выбор вещей", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", quoteTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт", itemsWord:"Вещи", routeWord:"Маршрут", floorsWord:"Этажи", boxes:"Коробки", quantity:"Количество", price:"Цена"},
+  en:{title:"ProfiClick<br>Calculator", sub:"Moving calculator · v7.4.38", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", calcTitleShort:"Calculator", chooseItems:"Items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", quoteTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown", itemsWord:"Items", routeWord:"Route", floorsWord:"Floors", boxes:"Boxes", quantity:"Quantity", price:"Price"},
+  he:{title:"ProfiClick<br>מחשבון", sub:"מחשבון הובלות · v7.4.38", dateTitle:"תאריך ושעה", date:"תאריך", time:"שעה", route:"מסלול", pointA:"נקודה א׳", pointB:"נקודה ב׳", addressA:"כתובת א׳", addressB:"כתובת ב׳", floorsAccess:"קומות וגישה", floorA:"נקודה א׳ · קומה", floorB:"נקודה ב׳ · קומה", hasLift:"יש מעלית", hardAccess:"גישה קשה", calcTitleShort:"מחשבון", chooseItems:"בחירת פריטים", nothingSelected:"לא נבחרו פריטים", totalApprox:"סה״כ משוער", clear:"נקה", copy:"העתק", copied:"הועתק", choose:"בחר פריטים", positions:"פריטים + מסלול", shareText:"חשב עלות הובלה", quoteTitle:"🚚 הצעת מחיר ProfiClick", moveDate:"📅 תאריך", from:"📍 נקודה א׳", to:"📍 נקודה ב׳", floor:"קומה", lift:"מעלית", yes:"כן", no:"לא", hard:"גישה קשה", itemList:"📦 פריטים", approx:"💰 מחיר משוער", reason:"המחיר כולל מסלול, קומות, מעלית, גישה קשה ופריטים שנבחרו.", link:"📲 חשב הובלה", minApplied:"הוחל מחיר מינימום", breakdown:"פירוט", itemsWord:"פריטים", routeWord:"מסלול", floorsWord:"קומות", boxes:"ארגזים", quantity:"כמות", price:"מחיר"}
 };
-
 const cities = [
-  ["haifa",{ru:"Хайфа",en:"Haifa",he:"חיפה"}],
-  ["telaviv",{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"}],
-  ["hadera",{ru:"Хадера",en:"Hadera",he:"חדרה"}],
-  ["netanya",{ru:"Нетания",en:"Netanya",he:"נתניה"}],
-  ["jerusalem",{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}],
-  ["ashdod",{ru:"Ашдод",en:"Ashdod",he:"אשדוד"}],
-  ["beer",{ru:"Беэр-Шева",en:"Beer Sheva",he:"באר שבע"}],
-  ["rishon",{ru:"Ришон",en:"Rishon LeZion",he:"ראשון לציון"}],
-  ["petah",{ru:"Петах-Тиква",en:"Petah Tikva",he:"פתח תקווה"}],
-  ["holon",{ru:"Холон",en:"Holon",he:"חולון"}]
+  ["haifa",{ru:"Хайфа",en:"Haifa",he:"חיפה"}],["telaviv",{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"}],["hadera",{ru:"Хадера",en:"Hadera",he:"חדרה"}],["netanya",{ru:"Нетания",en:"Netanya",he:"נתניה"}],["jerusalem",{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}],["ashdod",{ru:"Ашдод",en:"Ashdod",he:"אשדוד"}],["beer",{ru:"Беэр-Шева",en:"Beer Sheva",he:"באר שבע"}],["rishon",{ru:"Ришон",en:"Rishon LeZion",he:"ראשון לציון"}],["petah",{ru:"Петах-Тиква",en:"Petah Tikva",he:"פתח תקווה"}],["holon",{ru:"Холон",en:"Holon",he:"חולון"}]
 ];
-
 const itemsData = [
-  {cat:{ru:"Холодильник",en:"Refrigerator",he:"מקרר"}, opts:[
-    ["fridge_s",{ru:"250–350 л",en:"250–350 L",he:"250–350 ליטר"},180],
-    ["fridge_m",{ru:"350–500 л",en:"350–500 L",he:"350–500 ליטר"},220],
-    ["fridge_l",{ru:"500–650 л",en:"500–650 L",he:"500–650 ליטר"},280],
-    ["fridge_side",{ru:"Side-by-Side",en:"Side-by-Side",he:"סייד ביי סייד"},350]
-  ]},
-  {cat:{ru:"Стиральная машина",en:"Washing machine",he:"מכונת כביסה"}, opts:[
-    ["washer_s",{ru:"до 6 кг",en:"up to 6 kg",he:"עד 6 ק״ג"},150],
-    ["washer_m",{ru:"7–9 кг",en:"7–9 kg",he:"7–9 ק״ג"},180],
-    ["washer_l",{ru:"10+ кг",en:"10+ kg",he:"10+ ק״ג"},220]
-  ]},
-  {cat:{ru:"Сушильная машина",en:"Dryer",he:"מייבש כביסה"}, opts:[
-    ["dryer_s",{ru:"маленькая",en:"small",he:"קטן"},140],
-    ["dryer_m",{ru:"средняя",en:"medium",he:"בינוני"},170],
-    ["dryer_l",{ru:"большая",en:"large",he:"גדול"},210]
-  ]},
-  {cat:{ru:"Диван",en:"Sofa",he:"ספה"}, opts:[
-    ["sofa_2",{ru:"2-местный",en:"2-seat",he:"דו מושבית"},180],
-    ["sofa_3",{ru:"3-местный",en:"3-seat",he:"תלת מושבית"},240],
-    ["sofa_corner",{ru:"угловой",en:"corner sofa",he:"ספה פינתית"},350],
-    ["sofa_u",{ru:"П-образный",en:"U-shaped",he:"ספה בצורת U"},450]
-  ]},
-  {cat:{ru:"Шкаф",en:"Wardrobe",he:"ארון"}, opts:[
-    ["ward_2",{ru:"2 двери",en:"2 doors",he:"2 דלתות"},180],
-    ["ward_3",{ru:"3 двери",en:"3 doors",he:"3 דלתות"},250],
-    ["ward_4",{ru:"4 двери",en:"4 doors",he:"4 דלתות"},320],
-    ["ward_c2",{ru:"купе 2 двери",en:"sliding 2 doors",he:"הזזה 2 דלתות"},280],
-    ["ward_c3",{ru:"купе 3 двери",en:"sliding 3 doors",he:"הזזה 3 דלתות"},380]
-  ]},
-  {cat:{ru:"Кровать",en:"Bed",he:"מיטה"}, opts:[
-    ["bed_1",{ru:"односпальная",en:"single",he:"יחיד"},120],
-    ["bed_15",{ru:"полуторная",en:"small double",he:"מיטה וחצי"},150],
-    ["bed_2",{ru:"двуспальная",en:"double",he:"זוגית"},200],
-    ["bed_king",{ru:"King Size",en:"King Size",he:"קינג סייז"},280]
-  ]},
-  {cat:{ru:"Матрас",en:"Mattress",he:"מזרן"}, opts:[
-    ["mat_90",{ru:"90×190",en:"90×190",he:"90×190"},80],
-    ["mat_120",{ru:"120×190",en:"120×190",he:"120×190"},100],
-    ["mat_140",{ru:"140×190",en:"140×190",he:"140×190"},120],
-    ["mat_160",{ru:"160×200",en:"160×200",he:"160×200"},150],
-    ["mat_180",{ru:"180×200",en:"180×200",he:"180×200"},180]
-  ]},
-  {cat:{ru:"Телевизор",en:"TV",he:"טלוויזיה"}, opts:[
-    ["tv_43",{ru:"до 43″",en:"up to 43″",he:"עד 43″"},70],
-    ["tv_65",{ru:"50–65″",en:"50–65″",he:"50–65″"},100],
-    ["tv_85",{ru:"70–85″",en:"70–85″",he:"70–85″"},150]
-  ]},
-  {cat:{ru:"Стол",en:"Table",he:"שולחן"}, opts:[
-    ["table_s",{ru:"маленький",en:"small",he:"קטן"},70],
-    ["table_4",{ru:"обеденный на 4",en:"dining for 4",he:"אוכל ל-4"},120],
-    ["table_6",{ru:"обеденный на 6",en:"dining for 6",he:"אוכל ל-6"},180],
-    ["table_big",{ru:"большой раскладной",en:"large extendable",he:"גדול נפתח"},250]
-  ]}
+  {key:"fridge",cat:{ru:"Холодильник",en:"Refrigerator",he:"מקרר"}, opts:[["fridge_s",{ru:"250–350 л",en:"250–350 L",he:"250–350 ליטר"},180],["fridge_m",{ru:"350–500 л",en:"350–500 L",he:"350–500 ליטר"},220],["fridge_l",{ru:"500–650 л",en:"500–650 L",he:"500–650 ליטר"},280],["fridge_side",{ru:"Side-by-Side",en:"Side-by-Side",he:"סייד ביי סייד"},350]]},
+  {key:"washer",cat:{ru:"Стиральная машина",en:"Washing machine",he:"מכונת כביסה"}, opts:[["washer_s",{ru:"до 6 кг",en:"up to 6 kg",he:"עד 6 ק״ג"},150],["washer_m",{ru:"7–9 кг",en:"7–9 kg",he:"7–9 ק״ג"},180],["washer_l",{ru:"10+ кг",en:"10+ kg",he:"10+ ק״ג"},220]]},
+  {key:"dryer",cat:{ru:"Сушильная машина",en:"Dryer",he:"מייבש כביסה"}, opts:[["dryer_s",{ru:"маленькая",en:"small",he:"קטן"},140],["dryer_m",{ru:"средняя",en:"medium",he:"בינוני"},170],["dryer_l",{ru:"большая",en:"large",he:"גדול"},210]]},
+  {key:"sofa",cat:{ru:"Диван",en:"Sofa",he:"ספה"}, opts:[["sofa_2",{ru:"2-местный",en:"2-seat",he:"דו מושבית"},180],["sofa_3",{ru:"3-местный",en:"3-seat",he:"תלת מושבית"},240],["sofa_corner",{ru:"угловой",en:"corner sofa",he:"ספה פינתית"},350],["sofa_u",{ru:"П-образный",en:"U-shaped",he:"ספה בצורת U"},450]]},
+  {key:"wardrobe",cat:{ru:"Шкаф",en:"Wardrobe",he:"ארון"}, opts:[["ward_2",{ru:"2 двери",en:"2 doors",he:"2 דלתות"},180],["ward_3",{ru:"3 двери",en:"3 doors",he:"3 דלתות"},250],["ward_4",{ru:"4 двери",en:"4 doors",he:"4 דלתות"},320],["ward_c2",{ru:"купе 2 двери",en:"sliding 2 doors",he:"הזזה 2 דלתות"},280],["ward_c3",{ru:"купе 3 двери",en:"sliding 3 doors",he:"הזזה 3 דלתות"},380]]},
+  {key:"bed",cat:{ru:"Кровать",en:"Bed",he:"מיטה"}, opts:[["bed_1",{ru:"односпальная",en:"single",he:"יחיד"},120],["bed_15",{ru:"полуторная",en:"small double",he:"מיטה וחצי"},150],["bed_2",{ru:"двуспальная",en:"double",he:"זוגית"},200],["bed_king",{ru:"King Size",en:"King Size",he:"קינג סייז"},280]]},
+  {key:"mattress",cat:{ru:"Матрас",en:"Mattress",he:"מזרן"}, opts:[["mat_90",{ru:"90×190",en:"90×190",he:"90×190"},80],["mat_120",{ru:"120×190",en:"120×190",he:"120×190"},100],["mat_140",{ru:"140×190",en:"140×190",he:"140×190"},120],["mat_160",{ru:"160×200",en:"160×200",he:"160×200"},150],["mat_180",{ru:"180×200",en:"180×200",he:"180×200"},180]]},
+  {key:"tv",cat:{ru:"Телевизор",en:"TV",he:"טלוויזיה"}, opts:[["tv_43",{ru:"до 43″",en:"up to 43″",he:"עד 43″"},70],["tv_65",{ru:"50–65″",en:"50–65″",he:"50–65″"},100],["tv_85",{ru:"70–85″",en:"70–85″",he:"70–85″"},150]]},
+  {key:"table",cat:{ru:"Стол",en:"Table",he:"שולחן"}, opts:[["table_s",{ru:"маленький",en:"small",he:"קטן"},70],["table_4",{ru:"обеденный на 4",en:"dining for 4",he:"אוכל ל-4"},120],["table_6",{ru:"обеденный на 6",en:"dining for 6",he:"אוכל ל-6"},180],["table_big",{ru:"большой раскладной",en:"large extendable",he:"גדול נפתח"},250]]}
 ];
-
 let selected = new Map();
 let boxesCount = 0;
 const routePrice = {"haifa-telaviv":280,"telaviv-haifa":280,"haifa-hadera":120,"hadera-haifa":120,"haifa-netanya":200,"netanya-haifa":200,"hadera-telaviv":180,"telaviv-hadera":180,"netanya-telaviv":160,"telaviv-netanya":160,"jerusalem-telaviv":250,"telaviv-jerusalem":250,"ashdod-telaviv":220,"telaviv-ashdod":220,"beer-telaviv":450,"telaviv-beer":450,"rishon-telaviv":80,"telaviv-rishon":80,"petah-telaviv":80,"telaviv-petah":80,"holon-telaviv":70,"telaviv-holon":70};
-
 const $ = id => document.getElementById(id);
 const T = k => tr[lang][k] || k;
-
 function cityName(id){ const c = cities.find(x=>x[0]===id); return c ? c[1][lang] : ""; }
-
 function init(){
-  setDefaultDate();
-  fillCities();
-  fillFloors();
-  buildItems();
+  setDefaultDate(); fillCities(); fillFloors(); buildItems();
   document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",render);el.addEventListener("input",render);});
   $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
   $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
   $("sheetBg").addEventListener("click",e=>{if(e.target.id==="sheetBg") $("sheetBg").classList.remove("show")});
-  $("clearBtn").addEventListener("click",clearCalc);
-  $("copyBtn").addEventListener("click",copyCalc);
-  $("shareApp").addEventListener("click",shareApp);
-  $("langBtn").addEventListener("click",cycleLang);
-  applyLang();
-  render();
+  $("clearBtn").addEventListener("click",clearCalc); $("copyBtn").addEventListener("click",copyCalc); $("shareApp").addEventListener("click",shareApp); $("langBtn").addEventListener("click",cycleLang);
+  applyLang(); render();
 }
-
-function setDefaultDate(){
-  const d = new Date();
-  d.setDate(d.getDate()+1);
-  $("moveDate").value = d.toISOString().slice(0,10);
-}
-
-function fillCities(){
-  const vals = {cityA:$("cityA").value || "haifa", cityB:$("cityB").value || "netanya"};
-  for(const id of ["cityA","cityB"]){
-    const s=$(id); s.innerHTML="";
-    cities.forEach(([v,n])=>s.add(new Option(n[lang],v)));
-    s.value = vals[id] || (id==="cityA"?"haifa":"netanya");
-  }
-}
-
-function fillFloors(){
-  for(const id of ["floorA","floorB"]){
-    const old = $(id).value || "0";
-    const s=$(id); s.innerHTML="";
-    for(let i=0;i<=30;i++) s.add(new Option(i===0 ? (lang==="he"?"0 / בית":"0 / дом") : String(i),String(i)));
-    s.value=old;
-  }
-}
-
+function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); $("moveDate").value = d.toISOString().slice(0,10); }
+function fillCities(){ const vals = {cityA:$("cityA").value || "haifa", cityB:$("cityB").value || "netanya"}; for(const id of ["cityA","cityB"]){ const s=$(id); s.innerHTML=""; cities.forEach(([v,n])=>s.add(new Option(n[lang],v))); s.value = vals[id] || (id==="cityA"?"haifa":"netanya");}}
+function fillFloors(){ for(const id of ["floorA","floorB"]){ const old = $(id).value || "0"; const s=$(id); s.innerHTML=""; for(let i=0;i<=30;i++) s.add(new Option(i===0 ? (lang==="he"?"0 / בית":"0 / дом") : String(i),String(i))); s.value=old;}}
 function buildItems(){
-  const box=$("itemsList");
-  box.innerHTML="";
+  const box=$("itemsList"); box.innerHTML="";
   itemsData.forEach(cat=>{
-    const det=document.createElement("details");
-    det.className="cat";
-    det.innerHTML=`<summary>${cat.cat[lang]}</summary>`;
+    const det=document.createElement("details"); det.className="cat"; det.dataset.key=cat.key;
+    const chosen = Array.from(selected.values()).find(x=>x.key===cat.key);
+    det.innerHTML=`<summary>${cat.cat[lang]}${chosen ? " ✓ " + chosen.name + " · ₪" + chosen.price : ""}</summary>`;
     cat.opts.forEach(([id,name,price])=>{
-      const lab=document.createElement("label");
-      lab.className="opt";
-      lab.innerHTML=`<input type="checkbox" ${selected.has(id)?"checked":""}><span>${cat.cat[lang]} · ${name[lang]}</span><b>₪${price}</b>`;
+      const lab=document.createElement("label"); lab.className="opt";
+      lab.innerHTML=`<input type="checkbox" ${selected.has(id)?"checked":""}><span>${name[lang]}</span><b>₪${price}</b>`;
       const inp=lab.querySelector("input");
-      inp.addEventListener("change",()=>{inp.checked?selected.set(id,{cat:cat.cat[lang],name:name[lang],price}):selected.delete(id);render();});
+      inp.addEventListener("change",()=>{
+        cat.opts.forEach(([oid])=>selected.delete(oid));
+        if(inp.checked) selected.set(id,{key:cat.key,cat:cat.cat[lang],name:name[lang],price});
+        render(); buildItems();
+        det.open = false;
+      });
+      lab.addEventListener("click",e=>{
+        if(e.target.tagName !== "INPUT"){
+          e.preventDefault();
+          cat.opts.forEach(([oid])=>selected.delete(oid));
+          selected.set(id,{key:cat.key,cat:cat.cat[lang],name:name[lang],price});
+          render(); buildItems();
+        }
+      });
       det.appendChild(lab);
     });
     box.appendChild(det);
   });
-  const boxes=document.createElement("details");
-  boxes.className="cat";
-  boxes.innerHTML=`<summary>${lang==="he"?"ארגזים":lang==="en"?"Boxes":"Коробки"}</summary>
+  const boxes=document.createElement("details"); boxes.className="cat";
+  boxes.innerHTML=`<summary>${T("boxes")}${boxesCount ? " ✓ " + boxesCount + " · ₪" + boxesPrice(boxesCount) : ""}</summary>
     <div class="boxRow">
-      <div class="field"><label>${lang==="he"?"כמות":lang==="en"?"Quantity":"Количество"}</label>
+      <div class="field"><label>${T("quantity")}</label>
       <select id="boxesCount">${[0,5,10,15,20,30,40,50,75,100].map(n=>`<option value="${n}" ${boxesCount===n?"selected":""}>${n}</option>`).join("")}</select></div>
-      <div class="field"><label>${lang==="he"?"מחיר":lang==="en"?"Price":"Цена"}</label><input value="auto" readonly></div>
+      <div class="field"><label>${T("price")}</label><input value="₪${boxesPrice(boxesCount)}" readonly></div>
     </div>`;
   box.appendChild(boxes);
-  $("boxesCount").addEventListener("change",e=>{boxesCount=Number(e.target.value||0);render();});
+  $("boxesCount").addEventListener("change",e=>{boxesCount=Number(e.target.value||0); render(); buildItems();});
 }
-
-function boxesPrice(n){
-  if(n<=0) return 0;
-  if(n<=10) return 30;
-  if(n<=20) return 60;
-  if(n<=30) return 90;
-  if(n<=50) return 150;
-  if(n<=100) return 300;
-  return n*3;
-}
-
+function boxesPrice(n){ if(n<=0)return 0; if(n<=10)return 30; if(n<=20)return 60; if(n<=30)return 90; if(n<=50)return 150; if(n<=100)return 300; return n*3; }
 function calc(){
-  let itemsSum=0;
-  selected.forEach(x=>itemsSum+=x.price);
-  itemsSum += boxesPrice(boxesCount);
-
+  let itemsSum=0; selected.forEach(x=>itemsSum+=x.price); itemsSum += boxesPrice(boxesCount);
   const itemCount = selected.size + (boxesCount>0 ? Math.ceil(boxesCount/10) : 0);
   if(itemCount===0) return {total:0, itemsSum:0, route:0, floors:0, hard:0, min:0, minApplied:false, itemCount:0};
-
   const cityA=$("cityA").value, cityB=$("cityB").value;
   const route = routePrice[cityA+"-"+cityB] ?? (cityA===cityB ? 80 : 250);
-
   const floorA=Number($("floorA").value||0), floorB=Number($("floorB").value||0);
-  let rate = 20;
-  if(itemCount>=3) rate=50;
-  if(itemCount>=6 || itemsSum>=1500) rate=100;
-
-  let floors=0;
-  if(!$("liftA").checked) floors += floorA*rate;
-  if(!$("liftB").checked) floors += floorB*rate;
-
-  if(boxesCount>0){
-    const noLiftFloors = (!$("liftA").checked?floorA:0) + (!$("liftB").checked?floorB:0);
-    floors += Math.round(boxesCount * noLiftFloors * 2);
-  }
-
-  let hard=0;
-  if($("hardA").checked) hard+=80;
-  if($("hardB").checked) hard+=80;
-
-  let raw = itemsSum + route + floors + hard;
-  let min = 300;
-  if(route>=180) min=500;
-  if(route>=400) min=700;
-  if(itemCount>=3) min=Math.max(min,450);
-  if(itemCount>=6) min=Math.max(min,600);
-
-  const total = Math.max(raw,min);
-  return {total, itemsSum, route, floors, hard, min, minApplied:total>raw, itemCount};
+  let rate = 20; if(itemCount>=3) rate=50; if(itemCount>=6 || itemsSum>=1500) rate=100;
+  let floors=0; if(!$("liftA").checked) floors += floorA*rate; if(!$("liftB").checked) floors += floorB*rate;
+  if(boxesCount>0){ const noLiftFloors = (!$("liftA").checked?floorA:0)+(!$("liftB").checked?floorB:0); floors += Math.round(boxesCount*noLiftFloors*2);}
+  let hard=0; if($("hardA").checked) hard+=80; if($("hardB").checked) hard+=80;
+  let raw = itemsSum + route + floors + hard; let min=300; if(route>=180) min=500; if(route>=400) min=700; if(itemCount>=3) min=Math.max(min,450); if(itemCount>=6) min=Math.max(min,600);
+  const total=Math.max(raw,min); return {total,itemsSum,route,floors,hard,min,minApplied:total>raw,itemCount};
 }
-
 function render(){
-  const c=calc();
-  $("total").textContent="₪"+c.total;
-  $("note").textContent = c.itemCount ? `${c.itemCount} ${T("positions")}` : T("choose");
-  const picked = Array.from(selected.values()).map(x=>`${x.cat} · ${x.name}`);
-  if(boxesCount>0) picked.push((lang==="he"?"ארגזים":lang==="en"?"Boxes":"Коробки")+" · "+boxesCount);
-  $("chips").innerHTML = picked.length ? picked.slice(0,6).map(x=>`<span class="chip">${x}</span>`).join("")+(picked.length>6?`<span class="chip">+${picked.length-6}</span>`:"") : `<span class="chip">${T("nothingSelected")}</span>`;
-  $("breakdown").textContent = c.itemCount ? `${T("breakdown")}: ${lang==="he"?"פריטים":lang==="en"?"Items":"Вещи"} ₪${c.itemsSum} · ${lang==="he"?"מסלול":lang==="en"?"Route":"Маршрут"} ₪${c.route} · ${lang==="he"?"קומות":lang==="en"?"Floors":"Этажи"} ₪${c.floors}${c.minApplied ? " · "+T("minApplied")+" ₪"+c.min : ""}` : "—";
+  const c=calc(); $("total").textContent="₪"+c.total; $("note").textContent = c.itemCount ? `${c.itemCount} ${T("positions")}` : T("choose");
+  const list=$("pickedList"); list.innerHTML="";
+  const picked=Array.from(selected.values());
+  if(boxesCount>0) picked.push({cat:T("boxes"),name:String(boxesCount),price:boxesPrice(boxesCount)});
+  if(!picked.length){ list.innerHTML=`<span class="empty">${T("nothingSelected")}</span>`; }
+  else picked.forEach(x=>{ list.innerHTML += `<div class="pickRow"><span class="ok">✓</span><span>${x.cat}<small>${x.name}</small></span><b>₪${x.price}</b></div>`; });
+  $("breakdown").textContent = c.itemCount ? `${T("breakdown")}: ${T("itemsWord")} ₪${c.itemsSum} · ${T("routeWord")} ₪${c.route} · ${T("floorsWord")} ₪${c.floors}${c.minApplied ? " · "+T("minApplied")+" ₪"+c.min : ""}` : "—";
 }
-
-function applyLang(){
-  document.documentElement.lang=lang;
-  document.documentElement.dir=lang==="he"?"rtl":"ltr";
-  $("appTitle").innerHTML=T("title");
-  $("appSub").textContent=T("sub");
-  $("langBtn").textContent=lang.toUpperCase();
-  document.querySelectorAll("[data-t]").forEach(el=>{ el.textContent=T(el.dataset.t); });
-  $("toast").textContent=T("copied");
-  fillCities(); fillFloors(); buildItems(); render();
-}
-
-function cycleLang(){
-  lang = langs[(langs.indexOf(lang)+1)%langs.length];
-  applyLang();
-}
-
-function clearCalc(){
-  selected.clear(); boxesCount=0;
-  $("addrA").value=""; $("addrB").value="";
-  $("floorA").value="0"; $("floorB").value="0";
-  $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false;
-  buildItems(); render();
-}
-
+function applyLang(){ document.documentElement.lang=lang; document.documentElement.dir=lang==="he"?"rtl":"ltr"; $("appTitle").innerHTML=T("title"); $("appSub").textContent=T("sub"); $("langBtn").textContent=lang.toUpperCase(); document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=T(el.dataset.t);}); $("toast").textContent=T("copied"); fillCities(); fillFloors(); buildItems(); render();}
+function cycleLang(){ lang=langs[(langs.indexOf(lang)+1)%langs.length]; applyLang(); }
+function clearCalc(){ selected.clear(); boxesCount=0; $("addrA").value=""; $("addrB").value=""; $("floorA").value="0"; $("floorB").value="0"; $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false; buildItems(); render();}
 function quoteText(){
-  const c=calc();
-  const picked = Array.from(selected.values()).map(x=>"• "+x.cat+" · "+x.name);
-  if(boxesCount>0) picked.push("• "+(lang==="he"?"ארגזים":lang==="en"?"Boxes":"Коробки")+" · "+boxesCount);
-
-  return `${T("calcTitle")}
-
-${T("moveDate")}: ${$("moveDate").value || "-"} ${$("moveTime").value || ""}
-
-${T("from")}:
-${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}
-${T("floor")}: ${$("floorA").value}
-${T("lift")}: ${$("liftA").checked ? T("yes") : T("no")}
-${T("hard")}: ${$("hardA").checked ? T("yes") : T("no")}
-
-${T("to")}:
-${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}
-${T("floor")}: ${$("floorB").value}
-${T("lift")}: ${$("liftB").checked ? T("yes") : T("no")}
-${T("hard")}: ${$("hardB").checked ? T("yes") : T("no")}
-
-${T("itemList")}:
-${picked.join("\n") || "—"}
-
-${T("breakdown")}:
-${lang==="he"?"פריטים":lang==="en"?"Items":"Вещи"}: ₪${c.itemsSum}
-${lang==="he"?"מסלול":lang==="en"?"Route":"Маршрут"}: ₪${c.route}
-${lang==="he"?"קומות":lang==="en"?"Floors":"Этажи"}: ₪${c.floors}
-${c.minApplied ? T("minApplied")+": ₪"+c.min+"\n" : ""}
-${T("approx")}: ₪${c.total}
-
-${T("reason")}
-
-${T("link")}:
-${APP_URL}`;
+  const c=calc(); const picked=Array.from(selected.values()).map(x=>"• "+x.cat+" · "+x.name+" · ₪"+x.price); if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
+  return `${T("quoteTitle")}\n\n${T("moveDate")}: ${$("moveDate").value || "-"} ${$("moveTime").value || ""}\n\n${T("from")}:\n${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}\n${T("floor")}: ${$("floorA").value}\n${T("lift")}: ${$("liftA").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardA").checked ? T("yes") : T("no")}\n\n${T("to")}:\n${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}\n${T("floor")}: ${$("floorB").value}\n${T("lift")}: ${$("liftB").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardB").checked ? T("yes") : T("no")}\n\n${T("itemList")}:\n${picked.join("\n") || "—"}\n\n${T("breakdown")}:\n${T("itemsWord")}: ₪${c.itemsSum}\n${T("routeWord")}: ₪${c.route}\n${T("floorsWord")}: ₪${c.floors}\n${c.minApplied ? T("minApplied")+": ₪"+c.min+"\n" : ""}${T("approx")}: ₪${c.total}\n\n${T("reason")}\n\n${T("link")}:\n${APP_URL}`;
 }
-
-function copyCalc(){
-  const text=quoteText();
-  navigator.clipboard?.writeText(text);
-  $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);
-}
-
-function shareApp(){
-  const text = `ProfiClick\n${T("shareText")}: ${APP_URL}`;
-  if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{});
-  else { navigator.clipboard?.writeText(text); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400); }
-}
-
+function copyCalc(){ navigator.clipboard?.writeText(quoteText()); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}
+function shareApp(){ const text=`ProfiClick\n${T("shareText")}: ${APP_URL}`; if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{}); else {navigator.clipboard?.writeText(text); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}}
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 init();
 </script>
