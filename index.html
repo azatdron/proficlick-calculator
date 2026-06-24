@@ -8,10 +8,10 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.45</title>
+<title>ProfiClick Calculator v7.4.46</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="ProfiClick — калькулятор цен">
-<meta property="og:description" content="Быстрый расчёт перевозки: маршрут, этажи, лифт, вещи и примерная цена.">
+<meta property="og:title" content="ProfiClick — заказ на перевозку">
+<meta property="og:description" content="Открыть заявку, посмотреть маршрут, этажи, вещи и примерную цену.">
 <meta property="og:image" content="https://proficlick-calculator.vercel.app/og-proficlick.png">
 <meta property="og:url" content="https://proficlick-calculator.vercel.app">
 <meta name="twitter:card" content="summary_large_image">
@@ -136,7 +136,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.45";
+const APP_VERSION = "v7.4.46";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
@@ -280,74 +280,59 @@ function quoteText(){
   const b = `${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}`;
 
   if(lang==="en"){
-    return `🟢 *ProfiClick*
-Price calculator
-${respondUrl}
+    return `🚚 *ProfiClick moving request*
+#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-╭──────────────╮
-🚚 *Moving request*
-#${id}
-📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+📍 A: ${a}
+Floor ${$("floorA").value} · Elevator ${$("liftA").checked ? "yes" : "no"} · ${$("hardA").checked ? "difficult access" : "normal access"}
 
-📍 *A*  ${a}
-🏢 Floor ${$("floorA").value} · Elevator ${$("liftA").checked ? "yes" : "no"} · Access ${$("hardA").checked ? "hard" : "normal"}
+📍 B: ${b}
+Floor ${$("floorB").value} · Elevator ${$("liftB").checked ? "yes" : "no"} · ${$("hardB").checked ? "difficult access" : "normal access"}
 
-📍 *B*  ${b}
-🏢 Floor ${$("floorB").value} · Elevator ${$("liftB").checked ? "yes" : "no"} · Access ${$("hardB").checked ? "hard" : "normal"}
-
-📦 *Items:* ${picked.length} item(s)
-${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) + " more" : ""}
+📦 Items: ${picked.length}
+${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " more" : ""}
 
 💰 *Approx. price: ₪${c.total}*
-⏱ Respond in ProfiClick within 1 hour
-╰──────────────╯`;
+
+Open / respond:
+${respondUrl}`;
   }
 
   if(lang==="he"){
-    return `🟢 *ProfiClick*
-מחשבון מחירים
-${respondUrl}
+    return `🚚 *בקשת הובלה ProfiClick*
+#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-╭──────────────╮
-🚚 *בקשת הובלה*
-#${id}
-📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+📍 א׳: ${a}
+קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · ${$("hardA").checked ? "גישה קשה" : "גישה רגילה"}
 
-📍 *א׳*  ${a}
-🏢 קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · גישה ${$("hardA").checked ? "קשה" : "רגילה"}
+📍 ב׳: ${b}
+קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · ${$("hardB").checked ? "גישה קשה" : "גישה רגילה"}
 
-📍 *ב׳*  ${b}
-🏢 קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · גישה ${$("hardB").checked ? "קשה" : "רגילה"}
-
-📦 *פריטים:* ${picked.length}
-${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) : ""}
+📦 פריטים: ${picked.length}
+${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) : ""}
 
 💰 *מחיר משוער: ₪${c.total}*
-⏱ מענה ב‑ProfiClick בתוך שעה
-╰──────────────╯`;
+
+פתיחה / מענה:
+${respondUrl}`;
   }
 
-  return `🟢 *ProfiClick*
-Калькулятор цен
-${respondUrl}
+  return `🚚 *ProfiClick — заявка на перевозку*
+#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-╭──────────────╮
-🚚 *Заявка на перевозку*
-#${id}
-📅 ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+📍 A: ${a}
+Этаж ${$("floorA").value} · Лифт ${$("liftA").checked ? "да" : "нет"} · ${$("hardA").checked ? "сложный доступ" : "обычный доступ"}
 
-📍 *A*  ${a}
-🏢 Этаж ${$("floorA").value} · Лифт ${$("liftA").checked ? "да" : "нет"} · Доступ ${$("hardA").checked ? "сложный" : "обычный"}
+📍 B: ${b}
+Этаж ${$("floorB").value} · Лифт ${$("liftB").checked ? "да" : "нет"} · ${$("hardB").checked ? "сложный доступ" : "обычный доступ"}
 
-📍 *B*  ${b}
-🏢 Этаж ${$("floorB").value} · Лифт ${$("liftB").checked ? "да" : "нет"} · Доступ ${$("hardB").checked ? "сложный" : "обычный"}
-
-📦 *Вещи:* ${picked.length} поз.
-${picked.slice(0,7).join("\n")}${picked.length>7 ? "\n• +" + (picked.length-7) + " ещё" : ""}
+📦 Вещи: ${picked.length}
+${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " ещё" : ""}
 
 💰 *Примерная цена: ₪${c.total}*
-⏱ Откликнуться в ProfiClick в течение 1 часа
-╰──────────────╯`;
+
+Открыть заказ / откликнуться:
+${respondUrl}`;
 }
 
 function copyCalc(){
