@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.44</title>
+<title>ProfiClick Calculator v7.4.45</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="ProfiClick — калькулятор цен">
 <meta property="og:description" content="Быстрый расчёт перевозки: маршрут, этажи, лифт, вещи и примерная цена.">
@@ -62,7 +62,7 @@ input[type="date"],input[type="time"]{font-size:13px}
 .stepper{display:grid;grid-template-columns:52px 1fr 52px;gap:8px;align-items:center}
 .stepper button{height:46px;border:0;border-radius:14px;background:#eef8e8;color:#2f6f21;font-size:24px;font-weight:950}
 .stepper .num{text-align:center;font-size:20px;font-weight:950}
-.toast{position:fixed;left:18px;right:18px;bottom:22px;background:#172033;color:#fff;border-radius:18px;padding:10px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:40}.toast.show{display:block}.toastAction{margin-top:8px;width:100%;border:0;border-radius:14px;padding:10px;background:#eef8e8;color:#2f6f21;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:8px}.waCircle{width:25px;height:25px;border-radius:999px;background:#25D366;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}
+.toast{position:fixed;left:18px;right:18px;bottom:22px;background:#172033;color:#fff;border-radius:18px;padding:10px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:40}.toast.show{display:block}.toastAction{margin-top:8px;width:100%;border:0;border-radius:14px;padding:10px;background:#eef8e8;color:#2f6f21;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;position:relative;z-index:60;touch-action:manipulation}.waCircle{width:25px;height:25px;border-radius:999px;background:#25D366;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}
 html[dir="rtl"] body,html[dir="rtl"] input,html[dir="rtl"] select{text-align:right}
 html[dir="rtl"] .itemsBtn{text-align:right}
 </style>
@@ -136,7 +136,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.44";
+const APP_VERSION = "v7.4.45";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
@@ -356,6 +356,10 @@ function copyCalc(){
   t.innerHTML = `<div>✅ ${T("copied")}</div><button class="toastAction" type="button" onclick="sendWhatsApp()"><span class="waCircle">☎</span>${T("sendWa") || "WhatsApp"}</button>`;
   t.classList.add("show");
   setTimeout(()=>t.classList.remove("show"),5000);
+}
+function sendWhatsApp(){
+  const url = "https://wa.me/?text=" + encodeURIComponent(quoteText());
+  window.location.href = url;
 }
 function shareApp(){ const text=`ProfiClick\n${T("shareText")}: ${APP_URL}`; if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{}); else {navigator.clipboard?.writeText(text); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}}
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
