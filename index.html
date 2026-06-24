@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#4f8f33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ProfiCalc">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<title>ProfiClick Calculator</title>
+<style>
+:root{--g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--text:#172033;--muted:#717988;--line:#dfead8;--soft:#f7fbf3}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);overflow:hidden}
+.app{width:100%;max-width:430px;height:100dvh;margin:0 auto;background:linear-gradient(180deg,#eff8ec,#fbfdf9);position:relative;overflow:hidden}
+.header{position:absolute;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top) + 6px) 9px 6px;background:#eff8ec}
+.hero{height:82px;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:9px 12px}
+.logo{width:36px;height:36px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:950}
+.hero h1{font-size:22px;line-height:.92;margin:0;font-weight:950;letter-spacing:-.04em}.hero p{margin:3px 0 0;font-size:10px;font-weight:850}.ver{margin-left:auto;background:rgba(255,255,255,.18);border-radius:999px;padding:6px 8px;font-size:11px;font-weight:950}
+.main{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top) + 100px);bottom:138px;overflow:auto;-webkit-overflow-scrolling:touch;padding:0 9px 12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:7px}.title{font-size:20px;font-weight:950;margin:0 0 6px;letter-spacing:-.03em}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.field{border:1px solid var(--line);border-radius:15px;background:#fff;padding:7px 8px;min-height:47px}.field label{display:block;color:var(--muted);font-size:10px;font-weight:950;margin-bottom:2px}
+select{width:100%;min-height:30px;border:0;background:#fff;outline:0;font-size:14px;font-weight:950;color:var(--text);font-family:inherit;-webkit-appearance:menulist;appearance:menulist}
+.floorBox{min-height:92px}.check{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:11.5px;color:var(--muted);font-weight:900;line-height:1.05}.check input{width:19px;height:19px;accent-color:var(--g);flex:0 0 19px}
+.itemsBtn{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;font-size:15px;font-weight:950;text-align:left;display:flex;justify-content:space-between;align-items:center;color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-height:35px;overflow:hidden}.chip{background:#eef8e8;color:#2f6f21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:950}
+.footer{position:absolute;left:0;right:0;bottom:0;z-index:6;padding:8px 9px calc(env(safe-area-inset-bottom) + 8px);background:#fbfdf9;box-shadow:0 -8px 24px rgba(35,63,31,.08)}
+.totalCard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:7px}.total{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:8px 10px}.total b{font-size:15px}.total small{display:block;color:var(--muted);font-size:10.5px;font-weight:850}.money{font-size:27px;font-weight:950;color:#2f6f21}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.btn{border:0;border-radius:16px;padding:11px 7px;font-size:14px;font-weight:950;font-family:inherit}.clear{background:#eef8e8;color:#2f6f21}.copy{background:linear-gradient(var(--g),var(--g2));color:#fff}
+.sheetBg{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:20;display:none;align-items:flex-end}.sheetBg.show{display:flex}
+.sheet{width:100%;max-height:72dvh;background:#fff;border-radius:24px 24px 0 0;padding:13px 11px calc(env(safe-area-inset-bottom) + 12px);overflow:auto;-webkit-overflow-scrolling:touch}
+.sheetHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.sheetHead b{font-size:21px;font-weight:950}.x{width:40px;height:40px;border:0;border-radius:999px;background:#f2f6ef;font-size:25px}
+.item{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:15px;background:#fff;padding:10px;margin-bottom:7px;font-size:15px;font-weight:900;color:var(--text)}.item input{width:23px;height:23px;accent-color:var(--g);flex:0 0 23px}.item span{flex:1}.item b{font-size:13px;color:#2f6f21}
+.toast{position:absolute;left:18px;right:18px;bottom:22px;background:#172033;color:#fff;border-radius:16px;padding:11px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:30}.toast.show{display:block}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header"><div class="hero"><div class="logo">₪</div><div><h1>ProfiClick<br>Калькулятор</h1><p>Профиль и калькулятор</p></div><div class="ver">v7.4.36</div></div></header>
+
+  <main class="main">
+    <section class="card"><div class="title">Маршрут</div><div class="grid2">
+      <div class="field"><label>Точка А</label><select id="cityA"></select></div>
+      <div class="field"><label>Точка Б</label><select id="cityB"></select></div>
+    </div></section>
+
+    <section class="card"><div class="title">Этажи и доступ</div><div class="grid2">
+      <div class="field floorBox"><label>Точка А · этаж</label><select id="floorA"></select><label class="check"><input id="liftA" type="checkbox" checked> лифт есть</label><label class="check"><input id="hardA" type="checkbox"> сложный подход</label></div>
+      <div class="field floorBox"><label>Точка Б · этаж</label><select id="floorB"></select><label class="check"><input id="liftB" type="checkbox" checked> лифт есть</label><label class="check"><input id="hardB" type="checkbox"> сложный подход</label></div>
+    </div></section>
+
+    <section class="card"><div class="title">Список вещей</div><button class="itemsBtn" id="openItems" type="button"><span>Выбрать вещи галочками</span><span>⌄</span></button><div class="chips" id="chips"><span class="chip">Ничего не выбрано</span></div></section>
+  </main>
+
+  <footer class="footer"><section class="totalCard"><div class="total"><div><b>Итого примерно</b><small id="note">Выберите вещи</small></div><div class="money" id="total">₪0</div></div></section><div class="actions"><button class="btn clear" id="clearBtn" type="button">Очистить</button><button class="btn copy" id="copyBtn" type="button">Скопировать</button></div></footer>
+
+  <div class="sheetBg" id="sheetBg"><div class="sheet"><div class="sheetHead"><b>Список вещей</b><button class="x" id="closeItems" type="button">×</button></div><div id="itemsList"></div></div></div>
+  <div class="toast" id="toast">Скопировано</div>
+</div>
+
+<script>
+const cities=[["haifa","Хайфа"],["telaviv","Тель-Авив"],["hadera","Хадера"],["netanya","Нетания"],["jerusalem","Иерусалим"],["ashdod","Ашдод"],["beer","Беэр-Шева"],["rishon","Ришон"],["petah","Петах-Тиква"],["holon","Холон"]];
+const routePrice={"haifa-telaviv":380,"telaviv-haifa":380,"haifa-hadera":220,"hadera-haifa":220,"haifa-netanya":280,"netanya-haifa":280,"hadera-telaviv":270,"telaviv-hadera":270,"netanya-telaviv":230,"telaviv-netanya":230,"jerusalem-telaviv":340,"telaviv-jerusalem":340,"ashdod-telaviv":300,"telaviv-ashdod":300,"beer-telaviv":520,"telaviv-beer":520,"rishon-telaviv":170,"telaviv-rishon":170,"petah-telaviv":160,"telaviv-petah":160,"holon-telaviv":150,"telaviv-holon":150};
+const items=[["fridge","Холодильник",220],["washer","Стиральная машина",180],["dryer","Сушилка",170],["sofa","Диван",200],["wardrobe","Шкаф",220],["bed","Кровать",180],["mattress","Матрас",90],["tv","Телевизор",80],["table","Стол",90],["chairs4","4 стула",80],["boxes10","10 коробок",100],["boxes20","20 коробок",180],["boxes30","30 коробок",250],["small","Мелкие вещи",120]];
+const selected=new Set();
+const $=id=>document.getElementById(id);
+
+function init(){
+  for(const id of ["cityA","cityB"]){
+    const s=$(id);
+    cities.forEach(([v,n])=>s.add(new Option(n,v)));
+  }
+  $("cityA").value="haifa"; $("cityB").value="telaviv";
+  for(const id of ["floorA","floorB"]){
+    const s=$(id);
+    for(let i=0;i<=30;i++) s.add(new Option(i===0?"0 / дом":String(i),String(i)));
+  }
+  buildItems();
+  document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",render);el.addEventListener("input",render);});
+  $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
+  $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
+  $("sheetBg").addEventListener("click",e=>{if(e.target.id==="sheetBg") $("sheetBg").classList.remove("show")});
+  $("clearBtn").addEventListener("click",clearCalc);
+  $("copyBtn").addEventListener("click",copyCalc);
+  render();
+}
+function buildItems(){
+  const box=$("itemsList");
+  box.innerHTML="";
+  items.forEach(([id,name,price])=>{
+    const lab=document.createElement("label");
+    lab.className="item";
+    lab.innerHTML=`<input type="checkbox" ${selected.has(id)?"checked":""}><span>${name}</span><b>₪${price}</b>`;
+    const inp=lab.querySelector("input");
+    inp.addEventListener("change",()=>{inp.checked?selected.add(id):selected.delete(id);render();});
+    lab.addEventListener("click",e=>{
+      if(e.target.tagName!=="INPUT"){inp.checked=!inp.checked;inp.checked?selected.add(id):selected.delete(id);render();}
+    });
+    box.appendChild(lab);
+  });
+}
+function calc(){
+  if(selected.size===0) return 0;
+  let sum=routePrice[$("cityA").value+"-"+$("cityB").value] || ($("cityA").value===$("cityB").value?140:320);
+  selected.forEach(id=>{const it=items.find(x=>x[0]===id); if(it) sum+=it[2];});
+  const fa=Number($("floorA").value||0), fb=Number($("floorB").value||0);
+  if(!$("liftA").checked) sum+=fa*35;
+  if(!$("liftB").checked) sum+=fb*35;
+  if($("hardA").checked) sum+=80;
+  if($("hardB").checked) sum+=80;
+  return sum;
+}
+function render(){
+  const picked=items.filter(i=>selected.has(i[0]));
+  $("total").textContent="₪"+calc();
+  $("note").textContent=picked.length?`${picked.length} позиций + маршрут`:"Выберите вещи";
+  $("chips").innerHTML=picked.length?picked.slice(0,6).map(i=>`<span class="chip">${i[1]}</span>`).join("")+(picked.length>6?`<span class="chip">+${picked.length-6}</span>`:""):`<span class="chip">Ничего не выбрано</span>`;
+}
+function clearCalc(){
+  selected.clear();
+  $("floorA").value="0"; $("floorB").value="0";
+  $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false;
+  buildItems(); render();
+}
+function copyCalc(){
+  const picked=items.filter(i=>selected.has(i[0])).map(i=>i[1]).join(", ")||"не выбрано";
+  const text=`ProfiClick расчёт\nТочка А: ${$("cityA").selectedOptions[0].text}, этаж ${$("floorA").value}\nТочка Б: ${$("cityB").selectedOptions[0].text}, этаж ${$("floorB").value}\nВещи: ${picked}\nИтого: ${$("total").textContent}`;
+  navigator.clipboard?.writeText(text);
+  $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);
+}
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+init();
+</script>
+</body>
+</html>
