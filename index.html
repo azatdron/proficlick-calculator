@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.39</title>
+<title>ProfiClick Calculator v7.4.40</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--text:#172033;--muted:#717988;--line:#dfead8;--soft:#f7fbf3}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -64,7 +64,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="app">
   <div class="hero">
     <div class="logo">PC</div>
-    <div class="heroText"><h1 id="appTitle">ProfiClick<br>Калькулятор</h1><p id="appSub">Калькулятор перевозок · v7.4.39</p></div>
+    <div class="heroText"><h1 id="appTitle">ProfiClick<br>Калькулятор</h1><p id="appSub">Калькулятор перевозок · v7.4.40</p></div>
     <div class="hBtns">
       <button class="roundBtn" id="shareApp" type="button">↗</button>
       <button class="roundBtn" id="langBtn" type="button">RU</button>
@@ -129,32 +129,32 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.39";
+const APP_VERSION = "v7.4.40";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
 const tr = {
-  ru:{title:"ProfiClick<br>Калькулятор", sub:"Калькулятор перевозок · v7.4.39", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", calcTitleShort:"Калькулятор", chooseItems:"Выбор вещей", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", quoteTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт", itemsWord:"Вещи", routeWord:"Маршрут", floorsWord:"Этажи", boxes:"Коробки", quantity:"Количество"},
-  en:{title:"ProfiClick<br>Calculator", sub:"Moving calculator · v7.4.39", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", calcTitleShort:"Calculator", chooseItems:"Items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", quoteTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown", itemsWord:"Items", routeWord:"Route", floorsWord:"Floors", boxes:"Boxes", quantity:"Quantity"},
-  he:{title:"ProfiClick<br>מחשבון", sub:"מחשבון הובלות · v7.4.39", dateTitle:"תאריך ושעה", date:"תאריך", time:"שעה", route:"מסלול", pointA:"נקודה א׳", pointB:"נקודה ב׳", addressA:"כתובת א׳", addressB:"כתובת ב׳", floorsAccess:"קומות וגישה", floorA:"נקודה א׳ · קומה", floorB:"נקודה ב׳ · קומה", hasLift:"יש מעלית", hardAccess:"גישה קשה", calcTitleShort:"מחשבון", chooseItems:"בחירת פריטים", nothingSelected:"לא נבחרו פריטים", totalApprox:"סה״כ משוער", clear:"נקה", copy:"העתק", copied:"הועתק", choose:"בחר פריטים", positions:"פריטים + מסלול", shareText:"חשב עלות הובלה", quoteTitle:"🚚 הצעת מחיר ProfiClick", moveDate:"📅 תאריך", from:"📍 נקודה א׳", to:"📍 נקודה ב׳", floor:"קומה", lift:"מעלית", yes:"כן", no:"לא", hard:"גישה קשה", itemList:"📦 פריטים", approx:"💰 מחיר משוער", reason:"המחיר כולל מסלול, קומות, מעלית, גישה קשה ופריטים שנבחרו.", link:"📲 חשב הובלה", minApplied:"הוחל מחיר מינימום", breakdown:"פירוט", itemsWord:"פריטים", routeWord:"מסלול", floorsWord:"קומות", boxes:"ארגזים", quantity:"כמות"}
+  ru:{title:"ProfiClick<br>Калькулятор", sub:"Калькулятор перевозок · v7.4.40", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", calcTitleShort:"Калькулятор", chooseItems:"Выбор вещей", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", quoteTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт", itemsWord:"Вещи", routeWord:"Маршрут", floorsWord:"Этажи", boxes:"Коробки", quantity:"Количество"},
+  en:{title:"ProfiClick<br>Calculator", sub:"Moving calculator · v7.4.40", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", calcTitleShort:"Calculator", chooseItems:"Items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", quoteTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown", itemsWord:"Items", routeWord:"Route", floorsWord:"Floors", boxes:"Boxes", quantity:"Quantity"},
+  he:{title:"ProfiClick<br>מחשבון", sub:"מחשבון הובלות · v7.4.40", dateTitle:"תאריך ושעה", date:"תאריך", time:"שעה", route:"מסלול", pointA:"נקודה א׳", pointB:"נקודה ב׳", addressA:"כתובת א׳", addressB:"כתובת ב׳", floorsAccess:"קומות וגישה", floorA:"נקודה א׳ · קומה", floorB:"נקודה ב׳ · קומה", hasLift:"יש מעלית", hardAccess:"גישה קשה", calcTitleShort:"מחשבון", chooseItems:"בחירת פריטים", nothingSelected:"לא נבחרו פריטים", totalApprox:"סה״כ משוער", clear:"נקה", copy:"העתק", copied:"הועתק", choose:"בחר פריטים", positions:"פריטים + מסלול", shareText:"חשב עלות הובלה", quoteTitle:"🚚 הצעת מחיר ProfiClick", moveDate:"📅 תאריך", from:"📍 נקודה א׳", to:"📍 נקודה ב׳", floor:"קומה", lift:"מעלית", yes:"כן", no:"לא", hard:"גישה קשה", itemList:"📦 פריטים", approx:"💰 מחיר משוער", reason:"המחיר כולל מסלול, קומות, מעלית, גישה קשה ופריטים שנבחרו.", link:"📲 חשב הובלה", minApplied:"הוחל מחיר מינימום", breakdown:"פירוט", itemsWord:"פריטים", routeWord:"מסלול", floorsWord:"קומות", boxes:"ארגזים", quantity:"כמות"}
 };
 const cities = [
   ["haifa",{ru:"Хайфа",en:"Haifa",he:"חיפה"}],["telaviv",{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"}],["hadera",{ru:"Хадера",en:"Hadera",he:"חדרה"}],["netanya",{ru:"Нетания",en:"Netanya",he:"נתניה"}],["jerusalem",{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}],["ashdod",{ru:"Ашдод",en:"Ashdod",he:"אשדוד"}],["beer",{ru:"Беэр-Шева",en:"Beer Sheva",he:"באר שבע"}],["rishon",{ru:"Ришон",en:"Rishon LeZion",he:"ראשון לציון"}],["petah",{ru:"Петах-Тиква",en:"Petah Tikva",he:"פתח תקווה"}],["holon",{ru:"Холон",en:"Holon",he:"חולון"}]
 ];
 const itemsData = [
-  {key:"fridge",cat:{ru:"Холодильник",en:"Refrigerator",he:"מקרר"}, opts:[["fridge_s",{ru:"250–350 л",en:"250–350 L",he:"250–350 ליטר"},180],["fridge_m",{ru:"350–500 л",en:"350–500 L",he:"350–500 ליטר"},220],["fridge_l",{ru:"500–650 л",en:"500–650 L",he:"500–650 ליטר"},280],["fridge_side",{ru:"Side-by-Side",en:"Side-by-Side",he:"סייד ביי סייד"},350]]},
-  {key:"washer",cat:{ru:"Стиральная машина",en:"Washing machine",he:"מכונת כביסה"}, opts:[["washer_s",{ru:"до 6 кг",en:"up to 6 kg",he:"עד 6 ק״ג"},150],["washer_m",{ru:"7–9 кг",en:"7–9 kg",he:"7–9 ק״ג"},180],["washer_l",{ru:"10+ кг",en:"10+ kg",he:"10+ ק״ג"},220]]},
-  {key:"dryer",cat:{ru:"Сушильная машина",en:"Dryer",he:"מייבש כביסה"}, opts:[["dryer_s",{ru:"маленькая",en:"small",he:"קטן"},140],["dryer_m",{ru:"средняя",en:"medium",he:"בינוני"},170],["dryer_l",{ru:"большая",en:"large",he:"גדול"},210]]},
-  {key:"sofa",cat:{ru:"Диван",en:"Sofa",he:"ספה"}, opts:[["sofa_2",{ru:"2-местный",en:"2-seat",he:"דו מושבית"},180],["sofa_3",{ru:"3-местный",en:"3-seat",he:"תלת מושבית"},240],["sofa_corner",{ru:"угловой",en:"corner sofa",he:"ספה פינתית"},350],["sofa_u",{ru:"П-образный",en:"U-shaped",he:"ספה בצורת U"},450]]},
-  {key:"wardrobe",cat:{ru:"Шкаф",en:"Wardrobe",he:"ארון"}, opts:[["ward_2",{ru:"2 двери",en:"2 doors",he:"2 דלתות"},180],["ward_3",{ru:"3 двери",en:"3 doors",he:"3 דלתות"},250],["ward_4",{ru:"4 двери",en:"4 doors",he:"4 דלתות"},320],["ward_c2",{ru:"купе 2 двери",en:"sliding 2 doors",he:"הזזה 2 דלתות"},280],["ward_c3",{ru:"купе 3 двери",en:"sliding 3 doors",he:"הזזה 3 דלתות"},380]]},
-  {key:"bed",cat:{ru:"Кровать",en:"Bed",he:"מיטה"}, opts:[["bed_1",{ru:"односпальная",en:"single",he:"יחיד"},120],["bed_15",{ru:"полуторная",en:"small double",he:"מיטה וחצי"},150],["bed_2",{ru:"двуспальная",en:"double",he:"זוגית"},200],["bed_king",{ru:"King Size",en:"King Size",he:"קינג סייז"},280]]},
-  {key:"mattress",cat:{ru:"Матрас",en:"Mattress",he:"מזרן"}, opts:[["mat_90",{ru:"90×190",en:"90×190",he:"90×190"},80],["mat_120",{ru:"120×190",en:"120×190",he:"120×190"},100],["mat_140",{ru:"140×190",en:"140×190",he:"140×190"},120],["mat_160",{ru:"160×200",en:"160×200",he:"160×200"},150],["mat_180",{ru:"180×200",en:"180×200",he:"180×200"},180]]},
-  {key:"tv",cat:{ru:"Телевизор",en:"TV",he:"טלוויזיה"}, opts:[["tv_43",{ru:"до 43″",en:"up to 43″",he:"עד 43″"},70],["tv_65",{ru:"50–65″",en:"50–65″",he:"50–65″"},100],["tv_85",{ru:"70–85″",en:"70–85″",he:"70–85″"},150]]},
-  {key:"table",cat:{ru:"Стол",en:"Table",he:"שולחן"}, opts:[["table_s",{ru:"маленький",en:"small",he:"קטן"},70],["table_4",{ru:"обеденный на 4",en:"dining for 4",he:"אוכל ל-4"},120],["table_6",{ru:"обеденный на 6",en:"dining for 6",he:"אוכל ל-6"},180],["table_big",{ru:"большой раскладной",en:"large extendable",he:"גדול נפתח"},250]]}
+  {key:"fridge",cat:{ru:"Холодильник",en:"Refrigerator",he:"מקרר"}, opts:[["fridge_s",{ru:"250–350 л",en:"250–350 L",he:"250–350 ליטר"},250],["fridge_m",{ru:"350–500 л",en:"350–500 L",he:"350–500 ליטר"},300],["fridge_l",{ru:"500–650 л",en:"500–650 L",he:"500–650 ליטר"},380],["fridge_side",{ru:"Side-by-Side",en:"Side-by-Side",he:"סייד ביי סייד"},500]]},
+  {key:"washer",cat:{ru:"Стиральная машина",en:"Washing machine",he:"מכונת כביסה"}, opts:[["washer_s",{ru:"до 6 кг",en:"up to 6 kg",he:"עד 6 ק״ג"},300],["washer_m",{ru:"7–9 кг",en:"7–9 kg",he:"7–9 ק״ג"},350],["washer_l",{ru:"10+ кг",en:"10+ kg",he:"10+ ק״ג"},420]]},
+  {key:"dryer",cat:{ru:"Сушильная машина",en:"Dryer",he:"מייבש כביסה"}, opts:[["dryer_s",{ru:"маленькая",en:"small",he:"קטן"},280],["dryer_m",{ru:"средняя",en:"medium",he:"בינוני"},330],["dryer_l",{ru:"большая",en:"large",he:"גדול"},400]]},
+  {key:"sofa",cat:{ru:"Диван",en:"Sofa",he:"ספה"}, opts:[["sofa_2",{ru:"2-местный",en:"2-seat",he:"דו מושבית"},350],["sofa_3",{ru:"3-местный",en:"3-seat",he:"תלת מושבית"},450],["sofa_corner",{ru:"угловой",en:"corner sofa",he:"ספה פינתית"},650],["sofa_u",{ru:"П-образный",en:"U-shaped",he:"ספה בצורת U"},850]]},
+  {key:"wardrobe",cat:{ru:"Шкаф",en:"Wardrobe",he:"ארון"}, opts:[["ward_2",{ru:"2 двери",en:"2 doors",he:"2 דלתות"},300],["ward_3",{ru:"3 двери",en:"3 doors",he:"3 דלתות"},420],["ward_4",{ru:"4 двери",en:"4 doors",he:"4 דלתות"},550],["ward_c2",{ru:"купе 2 двери",en:"sliding 2 doors",he:"הזזה 2 דלתות"},480],["ward_c3",{ru:"купе 3 двери",en:"sliding 3 doors",he:"הזזה 3 דלתות"},650]]},
+  {key:"bed",cat:{ru:"Кровать",en:"Bed",he:"מיטה"}, opts:[["bed_1",{ru:"односпальная",en:"single",he:"יחיד"},220],["bed_15",{ru:"полуторная",en:"small double",he:"מיטה וחצי"},280],["bed_2",{ru:"двуспальная",en:"double",he:"זוגית"},350],["bed_king",{ru:"King Size",en:"King Size",he:"קינג סייז"},450]]},
+  {key:"mattress",cat:{ru:"Матрас",en:"Mattress",he:"מזרן"}, opts:[["mat_90",{ru:"90×190",en:"90×190",he:"90×190"},120],["mat_120",{ru:"120×190",en:"120×190",he:"120×190"},150],["mat_140",{ru:"140×190",en:"140×190",he:"140×190"},180],["mat_160",{ru:"160×200",en:"160×200",he:"160×200"},220],["mat_180",{ru:"180×200",en:"180×200",he:"180×200"},260]]},
+  {key:"tv",cat:{ru:"Телевизор",en:"TV",he:"טלוויזיה"}, opts:[["tv_43",{ru:"до 43″",en:"up to 43″",he:"עד 43″"},120],["tv_65",{ru:"50–65″",en:"50–65″",he:"50–65″"},180],["tv_85",{ru:"70–85″",en:"70–85″",he:"70–85″"},280]]},
+  {key:"table",cat:{ru:"Стол",en:"Table",he:"שולחן"}, opts:[["table_s",{ru:"маленький",en:"small",he:"קטן"},150],["table_4",{ru:"обеденный на 4",en:"dining for 4",he:"אוכל ל-4"},250],["table_6",{ru:"обеденный на 6",en:"dining for 6",he:"אוכל ל-6"},350],["table_big",{ru:"большой раскладной",en:"large extendable",he:"גדול נפתח"},450]]}
 ];
 let selected = new Map();
 let boxesCount = 0;
-const routePrice = {"haifa-telaviv":280,"telaviv-haifa":280,"haifa-hadera":120,"hadera-haifa":120,"haifa-netanya":200,"netanya-haifa":200,"hadera-telaviv":180,"telaviv-hadera":180,"netanya-telaviv":160,"telaviv-netanya":160,"jerusalem-telaviv":250,"telaviv-jerusalem":250,"ashdod-telaviv":220,"telaviv-ashdod":220,"beer-telaviv":450,"telaviv-beer":450,"rishon-telaviv":80,"telaviv-rishon":80,"petah-telaviv":80,"telaviv-petah":80,"holon-telaviv":70,"telaviv-holon":70};
+const routePrice = {"haifa-telaviv":500,"telaviv-haifa":500,"haifa-hadera":300,"hadera-haifa":300,"haifa-netanya":450,"netanya-haifa":450,"hadera-telaviv":380,"telaviv-hadera":380,"netanya-telaviv":330,"telaviv-netanya":330,"jerusalem-telaviv":500,"telaviv-jerusalem":500,"ashdod-telaviv":450,"telaviv-ashdod":450,"beer-telaviv":800,"telaviv-beer":800,"rishon-telaviv":250,"telaviv-rishon":250,"petah-telaviv":250,"telaviv-petah":250,"holon-telaviv":220,"telaviv-holon":220};
 const $ = id => document.getElementById(id);
 const T = k => tr[lang][k] || k;
 function cityName(id){ const c = cities.find(x=>x[0]===id); return c ? c[1][lang] : ""; }
@@ -172,7 +172,7 @@ function fillCities(){ const vals = {cityA:$("cityA").value || "haifa", cityB:$(
 function fillFloors(){ for(const id of ["floorA","floorB"]){ const old = $(id).value || "0"; const s=$(id); s.innerHTML=""; for(let i=0;i<=30;i++) s.add(new Option(i===0 ? (lang==="he"?"0 / בית":"0 / дом") : String(i),String(i))); s.value=old;}}
 function selectOption(cat,id,name,price){
   cat.opts.forEach(([oid])=>selected.delete(oid));
-  selected.set(id,{key:cat.key,cat:cat.cat[lang],name:name[lang],price});
+  selected.set(id,{key:cat.key,catObj:cat.cat,nameObj:name,price});
   render(); buildItems();
   $("sheetBg").classList.remove("show");
   setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);
@@ -182,7 +182,7 @@ function buildItems(){
   itemsData.forEach(cat=>{
     const det=document.createElement("details"); det.className="cat"; det.dataset.key=cat.key;
     const chosen = Array.from(selected.values()).find(x=>x.key===cat.key);
-    det.innerHTML=`<summary>${cat.cat[lang]}${chosen ? '<span class="chosen">✓ '+chosen.name+' · ₪'+chosen.price+'</span>' : ""}</summary>`;
+    det.innerHTML=`<summary>${cat.cat[lang]}${chosen ? '<span class="chosen">✓ '+(chosen.nameObj ? chosen.nameObj[lang] : chosen.name)+' · ₪'+chosen.price+'</span>' : ""}</summary>`;
     cat.opts.forEach(([id,name,price])=>{
       const active = selected.has(id);
       const lab=document.createElement("div"); lab.className="opt"+(active?" active":"");
@@ -205,7 +205,7 @@ function buildItems(){
   $("boxMinus").onclick=()=>{boxesCount=Math.max(0,boxesCount-5); render(); buildItems(); if(boxesCount>0){$("sheetBg").classList.remove("show"); setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);}};
   $("boxPlus").onclick=()=>{boxesCount=Math.min(100,boxesCount+5); render(); buildItems(); $("sheetBg").classList.remove("show"); setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);};
 }
-function boxesPrice(n){ if(n<=0)return 0; if(n<=10)return 30; if(n<=20)return 60; if(n<=30)return 90; if(n<=50)return 150; if(n<=100)return 300; return n*3; }
+function boxesPrice(n){ if(n<=0)return 0; if(n<=10)return 50; if(n<=20)return 100; if(n<=30)return 150; if(n<=50)return 250; if(n<=100)return 500; return n*5; }
 function calc(){
   let itemsSum=0; selected.forEach(x=>itemsSum+=x.price); itemsSum += boxesPrice(boxesCount);
   const itemCount = selected.size + (boxesCount>0 ? Math.ceil(boxesCount/10) : 0);
@@ -213,11 +213,22 @@ function calc(){
   const cityA=$("cityA").value, cityB=$("cityB").value;
   const route = routePrice[cityA+"-"+cityB] ?? (cityA===cityB ? 80 : 250);
   const floorA=Number($("floorA").value||0), floorB=Number($("floorB").value||0);
-  let rate = 20; if(itemCount>=3) rate=50; if(itemCount>=6 || itemsSum>=1500) rate=100;
+  let rate = 40; if(itemCount>=3) rate=80; if(itemCount>=6 || itemsSum>=1500) rate=120;
   let floors=0; if(!$("liftA").checked) floors += floorA*rate; if(!$("liftB").checked) floors += floorB*rate;
   if(boxesCount>0){ const noLiftFloors = (!$("liftA").checked?floorA:0)+(!$("liftB").checked?floorB:0); floors += Math.round(boxesCount*noLiftFloors*2);}
   let hard=0; if($("hardA").checked) hard+=80; if($("hardB").checked) hard+=80;
-  let raw = itemsSum + route + floors + hard; let min=300; if(route>=180) min=500; if(route>=400) min=700; if(itemCount>=3) min=Math.max(min,450); if(itemCount>=6) min=Math.max(min,600);
+  let raw = itemsSum + route + floors + hard;
+
+  // Business minimums: real moving orders should not be too cheap.
+  let min = 500;                 // minimum local/light order
+  if(route >= 300) min = 900;    // nearby city
+  if(route >= 450) min = 1200;   // Haifa-Netanya / longer city move
+  if(route >= 700) min = 1600;   // long distance
+  if(itemCount >= 2) min = Math.max(min, 900);
+  if(itemCount >= 3) min = Math.max(min, 1500);
+  if(itemCount >= 6) min = Math.max(min, 2200);
+  if(itemsSum >= 2000) min = Math.max(min, Math.round(itemsSum * 0.9));
+
   const total=Math.max(raw,min); return {total,itemsSum,route,floors,hard,min,minApplied:total>raw,itemCount};
 }
 function removeSelected(id){ selected.delete(id); render(); buildItems(); }
@@ -226,7 +237,7 @@ function render(){
   const tags=$("pickedTags"); tags.innerHTML="";
   const picked=Array.from(selected.entries());
   if(!picked.length && boxesCount===0){ tags.innerHTML=`<span class="empty">${T("nothingSelected")}</span>`; }
-  picked.forEach(([id,x])=>{ tags.innerHTML += `<span class="tag">✓ ${x.cat} · ${x.name} · ₪${x.price}<button class="x" onclick="removeSelected('${id}')">×</button></span>`; });
+  picked.forEach(([id,x])=>{ const cn=x.catObj?x.catObj[lang]:x.cat; const nn=x.nameObj?x.nameObj[lang]:x.name; tags.innerHTML += `<span class="tag">✓ ${cn} · ${nn} · ₪${x.price}<button class="x" onclick="removeSelected('${id}')">×</button></span>`; });
   if(boxesCount>0){ tags.innerHTML += `<span class="tag">✓ ${T("boxes")} · ${boxesCount} · ₪${boxesPrice(boxesCount)}<button class="x" onclick="boxesCount=0;render();buildItems()">×</button></span>`; }
   $("breakdown").textContent = c.itemCount ? `${T("breakdown")}: ${T("itemsWord")} ₪${c.itemsSum} · ${T("routeWord")} ₪${c.route} · ${T("floorsWord")} ₪${c.floors}${c.minApplied ? " · "+T("minApplied")+" ₪"+c.min : ""}` : "—";
 }
@@ -234,7 +245,7 @@ function applyLang(){ document.documentElement.lang=lang; document.documentEleme
 function cycleLang(){ lang=langs[(langs.indexOf(lang)+1)%langs.length]; applyLang(); }
 function clearCalc(){ selected.clear(); boxesCount=0; $("addrA").value=""; $("addrB").value=""; $("floorA").value="0"; $("floorB").value="0"; $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false; buildItems(); render();}
 function quoteText(){
-  const c=calc(); const picked=Array.from(selected.values()).map(x=>"• "+x.cat+" · "+x.name+" · ₪"+x.price); if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
+  const c=calc(); const picked=Array.from(selected.values()).map(x=>"• "+(x.catObj?x.catObj[lang]:x.cat)+" · "+(x.nameObj?x.nameObj[lang]:x.name)+" · ₪"+x.price); if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
   return `${T("quoteTitle")}\n\n${T("moveDate")}: ${$("moveDate").value || "-"} ${$("moveTime").value || ""}\n\n${T("from")}:\n${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}\n${T("floor")}: ${$("floorA").value}\n${T("lift")}: ${$("liftA").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardA").checked ? T("yes") : T("no")}\n\n${T("to")}:\n${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}\n${T("floor")}: ${$("floorB").value}\n${T("lift")}: ${$("liftB").checked ? T("yes") : T("no")}\n${T("hard")}: ${$("hardB").checked ? T("yes") : T("no")}\n\n${T("itemList")}:\n${picked.join("\n") || "—"}\n\n${T("breakdown")}:\n${T("itemsWord")}: ₪${c.itemsSum}\n${T("routeWord")}: ₪${c.route}\n${T("floorsWord")}: ₪${c.floors}\n${c.minApplied ? T("minApplied")+": ₪"+c.min+"\n" : ""}${T("approx")}: ₪${c.total}\n\n${T("reason")}\n\n${T("link")}:\n${APP_URL}`;
 }
 function copyCalc(){ navigator.clipboard?.writeText(quoteText()); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}
