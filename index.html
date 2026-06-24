@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.52</title>
+<title>ProfiClick Calculator v7.4.53</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="ProfiClick — подбор профессионалов">
 <meta property="og:description" content="Открыть заявку на перевозку: маршрут, этажи, вещи и примерная цена.">
@@ -22,9 +22,9 @@
 html,body{margin:0;width:100%;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
 body{overflow:auto}
 .app{width:100%;max-width:430px;margin:0 auto;background:linear-gradient(180deg,#eff8ec,#fbfdf9);min-height:100vh;padding:calc(env(safe-area-inset-top) + 2px) 9px calc(env(safe-area-inset-bottom) + 14px)}
-.hero{height:82px;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:8px 11px;margin-bottom:10px;position:sticky;top:0;z-index:10}
+.hero{height:70px;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:8px 11px;margin-bottom:10px;position:sticky;top:0;z-index:10}
 .logo{width:38px;height:38px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:950;flex:0 0 38px}
-.hero h1{font-size:34px;line-height:1.0;margin:0;font-weight:950;letter-spacing:-.04em}.hero p{margin:4px 0 0;font-size:12px;font-weight:850;opacity:.92}
+.hero h1{font-size:25px;line-height:1.0;margin:0;font-weight:850;letter-spacing:-.025em}.hero p{display:none}
 .heroText{min-width:0;flex:1}.hBtns{display:flex;gap:6px;align-items:center}
 .roundBtn{width:38px;height:38px;border:0;border-radius:999px;background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:950;display:flex;align-items:center;justify-content:center}
 .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:9px}
@@ -136,10 +136,10 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.52";
+const APP_VERSION = "v7.4.53";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
-let lang = "ru";
+let lang = (()=>{try{return localStorage.getItem("pc_lang") || "ru"}catch(e){return "ru"}})();
 const tr = {
   ru:{title:"ProfiClick", sub:"Калькулятор цен", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", calcTitleShort:"Калькулятор", chooseItems:"Выбор вещей", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", whatsapp:"WhatsApp", sendWa:"Поделиться в WhatsApp", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", quoteTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт", itemsWord:"Вещи", routeWord:"Маршрут", floorsWord:"Этажи", boxes:"Коробки", quantity:"Количество"},
   en:{title:"ProfiClick", sub:"Price calculator", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", calcTitleShort:"Calculator", chooseItems:"Items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", whatsapp:"WhatsApp", sendWa:"Share in WhatsApp", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", quoteTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown", itemsWord:"Items", routeWord:"Route", floorsWord:"Floors", boxes:"Boxes", quantity:"Quantity"},
@@ -171,7 +171,10 @@ function init(){
   $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
   $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
   $("sheetBg").addEventListener("click",e=>{if(e.target.id==="sheetBg") $("sheetBg").classList.remove("show")});
-  $("clearBtn").addEventListener("click",clearCalc); $("copyBtn").addEventListener("click",copyCalc); $("shareApp").addEventListener("click",shareApp); $("langBtn").addEventListener("click",cycleLang);
+  $("clearBtn").addEventListener("click",clearCalc); $("copyBtn").addEventListener("click",copyCalc); $("shareApp").addEventListener("click",shareApp);
+  const lb=$("langBtn");
+  lb.addEventListener("click",cycleLang);
+  lb.addEventListener("touchend",function(e){e.preventDefault();cycleLang();},{passive:false});
   applyLang(); render();
 }
 function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); $("moveDate").value = d.toISOString().slice(0,10); }
@@ -264,8 +267,16 @@ function render(){
   $("breakdown").textContent = c.itemCount ? `${T("breakdown")}: ${T("itemsWord")} ₪${c.itemsSum} · ${T("routeWord")} ₪${c.route} · ${T("floorsWord")} ₪${c.floors}${c.minApplied ? " · "+T("minApplied")+" ₪"+c.min : ""}` : "—";
 }
 function langLabel(){ return lang==="ru" ? "RU" : (lang==="en" ? "EN" : "HE"); }
+function setLang(nextLang){
+  lang = nextLang;
+  try { localStorage.setItem("pc_lang", lang); } catch(e) {}
+  applyLang();
+}
 function applyLang(){ document.documentElement.lang=lang; document.documentElement.dir=lang==="he"?"rtl":"ltr"; $("appTitle").innerHTML=T("title"); $("appSub").textContent=T("sub"); $("langBtn").textContent=langLabel(); document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=T(el.dataset.t);}); $("toast").textContent=T("copied"); fillCities(); fillFloors(); buildItems(); render();}
-function cycleLang(){ lang=langs[(langs.indexOf(lang)+1)%langs.length]; applyLang(); }
+function cycleLang(){
+  const idx = langs.indexOf(lang);
+  setLang(langs[(idx + 1) % langs.length]);
+}
 function clearCalc(){ selected.clear(); boxesCount=0; $("addrA").value=""; $("addrB").value=""; $("floorA").value="0"; $("floorB").value="0"; $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false; buildItems(); render();}
 function orderId(){
   const d = new Date();
@@ -276,37 +287,40 @@ function quoteText(){
   const picked=Array.from(selected.values()).map(x=>"• "+(x.catObj?x.catObj[lang]:x.cat)+" · "+(x.nameObj?x.nameObj[lang]:x.name)+" · ₪"+x.price);
   if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
   const id = orderId();
-  const respondUrl = APP_URL + "?order=" + encodeURIComponent(id);
   const a = `${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}`;
   const b = `${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}`;
 
   if(lang==="en"){
     return `ProfiClick — moving request
-#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-A: ${a}
+POINT A
+${a}
 Floor ${$("floorA").value} · elevator ${$("liftA").checked ? "yes" : "no"} · ${$("hardA").checked ? "difficult access" : "normal access"}
 
-B: ${b}
+POINT B
+${b}
 Floor ${$("floorB").value} · elevator ${$("liftB").checked ? "yes" : "no"} · ${$("hardB").checked ? "difficult access" : "normal access"}
 
-Items: ${picked.length}
+ITEMS: ${picked.length}
 ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " more" : ""}
 
-Approx. price: ₪${c.total}
+APPROX. PRICE: ₪${c.total}
 
-Open order / respond:
-${respondUrl}`;
+Open ProfiClick and enter order code:
+${id}`;
   }
 
   if(lang==="he"){
     return `ProfiClick — בקשת הובלה
-#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-א׳: ${a}
+נקודה א׳
+${a}
 קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · ${$("hardA").checked ? "גישה קשה" : "גישה רגילה"}
 
-ב׳: ${b}
+נקודה ב׳
+${b}
 קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · ${$("hardB").checked ? "גישה קשה" : "גישה רגילה"}
 
 פריטים: ${picked.length}
@@ -314,26 +328,28 @@ ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6)
 
 מחיר משוער: ₪${c.total}
 
-פתיחת הזמנה / מענה:
-${respondUrl}`;
+פתח את ProfiClick והזן קוד הזמנה:
+${id}`;
   }
 
   return `ProfiClick — заявка на перевозку
-#${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-A: ${a}
+ТОЧКА A
+${a}
 Этаж ${$("floorA").value} · лифт ${$("liftA").checked ? "да" : "нет"} · ${$("hardA").checked ? "сложный доступ" : "обычный доступ"}
 
-B: ${b}
+ТОЧКА B
+${b}
 Этаж ${$("floorB").value} · лифт ${$("liftB").checked ? "да" : "нет"} · ${$("hardB").checked ? "сложный доступ" : "обычный доступ"}
 
-Вещи: ${picked.length}
+ВЕЩИ: ${picked.length}
 ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " ещё" : ""}
 
-Примерная цена: ₪${c.total}
+ПРИМЕРНАЯ ЦЕНА: ₪${c.total}
 
-Открыть заказ / откликнуться:
-${respondUrl}`;
+Откройте ProfiClick и введите код заказа:
+${id}`;
 }
 
 function copyCalc(){
@@ -350,7 +366,11 @@ function sendWhatsApp(){
   const url = "https://wa.me/?text=" + encodeURIComponent(quoteText());
   window.location.href = url;
 }
-function shareApp(){ const text=`ProfiClick\n${T("shareText")}: ${APP_URL}`; if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{}); else {navigator.clipboard?.writeText(text); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}}
+function shareApp(){
+  const text=`ProfiClick`;
+  if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{});
+  else {navigator.clipboard?.writeText(APP_URL); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}
+}
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 init();
 </script>
