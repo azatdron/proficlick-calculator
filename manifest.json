@@ -1,6 +1,6 @@
 {
-  "name": "ProfiClick Calculator",
-  "short_name": "ProfiCalc",
+  "name": "ProfiClick",
+  "short_name": "ProfiClick",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f2faf0",
