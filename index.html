@@ -8,10 +8,10 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.46</title>
+<title>ProfiClick Calculator v7.4.47</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="ProfiClick — заказ на перевозку">
-<meta property="og:description" content="Открыть заявку, посмотреть маршрут, этажи, вещи и примерную цену.">
+<meta property="og:title" content="ProfiClick — подбор профессионалов">
+<meta property="og:description" content="Открыть заявку на перевозку: маршрут, этажи, вещи и примерная цена.">
 <meta property="og:image" content="https://proficlick-calculator.vercel.app/og-proficlick.png">
 <meta property="og:url" content="https://proficlick-calculator.vercel.app">
 <meta name="twitter:card" content="summary_large_image">
@@ -136,7 +136,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.46";
+const APP_VERSION = "v7.4.47";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = "ru";
@@ -280,56 +280,56 @@ function quoteText(){
   const b = `${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}`;
 
   if(lang==="en"){
-    return `🚚 *ProfiClick moving request*
+    return `ProfiClick — moving request
 #${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-📍 A: ${a}
-Floor ${$("floorA").value} · Elevator ${$("liftA").checked ? "yes" : "no"} · ${$("hardA").checked ? "difficult access" : "normal access"}
+A: ${a}
+Floor ${$("floorA").value} · elevator ${$("liftA").checked ? "yes" : "no"} · ${$("hardA").checked ? "difficult access" : "normal access"}
 
-📍 B: ${b}
-Floor ${$("floorB").value} · Elevator ${$("liftB").checked ? "yes" : "no"} · ${$("hardB").checked ? "difficult access" : "normal access"}
+B: ${b}
+Floor ${$("floorB").value} · elevator ${$("liftB").checked ? "yes" : "no"} · ${$("hardB").checked ? "difficult access" : "normal access"}
 
-📦 Items: ${picked.length}
+Items: ${picked.length}
 ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " more" : ""}
 
-💰 *Approx. price: ₪${c.total}*
+Approx. price: ₪${c.total}
 
-Open / respond:
+Open order / respond:
 ${respondUrl}`;
   }
 
   if(lang==="he"){
-    return `🚚 *בקשת הובלה ProfiClick*
+    return `ProfiClick — בקשת הובלה
 #${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-📍 א׳: ${a}
+א׳: ${a}
 קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · ${$("hardA").checked ? "גישה קשה" : "גישה רגילה"}
 
-📍 ב׳: ${b}
+ב׳: ${b}
 קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · ${$("hardB").checked ? "גישה קשה" : "גישה רגילה"}
 
-📦 פריטים: ${picked.length}
+פריטים: ${picked.length}
 ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) : ""}
 
-💰 *מחיר משוער: ₪${c.total}*
+מחיר משוער: ₪${c.total}
 
-פתיחה / מענה:
+פתיחת הזמנה / מענה:
 ${respondUrl}`;
   }
 
-  return `🚚 *ProfiClick — заявка на перевозку*
+  return `ProfiClick — заявка на перевозку
 #${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
-📍 A: ${a}
-Этаж ${$("floorA").value} · Лифт ${$("liftA").checked ? "да" : "нет"} · ${$("hardA").checked ? "сложный доступ" : "обычный доступ"}
+A: ${a}
+Этаж ${$("floorA").value} · лифт ${$("liftA").checked ? "да" : "нет"} · ${$("hardA").checked ? "сложный доступ" : "обычный доступ"}
 
-📍 B: ${b}
-Этаж ${$("floorB").value} · Лифт ${$("liftB").checked ? "да" : "нет"} · ${$("hardB").checked ? "сложный доступ" : "обычный доступ"}
+B: ${b}
+Этаж ${$("floorB").value} · лифт ${$("liftB").checked ? "да" : "нет"} · ${$("hardB").checked ? "сложный доступ" : "обычный доступ"}
 
-📦 Вещи: ${picked.length}
+Вещи: ${picked.length}
 ${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " ещё" : ""}
 
-💰 *Примерная цена: ₪${c.total}*
+Примерная цена: ₪${c.total}
 
 Открыть заказ / откликнуться:
 ${respondUrl}`;
