@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.59</title>
+<title>ProfiClick Calculator v7.4.55</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="ProfiClick — подбор профессионалов">
 <meta property="og:description" content="Открыть заявку на перевозку: маршрут, этажи, вещи и примерная цена.">
@@ -81,7 +81,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
   <section class="card">
     <div class="title" data-t="dateTitle">Дата и время</div>
     <div class="grid2">
-      <div class="field dateField" id="dateFieldWrap"><label data-t="date">Дата</label><button id="dateDisplay" type="button" class="dateDisplay">25 июня 2026 г.</button></div><input id="moveDate" type="date" class="dateHidden" aria-label="Date">
+      <div class="field"><label data-t="date">Дата</label><input id="moveDate" type="date"></div>
       <div class="field"><label data-t="time">Время</label><input id="moveTime" type="time" value="08:00"></div>
     </div>
   </section>
@@ -136,7 +136,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.59";
+const APP_VERSION = "v7.4.55";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = (()=>{try{return localStorage.getItem("pc_lang") || "ru"}catch(e){return "ru"}})();
@@ -167,13 +167,7 @@ const T = k => tr[lang][k] || k;
 function cityName(id){ const c = cities.find(x=>x[0]===id); return c ? c[1][lang] : ""; }
 function init(){
   setDefaultDate(); fillCities(); fillFloors(); buildItems();
-  document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",()=>{updateDateDisplay();render();});el.addEventListener("input",()=>{updateDateDisplay();render();});});
-  
-  if($("dateFieldWrap")) $("dateFieldWrap").addEventListener("click",()=>{
-    const inp=$("moveDate");
-    if(inp.showPicker){ try{ inp.showPicker(); }catch(e){ inp.click(); } }
-    else { inp.click(); }
-  });
+  document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",render);el.addEventListener("input",render);});
   $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
   $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
   $("sheetBg").addEventListener("click",e=>{if(e.target.id==="sheetBg") $("sheetBg").classList.remove("show")});
@@ -184,26 +178,7 @@ function init(){
   });
   applyLang(); render();
 }
-const monthNames = {
-  ru:["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"],
-  en:["January","February","March","April","May","June","July","August","September","October","November","December"],
-  he:["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"]
-};
-function formatDateLocal(value){
-  if(!value) return "";
-  const parts=value.split("-").map(Number);
-  const y=parts[0], m=parts[1], d=parts[2];
-  if(!y || !m || !d) return value;
-  if(lang==="en") return `${monthNames.en[m-1]} ${d}, ${y}`;
-  if(lang==="he") return `${d} ${monthNames.he[m-1]} ${y}`;
-  return `${d} ${monthNames.ru[m-1]} ${y} г.`;
-}
-function updateDateDisplay(){
-  const btn=$("dateDisplay");
-  if(btn) btn.textContent = formatDateLocal($("moveDate").value);
-}
-
-function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); $("moveDate").value = d.toISOString().slice(0,10); updateDateDisplay(); }
+function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); $("moveDate").value = d.toISOString().slice(0,10); }
 function fillCities(){ const vals = {cityA:$("cityA").value || "haifa", cityB:$("cityB").value || "netanya"}; for(const id of ["cityA","cityB"]){ const s=$(id); s.innerHTML=""; cities.forEach(([v,n])=>s.add(new Option(n[lang],v))); s.value = vals[id] || (id==="cityA"?"haifa":"netanya");}}
 function floorZeroLabel(){
   if(lang==="en") return "0 / house";
@@ -315,7 +290,6 @@ function applyLang(){
   $("toast").textContent=T("copied");
   fillCities();
   fillFloors();
-  updateDateDisplay();
   buildItems();
   render();
 }
@@ -338,7 +312,7 @@ function quoteText(){
 
   if(lang==="en"){
     return `ProfiClick — moving request
-${id} · ${formatDateLocal($("moveDate").value) || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
 POINT A
 ${a}
@@ -359,7 +333,7 @@ ${id}`;
 
   if(lang==="he"){
     return `ProfiClick — בקשת הובלה
-${id} · ${formatDateLocal($("moveDate").value) || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
 נקודה א׳
 ${a}
@@ -379,7 +353,7 @@ ${id}`;
   }
 
   return `ProfiClick — заявка на перевозку
-${id} · ${formatDateLocal($("moveDate").value) || "-"} · ${$("moveTime").value || ""}
+${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
 
 ТОЧКА A
 ${a}
@@ -422,4 +396,3 @@ init();
 </script>
 </body>
 </html>
-<!-- ProfiClick v7.4.59: date duplicate removed by moving native date out of visual card -->
