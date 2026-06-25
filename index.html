@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiCalc">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.58</title>
+<title>ProfiClick Calculator v7.4.59</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="ProfiClick — подбор профессионалов">
 <meta property="og:description" content="Открыть заявку на перевозку: маршрут, этажи, вещи и примерная цена.">
@@ -81,7 +81,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
   <section class="card">
     <div class="title" data-t="dateTitle">Дата и время</div>
     <div class="grid2">
-      <div class="field dateField" id="dateFieldWrap"><label data-t="date">Дата</label><input id="moveDate" type="date" class="nativeDate"><button id="dateDisplay" type="button" class="dateDisplay">25 июня 2026 г.</button></div>
+      <div class="field dateField" id="dateFieldWrap"><label data-t="date">Дата</label><button id="dateDisplay" type="button" class="dateDisplay">25 июня 2026 г.</button></div><input id="moveDate" type="date" class="dateHidden" aria-label="Date">
       <div class="field"><label data-t="time">Время</label><input id="moveTime" type="time" value="08:00"></div>
     </div>
   </section>
@@ -136,7 +136,7 @@ html[dir="rtl"] .itemsBtn{text-align:right}
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-const APP_VERSION = "v7.4.58";
+const APP_VERSION = "v7.4.59";
 const APP_URL = "https://proficlick-calculator.vercel.app";
 const langs = ["ru","en","he"];
 let lang = (()=>{try{return localStorage.getItem("pc_lang") || "ru"}catch(e){return "ru"}})();
@@ -168,14 +168,11 @@ function cityName(id){ const c = cities.find(x=>x[0]===id); return c ? c[1][lang
 function init(){
   setDefaultDate(); fillCities(); fillFloors(); buildItems();
   document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",()=>{updateDateDisplay();render();});el.addEventListener("input",()=>{updateDateDisplay();render();});});
+  
   if($("dateFieldWrap")) $("dateFieldWrap").addEventListener("click",()=>{
     const inp=$("moveDate");
-    if(inp.showPicker){
-      try{ inp.showPicker(); }catch(e){ inp.focus(); }
-    } else {
-      inp.focus();
-      inp.click();
-    }
+    if(inp.showPicker){ try{ inp.showPicker(); }catch(e){ inp.click(); } }
+    else { inp.click(); }
   });
   $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
   $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
@@ -425,3 +422,4 @@ init();
 </script>
 </body>
 </html>
+<!-- ProfiClick v7.4.59: date duplicate removed by moving native date out of visual card -->
