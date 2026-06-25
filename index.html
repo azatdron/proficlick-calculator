@@ -5,421 +5,256 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#4f8f33">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ProfiCalc">
+<meta name="apple-mobile-web-app-title" content="ProfiClick Executor">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Calculator v7.4.62</title>
-<meta property="og:type" content="website">
-<meta property="og:title" content="ProfiClick — подбор профессионалов">
-<meta property="og:description" content="Открыть заявку на перевозку: маршрут, этажи, вещи и примерная цена.">
-<meta property="og:image" content="https://proficlick-calculator.vercel.app/og-proficlick.png">
-<meta property="og:url" content="https://proficlick-calculator.vercel.app">
-<meta name="twitter:card" content="summary_large_image">
-
+<title>ProfiClick Executor v1</title>
 <style>
-:root{--g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--text:#172033;--muted:#717988;--line:#dfead8;--soft:#f7fbf3}
+:root{
+  --g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--card:#fff;--ink:#172033;
+  --muted:#717988;--line:#dfead8;--soft:#f7fbf3;--red:#b42318;--orange:#9a6700;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
+html,body{margin:0;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
 body{overflow:auto}
-.app{width:100%;max-width:430px;margin:0 auto;background:linear-gradient(180deg,#eff8ec,#fbfdf9);min-height:100vh;padding:calc(env(safe-area-inset-top) + 2px) 9px calc(env(safe-area-inset-bottom) + 14px)}
-.hero{height:66px;direction:ltr;text-align:left;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:21px;color:#fff;padding:8px 11px;margin-bottom:10px;position:sticky;top:0;z-index:10}
-.logo{width:38px;height:38px;border-radius:14px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:950;flex:0 0 38px}
-.hero h1{font-size:24px;line-height:1.0;margin:0;font-weight:780;letter-spacing:-.02em}.hero p{display:none}
-.heroText{min-width:0;flex:1}.hBtns{display:flex;gap:6px;align-items:center}
-.roundBtn{width:36px;height:36px;border:0;border-radius:999px;background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:950;display:flex;align-items:center;justify-content:center}.langGroup{direction:ltr;display:flex;gap:4px;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}.langChip{width:31px;height:31px;border:0;border-radius:999px;background:transparent;color:#fff;font-size:10px;font-weight:950}.langChip.active{background:rgba(255,255,255,.26)}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin-bottom:9px}
-.title{font-size:19px;font-weight:950;margin:0 0 6px;letter-spacing:-.03em}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.field{border:1px solid var(--line);border-radius:15px;background:#fff;padding:7px 8px;min-height:47px}
-.field label{display:block;color:var(--muted);font-size:10px;font-weight:950;margin-bottom:2px}
-input,select{width:100%;min-height:28px;border:0;background:#fff;outline:0;font-size:14px;font-weight:900;color:var(--text);font-family:inherit}
-select{-webkit-appearance:menulist;appearance:menulist}
-input[type="date"],input[type="time"]{font-size:13px}
-.floorBox{min-height:92px}.check{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:11.5px;color:var(--muted);font-weight:900;line-height:1.05}
-.check input{width:19px;height:19px;accent-color:var(--g);flex:0 0 19px;min-height:19px}
-.itemsBtn{width:100%;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;font-size:15px;font-weight:950;text-align:left;display:flex;justify-content:space-between;align-items:center;color:var(--text)}
-.pickedTags{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
-.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#eef8e8;color:#2f6f21;padding:7px 10px;font-size:12px;font-weight:950;max-width:100%}
-.tag .x{border:0;background:rgba(47,111,33,.12);color:#2f6f21;border-radius:999px;width:20px;height:20px;font-size:13px;font-weight:950}
-.empty{background:#eef8e8;color:#2f6f21;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:950;display:inline-flex;margin-top:7px}
-.breakdown{margin-top:8px;border-top:1px solid var(--line);padding-top:7px;color:var(--muted);font-size:11px;font-weight:850;line-height:1.35}
-.totalCard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;margin:12px 0 7px}
-.total{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:10px 11px}
-.total b{font-size:15px}.total small{display:block;color:var(--muted);font-size:10.5px;font-weight:850}.money{font-size:30px;font-weight:950;color:#2f6f21}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.waIconBtn{margin-top:8px;width:100%;border:0;border-radius:16px;padding:11px 7px;font-size:15px;font-weight:950;font-family:inherit;background:#eef8e8;color:#2f6f21;display:flex;align-items:center;justify-content:center;gap:8px}.waCircle{width:25px;height:25px;border-radius:999px;background:#25D366;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:950}.btn{border:0;border-radius:16px;padding:13px 7px;font-size:15px;font-weight:950;font-family:inherit}.clear{background:#eef8e8;color:#2f6f21}.copy{background:linear-gradient(var(--g),var(--g2));color:#fff}
-.sheetBg{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:30;display:none;align-items:flex-end}.sheetBg.show{display:flex}
-.sheet{width:100%;max-width:430px;margin:0 auto;max-height:78vh;background:#fff;border-radius:24px 24px 0 0;padding:13px 11px calc(env(safe-area-inset-bottom) + 12px);overflow:auto;-webkit-overflow-scrolling:touch}
-.sheetHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.sheetHead b{font-size:21px;font-weight:950}.close{width:40px;height:40px;border:0;border-radius:999px;background:#f2f6ef;font-size:25px;color:#1473e6}
-.cat{border:1px solid var(--line);border-radius:16px;margin-bottom:8px;overflow:hidden;background:#fff}
-.cat summary{list-style:none;padding:12px;font-weight:950;display:flex;justify-content:space-between;align-items:center}
-.cat summary::-webkit-details-marker{display:none}.cat summary:after{content:"⌄";color:var(--g2)}.cat[open] summary:after{content:"⌃"}
-.cat summary .chosen{color:#2f6f21;font-size:13px;margin-inline-start:6px}
-.opt{display:flex;align-items:center;gap:9px;border-top:1px solid var(--line);padding:11px 12px;font-size:14px;font-weight:900}
-.opt .checkMark{width:24px;height:24px;border-radius:8px;border:2px solid #999;display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 24px}
-.opt.active .checkMark{background:var(--g);border-color:var(--g)}
-.opt.active .checkMark:after{content:"✓";font-size:17px;font-weight:950}
-.opt span{flex:1}.opt b{font-size:13px;color:#2f6f21}
-.boxControl{padding:0 12px 12px}
-.stepper{display:grid;grid-template-columns:52px 1fr 52px;gap:8px;align-items:center}
-.stepper button{height:46px;border:0;border-radius:14px;background:#eef8e8;color:#2f6f21;font-size:24px;font-weight:950}
-.stepper .num{text-align:center;font-size:20px;font-weight:950}
-.toast{position:fixed;left:18px;right:18px;bottom:22px;background:#172033;color:#fff;border-radius:18px;padding:10px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:40}.toast.show{display:block}.toastAction{margin-top:8px;width:100%;border:0;border-radius:14px;padding:10px;background:#eef8e8;color:#2f6f21;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;position:relative;z-index:60;touch-action:manipulation}.waCircle{width:25px;height:25px;border-radius:999px;background:#25D366;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}
-html[dir="rtl"] body,html[dir="rtl"] input,html[dir="rtl"] select{text-align:right}
-html[dir="rtl"] .itemsBtn{text-align:right}
-.waSvg{width:26px;height:26px;display:inline-block;vertical-align:middle;flex:0 0 26px}.toastAction .waSvg{filter:none}</style>
+.app{width:100%;max-width:430px;margin:0 auto;min-height:100vh;background:linear-gradient(180deg,#eff8ec,#fbfdf9);padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom) + 18px)}
+.header{height:66px;direction:ltr;text-align:left;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:22px;color:#fff;padding:9px 11px;margin-bottom:10px;position:sticky;top:0;z-index:10}
+.brand{font-size:24px;font-weight:780;letter-spacing:-.02em;flex:1}
+.langGroup{direction:ltr;display:flex;gap:4px;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.langChip{width:31px;height:31px;border:0;border-radius:999px;background:transparent;color:#fff;font-size:10px;font-weight:950}
+.langChip.active{background:rgba(255,255,255,.26)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;margin-bottom:10px;box-shadow:0 10px 26px rgba(40,80,30,.05)}
+.profileTop{display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:center}
+.avatar{width:74px;height:74px;border-radius:24px;background:#edf8e8;border:1px dashed #b8d6aa;display:flex;align-items:center;justify-content:center;color:#2f6f21;font-size:28px;font-weight:950;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.hiddenFile{display:none}
+.name{font-size:22px;font-weight:900;letter-spacing:-.03em;margin:0}
+.meta{color:var(--muted);font-size:12px;font-weight:800;margin-top:3px}
+.trust{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#eef8e8;color:#2f6f21;padding:6px 9px;font-size:11px;font-weight:950}
+.pill.orange{background:#fff4df;color:#9a6700}.pill.gray{background:#f1f4ef;color:#5f6b5a}
+.roleRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.roleBtn,.smallBtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:16px;padding:11px 8px;font-size:13px;font-weight:950}
+.roleBtn.active,.smallBtn.active{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}
+.title{font-size:18px;font-weight:900;margin:0 0 9px;letter-spacing:-.025em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field{border:1px solid var(--line);border-radius:16px;background:#fff;padding:9px 10px;min-height:50px}
+.field label{display:block;color:var(--muted);font-size:10px;font-weight:900;margin-bottom:4px}
+input,select,textarea{width:100%;border:0;outline:0;background:transparent;font-size:14px;font-weight:900;color:var(--ink);font-family:inherit;padding:0}
+textarea{resize:none;line-height:1.35;min-height:66px}
+.checkGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checkChip{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px;font-size:12px;font-weight:900;color:var(--ink)}
+.checkChip input{width:18px;height:18px;accent-color:var(--g);flex:0 0 18px}
+.saveBtn{width:100%;border:0;border-radius:17px;background:linear-gradient(var(--g),var(--g2));color:#fff;font-size:15px;font-weight:950;padding:13px;margin-top:10px}
+.sectionTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px 4px;font-size:12px;font-weight:950;color:var(--muted)}
+.tab.active{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}
+.statGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border:1px solid var(--line);background:#fff;border-radius:18px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px;color:#2f6f21}.stat span{font-size:10px;color:var(--muted);font-weight:900}
+.order{border:1px solid var(--line);background:#fff;border-radius:18px;padding:11px;margin-bottom:8px}
+.orderTop{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:950}
+.orderPrice{color:#2f6f21;font-size:16px}
+.orderMeta{font-size:12px;color:var(--muted);font-weight:850;line-height:1.35;margin-top:5px}
+.orderDetails{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.mini{background:#f7fbf3;border:1px solid var(--line);border-radius:14px;padding:8px}
+.mini small{display:block;color:var(--muted);font-size:10px;font-weight:900}.mini b{display:block;font-size:12px;margin-top:2px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.accept,.decline{border:0;border-radius:15px;padding:11px;font-size:13px;font-weight:950}
+.accept{background:linear-gradient(var(--g),var(--g2));color:#fff}.decline{background:#f4f6f2;color:#5a6655}
+.payBox{background:#f8fbf5;border:1px solid var(--line);border-radius:18px;padding:12px}
+.payTop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.payTop b{font-size:16px}.payTop span{font-size:12px;color:var(--muted);font-weight:850}
+.switch{width:52px;height:30px;border:0;border-radius:999px;background:#d9e4d3;position:relative}
+.switch:before{content:"";position:absolute;left:4px;top:4px;width:22px;height:22px;border-radius:999px;background:#fff;transition:.18s;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.switch.on{background:#5b9638}.switch.on:before{left:26px}
+.bottomNav{position:sticky;bottom:8px;z-index:12;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:22px;padding:6px;margin-top:12px}
+.navBtn{border:0;background:transparent;border-radius:16px;padding:9px 3px;color:var(--muted);font-size:10px;font-weight:950}
+.navBtn.active{background:#eaf6e4;color:#2f6f21}
+.toast{position:fixed;left:18px;right:18px;bottom:24px;background:#172033;color:#fff;border-radius:18px;padding:12px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:40}
+.toast.show{display:block}
+.rtlContent .card{direction:rtl;text-align:right}.rtlContent .sheet{direction:rtl;text-align:right}.rtlContent .toast{direction:rtl}
+.hide{display:none!important}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="hero">
-    
-    <div class="heroText"><h1 id="appTitle" style="font-size:42px;font-weight:600;letter-spacing:-0.5px;">ProfiClick</h1></div>
-    <div class="hBtns">
-      <button class="roundBtn" id="shareApp" type="button">↗</button>
-      <div class="langGroup"><button class="langChip active" data-lang="ru" type="button">RU</button><button class="langChip" data-lang="en" type="button">EN</button><button class="langChip" data-lang="he" type="button">HE</button></div>
+  <div class="header">
+    <div class="brand">ProfiClick</div>
+    <div class="langGroup">
+      <button class="langChip active" data-lang="ru" type="button">RU</button>
+      <button class="langChip" data-lang="en" type="button">EN</button>
+      <button class="langChip" data-lang="he" type="button">HE</button>
     </div>
   </div>
 
   <section class="card">
-    <div class="title" data-t="dateTitle">Дата и время</div>
-    <div class="grid2">
-      <div class="field"><label data-t="date">Дата</label><input id="moveDate" type="text" readonly data-iso=""></div>
-      <div class="field"><label data-t="time">Время</label><input id="moveTime" type="time" value="08:00"></div>
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="title" data-t="route">Маршрут</div>
-    <div class="grid2">
-      <div class="field"><label data-t="pointA">Точка А</label><select id="cityA"></select></div>
-      <div class="field"><label data-t="pointB">Точка Б</label><select id="cityB"></select></div>
-    </div>
-    <div class="grid2" style="margin-top:7px">
-      <div class="field"><label data-t="addressA">Адрес А</label><input id="addrA" placeholder="Nisimboim 120"></div>
-      <div class="field"><label data-t="addressB">Адрес Б</label><input id="addrB" placeholder="Arlozorov 25"></div>
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="title" data-t="floorsAccess">Этажи и доступ</div>
-    <div class="grid2">
-      <div class="field floorBox">
-        <label data-t="floorA">Точка А · этаж</label><select id="floorA"></select>
-        <label class="check"><input id="liftA" type="checkbox" checked> <span data-t="hasLift">лифт есть</span></label>
-        <label class="check"><input id="hardA" type="checkbox"> <span data-t="hardAccess">сложный подход</span></label>
-      </div>
-      <div class="field floorBox">
-        <label data-t="floorB">Точка Б · этаж</label><select id="floorB"></select>
-        <label class="check"><input id="liftB" type="checkbox" checked> <span data-t="hasLift">лифт есть</span></label>
-        <label class="check"><input id="hardB" type="checkbox"> <span data-t="hardAccess">сложный подход</span></label>
+    <div class="profileTop">
+      <label class="avatar" id="avatarBox">
+        <span id="avatarLetters">PC</span>
+        <img id="avatarImg" class="hide" alt="">
+        <input id="photoInput" class="hiddenFile" type="file" accept="image/*">
+      </label>
+      <div>
+        <h1 class="name" id="profileName">ProfiMove Haifa</h1>
+        <div class="meta" id="profileMeta">Хайфа · радиус 100 км</div>
+        <div class="trust">
+          <span class="pill" id="verifiedPill">Проверенный</span>
+          <span class="pill orange" id="ratingPill">★ 4.9</span>
+          <span class="pill gray" id="trustPill">87 доверие</span>
+        </div>
       </div>
     </div>
+    <div class="roleRow">
+      <button class="roleBtn active" id="statusBtn" type="button">Свободен</button>
+      <button class="roleBtn" id="subscriptionBtn" type="button">Plus активен</button>
+    </div>
   </section>
 
-  <section class="card" id="calcCard">
-    <div class="title" data-t="calcTitleShort">Калькулятор</div>
-    <button class="itemsBtn" id="openItems" type="button"><span data-t="chooseItems">Выбор вещей</span><span>⌄</span></button>
-    <div id="pickedTags" class="pickedTags"></div>
-    <div class="breakdown" id="breakdown">—</div>
+  <section class="card view" id="viewProfile">
+    <div class="title" data-t="profileTitle">Профиль исполнителя</div>
+    <div class="grid2">
+      <div class="field"><label data-t="company">Компания</label><input id="companyName" value="ProfiMove Haifa"></div>
+      <div class="field"><label data-t="phone">Телефон</label><input id="phone" value="050-000-0000"></div>
+      <div class="field"><label data-t="city">Базовый город</label>
+        <select id="city">
+          <option value="haifa">Хайфа</option><option value="telaviv">Тель-Авив</option><option value="netanya">Нетания</option><option value="jerusalem">Иерусалим</option>
+        </select>
+      </div>
+      <div class="field"><label data-t="radius">Радиус</label>
+        <select id="radius"><option>30 км</option><option>50 км</option><option selected>100 км</option><option>Весь Израиль</option></select>
+      </div>
+      <div class="field"><label data-t="maxRooms">Макс. объём</label>
+        <select id="rooms"><option>до 1 комнаты</option><option selected>до 2 комнат</option><option>до 3 комнат</option><option>любые объёмы</option></select>
+      </div>
+      <div class="field"><label data-t="car">Машина</label>
+        <select id="car"><option>Фургон</option><option selected>Грузовик</option><option>2 грузчика + грузовик</option></select>
+      </div>
+    </div>
+    <div style="height:8px"></div>
+    <textarea id="about" placeholder="Коротко о компании">Перевозки по Хайфе и северу. Аккуратно, быстро, WhatsApp на связи.</textarea>
+    <button class="saveBtn" id="saveProfile" type="button" data-t="save">Сохранить</button>
   </section>
 
-  <section class="totalCard">
-    <div class="total"><div><b data-t="totalApprox">Итого примерно</b><small id="note">Выберите вещи</small></div><div class="money" id="total">₪0</div></div>
+  <section class="card view hide" id="viewSettings">
+    <div class="title" data-t="workSettings">Настройки работы</div>
+    <div class="checkGrid">
+      <label class="checkChip"><input type="checkbox" checked> <span data-t="smallMove">Малые перевозки</span></label>
+      <label class="checkChip"><input type="checkbox" checked> <span data-t="twoRooms">До 2 комнат</span></label>
+      <label class="checkChip"><input type="checkbox"> <span data-t="piano">Пианино</span></label>
+      <label class="checkChip"><input type="checkbox" checked> <span data-t="noLift">Без лифта</span></label>
+      <label class="checkChip"><input type="checkbox" checked> <span data-t="packing">Упаковка</span></label>
+      <label class="checkChip"><input type="checkbox"> <span data-t="assembly">Сборка мебели</span></label>
+    </div>
+    <div style="height:10px"></div>
+    <div class="payBox">
+      <div class="payTop">
+        <div><b data-t="subscription">Подписка исполнителя</b><span data-t="subNote">Бесплатно: 3 заявки/мес · Plus: безлимит</span></div>
+        <button class="switch on" id="plusSwitch" type="button"></button>
+      </div>
+    </div>
   </section>
-  <div class="actions"><button class="btn clear" id="clearBtn" type="button" data-t="clear">Очистить</button><button class="btn copy" id="copyBtn" type="button" data-t="copy">Скопировать</button></div>
-</div>
 
-<div class="sheetBg" id="sheetBg">
-  <div class="sheet">
-    <div class="sheetHead"><b data-t="chooseItems">Выбор вещей</b><button class="close" id="closeItems" type="button">×</button></div>
-    <div id="itemsList"></div>
+  <section class="card view hide" id="viewOrders">
+    <div class="title" data-t="ordersTitle">Заказы</div>
+    <div class="sectionTabs">
+      <button class="tab active" data-filter="new" type="button" data-t="newOrders">Новые</button>
+      <button class="tab" data-filter="work" type="button" data-t="inWork">В работе</button>
+      <button class="tab" data-filter="done" type="button" data-t="done">Архив</button>
+    </div>
+    <div id="ordersList"></div>
+  </section>
+
+  <section class="card view hide" id="viewReviews">
+    <div class="title" data-t="reviewsTitle">Рейтинг и отзывы</div>
+    <div class="statGrid">
+      <div class="stat"><b>4.9</b><span data-t="rating">Рейтинг</span></div>
+      <div class="stat"><b>187</b><span data-t="jobs">Заказов</span></div>
+      <div class="stat"><b>87</b><span data-t="trust">Доверие</span></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="order">
+      <div class="orderTop"><span>★★★★★</span><span>Хайфа → Нетания</span></div>
+      <div class="orderMeta">Клиент: быстро приехали, аккуратно перевезли холодильник и диван.</div>
+    </div>
+    <div class="order">
+      <div class="orderTop"><span>★★★★★</span><span>Хайфа</span></div>
+      <div class="orderMeta">Отличная работа, связь через WhatsApp, цена как в заявке.</div>
+    </div>
+  </section>
+
+  <div class="bottomNav">
+    <button class="navBtn active" data-view="Profile" type="button" data-t="navProfile">Профиль</button>
+    <button class="navBtn" data-view="Settings" type="button" data-t="navSettings">Настройки</button>
+    <button class="navBtn" data-view="Orders" type="button" data-t="navOrders">Заказы</button>
+    <button class="navBtn" data-view="Reviews" type="button" data-t="navReviews">Рейтинг</button>
   </div>
 </div>
-<div class="toast" id="toast">Скопировано</div>
+<div class="toast" id="toast">Сохранено</div>
 
 <script>
-const APP_VERSION = "v7.4.62";
-const APP_URL = "https://proficlick-calculator.vercel.app";
-const langs = ["ru","en","he"];
-let lang = (()=>{try{return localStorage.getItem("pc_lang") || "ru"}catch(e){return "ru"}})();
-const tr = {
-  ru:{title:"ProfiClick", sub:"Калькулятор цен", dateTitle:"Дата и время", date:"Дата", time:"Время", route:"Маршрут", pointA:"Точка А", pointB:"Точка Б", addressA:"Адрес А", addressB:"Адрес Б", floorsAccess:"Этажи и доступ", floorA:"Точка А · этаж", floorB:"Точка Б · этаж", hasLift:"лифт есть", hardAccess:"сложный подход", calcTitleShort:"Калькулятор", chooseItems:"Выбор вещей", nothingSelected:"Ничего не выбрано", totalApprox:"Итого примерно", clear:"Очистить", copy:"Скопировать", whatsapp:"WhatsApp", sendWa:"Поделиться в WhatsApp", copied:"Скопировано", choose:"Выберите вещи", positions:"позиций + маршрут", shareText:"Посчитать стоимость перевозки", quoteTitle:"🚚 ProfiClick расчёт перевозки", moveDate:"📅 Дата", from:"📍 Точка А", to:"📍 Точка Б", floor:"Этаж", lift:"Лифт", yes:"да", no:"нет", hard:"Сложный подход", itemList:"📦 Вещи", approx:"💰 Примерная стоимость", reason:"Цена учитывает маршрут, этажи, лифт, сложный подход и выбранные вещи.", link:"📲 Посчитать свой переезд", minApplied:"Применена минимальная стоимость", breakdown:"Расчёт", itemsWord:"Вещи", routeWord:"Маршрут", floorsWord:"Этажи", boxes:"Коробки", quantity:"Количество"},
-  en:{title:"ProfiClick", sub:"Price calculator", dateTitle:"Date and time", date:"Date", time:"Time", route:"Route", pointA:"Point A", pointB:"Point B", addressA:"Address A", addressB:"Address B", floorsAccess:"Floors and access", floorA:"Point A · floor", floorB:"Point B · floor", hasLift:"has elevator", hardAccess:"difficult access", calcTitleShort:"Calculator", chooseItems:"Items", nothingSelected:"Nothing selected", totalApprox:"Approx. total", clear:"Clear", copy:"Copy", whatsapp:"WhatsApp", sendWa:"Share in WhatsApp", copied:"Copied", choose:"Choose items", positions:"items + route", shareText:"Calculate your moving cost", quoteTitle:"🚚 ProfiClick moving quote", moveDate:"📅 Date", from:"📍 Point A", to:"📍 Point B", floor:"Floor", lift:"Elevator", yes:"yes", no:"no", hard:"Difficult access", itemList:"📦 Items", approx:"💰 Approx. cost", reason:"Price includes route, floors, elevator, difficult access and selected items.", link:"📲 Calculate your move", minApplied:"Minimum order applied", breakdown:"Breakdown", itemsWord:"Items", routeWord:"Route", floorsWord:"Floors", boxes:"Boxes", quantity:"Quantity"},
-  he:{title:"ProfiClick", sub:"מחשבון מחירים", dateTitle:"תאריך ושעה", date:"תאריך", time:"שעה", route:"מסלול", pointA:"נקודה א׳", pointB:"נקודה ב׳", addressA:"כתובת א׳", addressB:"כתובת ב׳", floorsAccess:"קומות וגישה", floorA:"נקודה א׳ · קומה", floorB:"נקודה ב׳ · קומה", hasLift:"יש מעלית", hardAccess:"גישה קשה", calcTitleShort:"מחשבון", chooseItems:"בחירת פריטים", nothingSelected:"לא נבחרו פריטים", totalApprox:"סה״כ משוער", clear:"נקה", copy:"העתק", whatsapp:"WhatsApp", sendWa:"שתף ב‑WhatsApp", copied:"הועתק", choose:"בחר פריטים", positions:"פריטים + מסלול", shareText:"חשב עלות הובלה", quoteTitle:"🚚 הצעת מחיר ProfiClick", moveDate:"📅 תאריך", from:"📍 נקודה א׳", to:"📍 נקודה ב׳", floor:"קומה", lift:"מעלית", yes:"כן", no:"לא", hard:"גישה קשה", itemList:"📦 פריטים", approx:"💰 מחיר משוער", reason:"המחיר כולל מסלול, קומות, מעלית, גישה קשה ופריטים שנבחרו.", link:"📲 חשב הובלה", minApplied:"הוחל מחיר מינימום", breakdown:"פירוט", itemsWord:"פריטים", routeWord:"מסלול", floorsWord:"קומות", boxes:"ארגזים", quantity:"כמות"}
+const langs=["ru","en","he"];
+let lang=(()=>{try{return localStorage.getItem("executor_lang")||"ru"}catch(e){return"ru"}})();
+const tr={
+ru:{profileTitle:"Профиль исполнителя",company:"Компания",phone:"Телефон",city:"Базовый город",radius:"Радиус",maxRooms:"Макс. объём",car:"Машина",save:"Сохранить",workSettings:"Настройки работы",smallMove:"Малые перевозки",twoRooms:"До 2 комнат",piano:"Пианино",noLift:"Без лифта",packing:"Упаковка",assembly:"Сборка мебели",subscription:"Подписка исполнителя",subNote:"Бесплатно: 3 заявки/мес · Plus: безлимит",ordersTitle:"Заказы",newOrders:"Новые",inWork:"В работе",done:"Архив",reviewsTitle:"Рейтинг и отзывы",rating:"Рейтинг",jobs:"Заказов",trust:"Доверие",navProfile:"Профиль",navSettings:"Настройки",navOrders:"Заказы",navReviews:"Рейтинг",saved:"Сохранено",free:"Свободен",busy:"Занят",plus:"Plus активен",verified:"Проверенный",accept:"Принять",decline:"Отказаться",floor:"этаж",lift:"лифт",items:"вещи"},
+en:{profileTitle:"Executor profile",company:"Company",phone:"Phone",city:"Base city",radius:"Radius",maxRooms:"Max volume",car:"Vehicle",save:"Save",workSettings:"Work settings",smallMove:"Small moves",twoRooms:"Up to 2 rooms",piano:"Piano",noLift:"No elevator",packing:"Packing",assembly:"Furniture assembly",subscription:"Executor subscription",subNote:"Free: 3 requests/month · Plus: unlimited",ordersTitle:"Orders",newOrders:"New",inWork:"In progress",done:"Archive",reviewsTitle:"Rating and reviews",rating:"Rating",jobs:"Jobs",trust:"Trust",navProfile:"Profile",navSettings:"Settings",navOrders:"Orders",navReviews:"Rating",saved:"Saved",free:"Available",busy:"Busy",plus:"Plus active",verified:"Verified",accept:"Accept",decline:"Decline",floor:"floor",lift:"elevator",items:"items"},
+he:{profileTitle:"פרופיל מבצע",company:"חברה",phone:"טלפון",city:"עיר בסיס",radius:"רדיוס",maxRooms:"נפח מקסימלי",car:"רכב",save:"שמור",workSettings:"הגדרות עבודה",smallMove:"הובלות קטנות",twoRooms:"עד 2 חדרים",piano:"פסנתר",noLift:"בלי מעלית",packing:"אריזה",assembly:"הרכבת רהיטים",subscription:"מנוי מבצע",subNote:"חינם: 3 פניות בחודש · Plus: ללא הגבלה",ordersTitle:"הזמנות",newOrders:"חדשות",inWork:"בעבודה",done:"ארכיון",reviewsTitle:"דירוג וביקורות",rating:"דירוג",jobs:"עבודות",trust:"אמון",navProfile:"פרופיל",navSettings:"הגדרות",navOrders:"הזמנות",navReviews:"דירוג",saved:"נשמר",free:"פנוי",busy:"עסוק",plus:"Plus פעיל",verified:"מאומת",accept:"קבל",decline:"דחה",floor:"קומה",lift:"מעלית",items:"פריטים"}
 };
-const cities = [
-  ["haifa",{ru:"Хайфа",en:"Haifa",he:"חיפה"}],["telaviv",{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"}],["hadera",{ru:"Хадера",en:"Hadera",he:"חדרה"}],["netanya",{ru:"Нетания",en:"Netanya",he:"נתניה"}],["jerusalem",{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}],["ashdod",{ru:"Ашдод",en:"Ashdod",he:"אשדוד"}],["beer",{ru:"Беэр-Шева",en:"Beer Sheva",he:"באר שבע"}],["rishon",{ru:"Ришон",en:"Rishon LeZion",he:"ראשון לציון"}],["petah",{ru:"Петах-Тиква",en:"Petah Tikva",he:"פתח תקווה"}],["holon",{ru:"Холон",en:"Holon",he:"חולון"}]
-];
-const itemsData = [
-  {key:"fridge",cat:{ru:"Холодильник",en:"Refrigerator",he:"מקרר"}, opts:[["fridge_s",{ru:"250–350 л",en:"250–350 L",he:"250–350 ליטר"},250],["fridge_m",{ru:"350–500 л",en:"350–500 L",he:"350–500 ליטר"},300],["fridge_l",{ru:"500–650 л",en:"500–650 L",he:"500–650 ליטר"},380],["fridge_side",{ru:"Side-by-Side",en:"Side-by-Side",he:"סייד ביי סייד"},500]]},
-  {key:"washer",cat:{ru:"Стиральная машина",en:"Washing machine",he:"מכונת כביסה"}, opts:[["washer_s",{ru:"до 6 кг",en:"up to 6 kg",he:"עד 6 ק״ג"},300],["washer_m",{ru:"7–9 кг",en:"7–9 kg",he:"7–9 ק״ג"},350],["washer_l",{ru:"10+ кг",en:"10+ kg",he:"10+ ק״ג"},420]]},
-  {key:"dryer",cat:{ru:"Сушильная машина",en:"Dryer",he:"מייבש כביסה"}, opts:[["dryer_s",{ru:"маленькая",en:"small",he:"קטן"},280],["dryer_m",{ru:"средняя",en:"medium",he:"בינוני"},330],["dryer_l",{ru:"большая",en:"large",he:"גדול"},400]]},
-  {key:"sofa",cat:{ru:"Диван",en:"Sofa",he:"ספה"}, opts:[["sofa_2",{ru:"2-местный",en:"2-seat",he:"דו מושבית"},350],["sofa_3",{ru:"3-местный",en:"3-seat",he:"תלת מושבית"},450],["sofa_corner",{ru:"угловой",en:"corner sofa",he:"ספה פינתית"},650],["sofa_u",{ru:"П-образный",en:"U-shaped",he:"ספה בצורת U"},850]]},
-  {key:"wardrobe",cat:{ru:"Шкаф",en:"Wardrobe",he:"ארון"}, opts:[["ward_2",{ru:"2 двери",en:"2 doors",he:"2 דלתות"},300],["ward_3",{ru:"3 двери",en:"3 doors",he:"3 דלתות"},420],["ward_4",{ru:"4 двери",en:"4 doors",he:"4 דלתות"},550],["ward_c2",{ru:"купе 2 двери",en:"sliding 2 doors",he:"הזזה 2 דלתות"},480],["ward_c3",{ru:"купе 3 двери",en:"sliding 3 doors",he:"הזזה 3 דלתות"},650]]},
-  {key:"bed",cat:{ru:"Кровать",en:"Bed",he:"מיטה"}, opts:[["bed_1",{ru:"односпальная",en:"single",he:"יחיד"},220],["bed_15",{ru:"полуторная",en:"small double",he:"מיטה וחצי"},280],["bed_2",{ru:"двуспальная",en:"double",he:"זוגית"},350],["bed_king",{ru:"King Size",en:"King Size",he:"קינג סייז"},450]]},
-  {key:"mattress",cat:{ru:"Матрас",en:"Mattress",he:"מזרן"}, opts:[["mat_90",{ru:"90×190",en:"90×190",he:"90×190"},120],["mat_120",{ru:"120×190",en:"120×190",he:"120×190"},150],["mat_140",{ru:"140×190",en:"140×190",he:"140×190"},180],["mat_160",{ru:"160×200",en:"160×200",he:"160×200"},220],["mat_180",{ru:"180×200",en:"180×200",he:"180×200"},260]]},
-  {key:"tv",cat:{ru:"Телевизор",en:"TV",he:"טלוויזיה"}, opts:[["tv_43",{ru:"до 43″",en:"up to 43″",he:"עד 43″"},120],["tv_65",{ru:"50–65″",en:"50–65″",he:"50–65″"},180],["tv_85",{ru:"70–85″",en:"70–85″",he:"70–85″"},280]]},
-  {key:"table",cat:{ru:"Стол",en:"Table",he:"שולחן"}, opts:[["table_s",{ru:"маленький",en:"small",he:"קטן"},150],["table_4",{ru:"обеденный на 4",en:"dining for 4",he:"אוכל ל-4"},250],["table_6",{ru:"обеденный на 6",en:"dining for 6",he:"אוכל ל-6"},350],["table_big",{ru:"большой раскладной",en:"large extendable",he:"גדול נפתח"},450]]}
-];
-let selected = new Map();
-let boxesCount = 0;
-const routePrice = {"haifa-telaviv":500,"telaviv-haifa":500,"haifa-hadera":300,"hadera-haifa":300,"haifa-netanya":450,"netanya-haifa":450,"hadera-telaviv":380,"telaviv-hadera":380,"netanya-telaviv":330,"telaviv-netanya":330,"jerusalem-telaviv":500,"telaviv-jerusalem":500,"ashdod-telaviv":450,"telaviv-ashdod":450,"beer-telaviv":800,"telaviv-beer":800,"rishon-telaviv":250,"telaviv-rishon":250,"petah-telaviv":250,"telaviv-petah":250,"holon-telaviv":220,"telaviv-holon":220};
-const $ = id => document.getElementById(id);
-const T = k => tr[lang][k] || k;
-function cityName(id){ const c = cities.find(x=>x[0]===id); return c ? c[1][lang] : ""; }
-function init(){
-  setDefaultDate(); fillCities(); fillFloors(); buildItems();
-  document.querySelectorAll("select,input").forEach(el=>{el.addEventListener("change",render);el.addEventListener("input",render);});
-  $("openItems").addEventListener("click",()=>{$("sheetBg").classList.add("show");buildItems();});
-  $("closeItems").addEventListener("click",()=>$("sheetBg").classList.remove("show"));
-  $("sheetBg").addEventListener("click",e=>{if(e.target.id==="sheetBg") $("sheetBg").classList.remove("show")});
-  $("clearBtn").addEventListener("click",clearCalc); $("copyBtn").addEventListener("click",copyCalc); $("shareApp").addEventListener("click",shareApp);
-  document.querySelectorAll(".langChip").forEach(btn=>{
-    btn.addEventListener("click", function(){ setLang(this.dataset.lang); });
-    btn.addEventListener("touchend", function(e){ e.preventDefault(); setLang(this.dataset.lang); }, {passive:false});
-  });
-  applyLang(); render();
-}
-
-const pcMonthNames = {
-  ru:["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"],
-  en:["January","February","March","April","May","June","July","August","September","October","November","December"],
-  he:["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"]
+const cityNames={
+haifa:{ru:"Хайфа",en:"Haifa",he:"חיפה"},
+telaviv:{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"},
+netanya:{ru:"Нетания",en:"Netanya",he:"נתניה"},
+jerusalem:{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}
 };
-function pcFormatDate(iso){
-  if(!iso) return "";
-  const p = iso.split("-").map(Number);
-  const y=p[0], m=p[1], d=p[2];
-  if(!y || !m || !d) return iso;
-  if(lang==="en") return `${pcMonthNames.en[m-1]} ${d}, ${y}`;
-  if(lang==="he") return `${d} ${pcMonthNames.he[m-1]} ${y}`;
-  return `${d} ${pcMonthNames.ru[m-1]} ${y} г.`;
-}
-function pcSetDate(iso){
-  const el=$("moveDate");
-  if(!el) return;
-  el.dataset.iso = iso;
-  el.value = pcFormatDate(iso);
-}
-function pcRefreshDate(){
-  const el=$("moveDate");
-  if(el && el.dataset.iso) el.value = pcFormatDate(el.dataset.iso);
-}
-
-function setDefaultDate(){ const d = new Date(); d.setDate(d.getDate()+1); pcSetDate(d.toISOString().slice(0,10)); }
-function fillCities(){ const vals = {cityA:$("cityA").value || "haifa", cityB:$("cityB").value || "netanya"}; for(const id of ["cityA","cityB"]){ const s=$(id); s.innerHTML=""; cities.forEach(([v,n])=>s.add(new Option(n[lang],v))); s.value = vals[id] || (id==="cityA"?"haifa":"netanya");}}
-function floorZeroLabel(){
-  if(lang==="en") return "0 / house";
-  if(lang==="he") return "0 / בית";
-  return "0 / дом";
-}
-function fillFloors(){
-  for(const id of ["floorA","floorB"]){
-    const old = $(id).value || "0";
-    const s=$(id); s.innerHTML="";
-    for(let i=0;i<=30;i++) s.add(new Option(i===0 ? floorZeroLabel() : String(i),String(i)));
-    s.value=old;
-  }
-}
-function selectOption(cat,id,name,price){
-  cat.opts.forEach(([oid])=>selected.delete(oid));
-  selected.set(id,{key:cat.key,catObj:cat.cat,nameObj:name,price});
-  render(); buildItems();
-  $("sheetBg").classList.remove("show");
-  setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);
-}
-function buildItems(){
-  const box=$("itemsList"); box.innerHTML="";
-  itemsData.forEach(cat=>{
-    const det=document.createElement("details"); det.className="cat"; det.dataset.key=cat.key;
-    const chosen = Array.from(selected.values()).find(x=>x.key===cat.key);
-    det.innerHTML=`<summary>${cat.cat[lang]}${chosen ? '<span class="chosen">✓ '+(chosen.nameObj ? chosen.nameObj[lang] : chosen.name)+' · ₪'+chosen.price+'</span>' : ""}</summary>`;
-    cat.opts.forEach(([id,name,price])=>{
-      const active = selected.has(id);
-      const lab=document.createElement("div"); lab.className="opt"+(active?" active":"");
-      lab.innerHTML=`<span class="checkMark"></span><span>${name[lang]}</span><b>₪${price}</b>`;
-      lab.addEventListener("click",()=>selectOption(cat,id,name,price));
-      det.appendChild(lab);
-    });
-    box.appendChild(det);
-  });
-  const boxes=document.createElement("details"); boxes.className="cat";
-  boxes.innerHTML=`<summary>${T("boxes")}${boxesCount ? '<span class="chosen">✓ '+boxesCount+' · ₪'+boxesPrice(boxesCount)+'</span>' : ""}</summary>
-    <div class="boxControl">
-      <div class="stepper">
-        <button type="button" id="boxMinus">−</button>
-        <div class="num"><span id="boxNum">${boxesCount}</span><br><small>${T("quantity")} · ₪${boxesPrice(boxesCount)}</small></div>
-        <button type="button" id="boxPlus">+</button>
-      </div>
-    </div>`;
-  box.appendChild(boxes);
-  $("boxMinus").onclick=()=>{boxesCount=Math.max(0,boxesCount-5); render(); buildItems(); if(boxesCount>0){$("sheetBg").classList.remove("show"); setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);}};
-  $("boxPlus").onclick=()=>{boxesCount=Math.min(100,boxesCount+5); render(); buildItems(); $("sheetBg").classList.remove("show"); setTimeout(()=>$("calcCard").scrollIntoView({behavior:"smooth",block:"start"}),50);};
-}
-function boxesPrice(n){ if(n<=0)return 0; if(n<=10)return 50; if(n<=20)return 100; if(n<=30)return 150; if(n<=50)return 250; if(n<=100)return 500; return n*5; }
-function calc(){
-  let itemsSum=0; selected.forEach(x=>itemsSum+=x.price); itemsSum += boxesPrice(boxesCount);
-  const itemCount = selected.size + (boxesCount>0 ? Math.ceil(boxesCount/10) : 0);
-  if(itemCount===0) return {total:0, itemsSum:0, route:0, floors:0, hard:0, min:0, minApplied:false, itemCount:0};
-  const cityA=$("cityA").value, cityB=$("cityB").value;
-  const route = routePrice[cityA+"-"+cityB] ?? (cityA===cityB ? 80 : 250);
-  const floorA=Number($("floorA").value||0), floorB=Number($("floorB").value||0);
-  let rate = 40; if(itemCount>=3) rate=80; if(itemCount>=6 || itemsSum>=1500) rate=120;
-  let floors=0; if(!$("liftA").checked) floors += floorA*rate; if(!$("liftB").checked) floors += floorB*rate;
-  if(boxesCount>0){ const noLiftFloors = (!$("liftA").checked?floorA:0)+(!$("liftB").checked?floorB:0); floors += Math.round(boxesCount*noLiftFloors*2);}
-  let hard=0; if($("hardA").checked) hard+=80; if($("hardB").checked) hard+=80;
-  let raw = itemsSum + route + floors + hard;
-
-  // Simple real-world minimums:
-  // local job: minimum call-out ₪250
-  // nearby city: moderate minimum
-  // long city-to-city: higher minimum
-  let min = 250;
-  if(route >= 180) min = 500;
-  if(route >= 350) min = 750;
-  if(route >= 600) min = 1000;
-
-  // For multiple items, raise the minimum gently, but do not overinflate local jobs.
-  if(itemCount >= 3) min = Math.max(min, cityA===cityB ? 650 : 900);
-  if(itemCount >= 6) min = Math.max(min, cityA===cityB ? 900 : 1200);
-
-  const total=Math.max(raw,min); return {total,itemsSum,route,floors,hard,min,minApplied:total>raw,itemCount};
-}
-function removeSelected(id){ selected.delete(id); render(); buildItems(); }
-function render(){
-  const c=calc(); $("total").textContent="₪"+c.total; $("note").textContent = c.itemCount ? `${c.itemCount} ${T("positions")}` : T("choose");
-  const tags=$("pickedTags"); tags.innerHTML="";
-  const picked=Array.from(selected.entries());
-  if(!picked.length && boxesCount===0){ tags.innerHTML=`<span class="empty">${T("nothingSelected")}</span>`; }
-  picked.forEach(([id,x])=>{ const cn=x.catObj?x.catObj[lang]:x.cat; const nn=x.nameObj?x.nameObj[lang]:x.name; tags.innerHTML += `<span class="tag">✓ ${cn} · ${nn} · ₪${x.price}<button class="x" onclick="removeSelected('${id}')">×</button></span>`; });
-  if(boxesCount>0){ tags.innerHTML += `<span class="tag">✓ ${T("boxes")} · ${boxesCount} · ₪${boxesPrice(boxesCount)}<button class="x" onclick="boxesCount=0;render();buildItems()">×</button></span>`; }
-  $("breakdown").textContent = c.itemCount ? `${T("breakdown")}: ${T("itemsWord")} ₪${c.itemsSum} · ${T("routeWord")} ₪${c.route} · ${T("floorsWord")} ₪${c.floors}${c.minApplied ? " · "+T("minApplied")+" ₪"+c.min : ""}` : "—";
-}
-function langLabel(){ return lang==="ru" ? "RU" : (lang==="en" ? "EN" : "HE"); }
-function setLang(nextLang){
-  if(!langs.includes(nextLang)) nextLang = "ru";
-  lang = nextLang;
-  try { localStorage.setItem("pc_lang", lang); } catch(e) {}
-  applyLang();
-}
-function updateLangButtons(){
-  document.querySelectorAll(".langChip").forEach(btn=>{
-    btn.classList.toggle("active", btn.dataset.lang === lang);
-  });
-}
+const orders=[
+{id:"PC-2401",route:{ru:"Хайфа → Нетания",en:"Haifa → Netanya",he:"חיפה → נתניה"},price:1680,status:"new",meta:{ru:"6 вещей · 2 этаж → 5 этаж · лифт есть",en:"6 items · floor 2 → floor 5 · elevator",he:"6 פריטים · קומה 2 → קומה 5 · מעלית"}},
+{id:"PC-2402",route:{ru:"Хайфа → Хайфа",en:"Haifa → Haifa",he:"חיפה → חיפה"},price:880,status:"new",meta:{ru:"2 вещи · 3 этаж → 5 этаж · лифт есть",en:"2 items · floor 3 → floor 5 · elevator",he:"2 פריטים · קומה 3 → קומה 5 · מעלית"}},
+{id:"PC-2398",route:{ru:"Хайфа → Хадера",en:"Haifa → Hadera",he:"חיפה → חדרה"},price:1250,status:"work",meta:{ru:"Шкаф, диван, коробки · без лифта",en:"Wardrobe, sofa, boxes · no elevator",he:"ארון, ספה, ארגזים · בלי מעלית"}},
+{id:"PC-2380",route:{ru:"Нетания → Тель-Авив",en:"Netanya → Tel Aviv",he:"נתניה → תל אביב"},price:2100,status:"done",meta:{ru:"Выполнен · оценка 5★",en:"Completed · 5★ rating",he:"בוצע · דירוג 5★"}}
+];
+const $=id=>document.getElementById(id);
+const T=k=>tr[lang][k]||k;
+let orderFilter="new";
 function applyLang(){
-  document.documentElement.lang=lang;
-  document.documentElement.dir="ltr";
-  document.body.classList.toggle("rtlContent", lang==="he");
-  $("appTitle").innerHTML=T("title");
-  if($("appSub")) $("appSub").textContent=T("sub");
-  updateLangButtons();
-  document.querySelectorAll("[data-t]").forEach(el=>{el.textContent=T(el.dataset.t);});
-  $("toast").textContent=T("copied");
-  fillCities();
-  fillFloors();
-  pcRefreshDate();
-  buildItems();
-  render();
+ document.documentElement.lang=lang; document.documentElement.dir="ltr"; document.body.classList.toggle("rtlContent",lang==="he");
+ document.querySelectorAll(".langChip").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+ document.querySelectorAll("[data-t]").forEach(el=>el.textContent=T(el.dataset.t));
+ $("verifiedPill").textContent=T("verified"); $("statusBtn").textContent=T($("statusBtn").dataset.busy==="1"?"busy":"free"); $("subscriptionBtn").textContent=T("plus");
+ updateMeta(); renderOrders();
 }
-function cycleLang(){
-  const idx = langs.indexOf(lang);
-  setLang(langs[(idx + 1) % langs.length]);
+function updateMeta(){
+ const c=$("city").value; $("profileName").textContent=$("companyName").value||"ProfiClick";
+ $("profileMeta").textContent=(cityNames[c]?.[lang]||c)+" · "+$("radius").value;
 }
-function clearCalc(){ selected.clear(); boxesCount=0; $("addrA").value=""; $("addrB").value=""; $("floorA").value="0"; $("floorB").value="0"; $("liftA").checked=true; $("liftB").checked=true; $("hardA").checked=false; $("hardB").checked=false; buildItems(); render();}
-function orderId(){
-  const d = new Date();
-  return "PC-" + d.getFullYear().toString().slice(2) + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0") + "-" + String(d.getHours()).padStart(2,"0") + String(d.getMinutes()).padStart(2,"0");
+function renderOrders(){
+ const box=$("ordersList"); box.innerHTML="";
+ orders.filter(o=>o.status===orderFilter).forEach(o=>{
+  const div=document.createElement("div"); div.className="order";
+  div.innerHTML=`<div class="orderTop"><span>${o.id}</span><span class="orderPrice">₪${o.price}</span></div>
+  <div class="orderMeta"><b>${o.route[lang]}</b><br>${o.meta[lang]}</div>
+  <div class="orderDetails"><div class="mini"><small>${T("items")}</small><b>${o.status==="new"?"2–6":"—"}</b></div><div class="mini"><small>WhatsApp</small><b>050-XXX</b></div></div>
+  ${o.status==="new"?`<div class="actions"><button class="accept">${T("accept")}</button><button class="decline">${T("decline")}</button></div>`:""}`;
+  div.querySelector(".accept")?.addEventListener("click",()=>toast(`${o.id} · ${T("accept")}`));
+  div.querySelector(".decline")?.addEventListener("click",()=>toast(`${o.id} · ${T("decline")}`));
+  box.appendChild(div);
+ });
+ if(!box.innerHTML) box.innerHTML=`<div class="order"><div class="orderMeta">—</div></div>`;
 }
-function quoteText(){
-  const c=calc();
-  const picked=Array.from(selected.values()).map(x=>"• "+(x.catObj?x.catObj[lang]:x.cat)+" · "+(x.nameObj?x.nameObj[lang]:x.name)+" · ₪"+x.price);
-  if(boxesCount>0)picked.push("• "+T("boxes")+" · "+boxesCount+" · ₪"+boxesPrice(boxesCount));
-  const id = orderId();
-  const a = `${cityName($("cityA").value)}${$("addrA").value ? ", "+$("addrA").value : ""}`;
-  const b = `${cityName($("cityB").value)}${$("addrB").value ? ", "+$("addrB").value : ""}`;
-
-  if(lang==="en"){
-    return `ProfiClick — moving request
-${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
-
-POINT A
-${a}
-Floor ${$("floorA").value} · elevator ${$("liftA").checked ? "yes" : "no"} · ${$("hardA").checked ? "difficult access" : "normal access"}
-
-POINT B
-${b}
-Floor ${$("floorB").value} · elevator ${$("liftB").checked ? "yes" : "no"} · ${$("hardB").checked ? "difficult access" : "normal access"}
-
-ITEMS: ${picked.length}
-${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " more" : ""}
-
-APPROX. PRICE: ₪${c.total}
-
-Open ProfiClick and enter order code:
-${id}`;
-  }
-
-  if(lang==="he"){
-    return `ProfiClick — בקשת הובלה
-${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
-
-נקודה א׳
-${a}
-קומה ${$("floorA").value} · מעלית ${$("liftA").checked ? "כן" : "לא"} · ${$("hardA").checked ? "גישה קשה" : "גישה רגילה"}
-
-נקודה ב׳
-${b}
-קומה ${$("floorB").value} · מעלית ${$("liftB").checked ? "כן" : "לא"} · ${$("hardB").checked ? "גישה קשה" : "גישה רגילה"}
-
-פריטים: ${picked.length}
-${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) : ""}
-
-מחיר משוער: ₪${c.total}
-
-פתח את ProfiClick והזן קוד הזמנה:
-${id}`;
-  }
-
-  return `ProfiClick — заявка на перевозку
-${id} · ${$("moveDate").value || "-"} · ${$("moveTime").value || ""}
-
-ТОЧКА A
-${a}
-Этаж ${$("floorA").value} · лифт ${$("liftA").checked ? "да" : "нет"} · ${$("hardA").checked ? "сложный доступ" : "обычный доступ"}
-
-ТОЧКА B
-${b}
-Этаж ${$("floorB").value} · лифт ${$("liftB").checked ? "да" : "нет"} · ${$("hardB").checked ? "сложный доступ" : "обычный доступ"}
-
-ВЕЩИ: ${picked.length}
-${picked.slice(0,6).join("\n")}${picked.length>6 ? "\n• +" + (picked.length-6) + " ещё" : ""}
-
-ПРИМЕРНАЯ ЦЕНА: ₪${c.total}
-
-Откройте ProfiClick и введите код заказа:
-${id}`;
+function showView(name){
+ document.querySelectorAll(".view").forEach(v=>v.classList.add("hide"));
+ $("view"+name).classList.remove("hide");
+ document.querySelectorAll(".navBtn").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
 }
-
-function copyCalc(){
-  navigator.clipboard?.writeText(quoteText());
-  const t = $("toast");
-  t.innerHTML = `<div>✅ ${T("copied")}</div><button class="toastAction" id="toastWaBtn" type="button"><svg class="waSvg" viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="15" fill="#25D366"/><path fill="#fff" d="M22.6 18.8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.5-.5.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.2 2 3.1 4.9 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3 0-.1-.2-.2-.5-.4z"/><path fill="#fff" d="M16 5.3A10.6 10.6 0 0 0 7 21.5L5.7 26l4.6-1.2A10.6 10.6 0 1 0 16 5.3zm0 19.4c-1.9 0-3.6-.6-5.1-1.6l-.4-.3-2.7.7.7-2.6-.3-.4A8.7 8.7 0 1 1 16 24.7z"/></svg>${T("sendWa") || "WhatsApp"}</button>`;
-  t.classList.add("show");
-  const b = $("toastWaBtn");
-  if(b){ b.addEventListener("click", function(ev){ ev.preventDefault(); ev.stopPropagation(); sendWhatsApp(); }, {once:false}); }
-  clearTimeout(window.__pcToastTimer);
-  window.__pcToastTimer = setTimeout(()=>t.classList.remove("show"),8000);
-}
-function sendWhatsApp(){
-  const url = "https://wa.me/?text=" + encodeURIComponent(quoteText());
-  window.location.href = url;
-}
-function shareApp(){
-  const text=`ProfiClick`;
-  if(navigator.share) navigator.share({title:"ProfiClick",text,url:APP_URL}).catch(()=>{});
-  else {navigator.clipboard?.writeText(APP_URL); $("toast").classList.add("show"); setTimeout(()=>$("toast").classList.remove("show"),1400);}
-}
-if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
-init();
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
+document.querySelectorAll(".langChip").forEach(btn=>btn.addEventListener("click",()=>{lang=btn.dataset.lang;try{localStorage.setItem("executor_lang",lang)}catch(e){} applyLang();}));
+document.querySelectorAll(".navBtn").forEach(btn=>btn.addEventListener("click",()=>showView(btn.dataset.view)));
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{orderFilter=btn.dataset.filter;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b===btn));renderOrders();}));
+["companyName","city","radius"].forEach(id=>$(id).addEventListener("input",updateMeta));
+$("saveProfile").addEventListener("click",()=>toast(T("saved")));
+$("statusBtn").addEventListener("click",()=>{$("statusBtn").dataset.busy=$("statusBtn").dataset.busy==="1"?"0":"1";applyLang();});
+$("plusSwitch").addEventListener("click",()=>$("plusSwitch").classList.toggle("on"));
+$("photoInput").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("avatarImg").src=r.result;$("avatarImg").classList.remove("hide");$("avatarLetters").classList.add("hide")};r.readAsDataURL(f);});
+applyLang();
 </script>
 </body>
 </html>
