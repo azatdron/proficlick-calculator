@@ -1,260 +1,62 @@
 <!doctype html>
-<html lang="ru" dir="ltr">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#4f8f33">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ProfiClick Executor">
+<meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Executor v1</title>
+<title>ProfiClick Swipe Shell v1</title>
 <style>
-:root{
-  --g:#5b9638;--g2:#2f6623;--bg:#f2faf0;--card:#fff;--ink:#172033;
-  --muted:#717988;--line:#dfead8;--soft:#f7fbf3;--red:#b42318;--orange:#9a6700;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
-body{overflow:auto}
-.app{width:100%;max-width:430px;margin:0 auto;min-height:100vh;background:linear-gradient(180deg,#eff8ec,#fbfdf9);padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom) + 18px)}
-.header{height:66px;direction:ltr;text-align:left;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#5b9638,#2f6623);border-radius:22px;color:#fff;padding:9px 11px;margin-bottom:10px;position:sticky;top:0;z-index:10}
-.brand{font-size:24px;font-weight:780;letter-spacing:-.02em;flex:1}
-.langGroup{direction:ltr;display:flex;gap:4px;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
-.langChip{width:31px;height:31px;border:0;border-radius:999px;background:transparent;color:#fff;font-size:10px;font-weight:950}
-.langChip.active{background:rgba(255,255,255,.26)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;margin-bottom:10px;box-shadow:0 10px 26px rgba(40,80,30,.05)}
-.profileTop{display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:center}
-.avatar{width:74px;height:74px;border-radius:24px;background:#edf8e8;border:1px dashed #b8d6aa;display:flex;align-items:center;justify-content:center;color:#2f6f21;font-size:28px;font-weight:950;overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.hiddenFile{display:none}
-.name{font-size:22px;font-weight:900;letter-spacing:-.03em;margin:0}
-.meta{color:var(--muted);font-size:12px;font-weight:800;margin-top:3px}
-.trust{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#eef8e8;color:#2f6f21;padding:6px 9px;font-size:11px;font-weight:950}
-.pill.orange{background:#fff4df;color:#9a6700}.pill.gray{background:#f1f4ef;color:#5f6b5a}
-.roleRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.roleBtn,.smallBtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:16px;padding:11px 8px;font-size:13px;font-weight:950}
-.roleBtn.active,.smallBtn.active{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}
-.title{font-size:18px;font-weight:900;margin:0 0 9px;letter-spacing:-.025em}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.field{border:1px solid var(--line);border-radius:16px;background:#fff;padding:9px 10px;min-height:50px}
-.field label{display:block;color:var(--muted);font-size:10px;font-weight:900;margin-bottom:4px}
-input,select,textarea{width:100%;border:0;outline:0;background:transparent;font-size:14px;font-weight:900;color:var(--ink);font-family:inherit;padding:0}
-textarea{resize:none;line-height:1.35;min-height:66px}
-.checkGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.checkChip{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px;font-size:12px;font-weight:900;color:var(--ink)}
-.checkChip input{width:18px;height:18px;accent-color:var(--g);flex:0 0 18px}
-.saveBtn{width:100%;border:0;border-radius:17px;background:linear-gradient(var(--g),var(--g2));color:#fff;font-size:15px;font-weight:950;padding:13px;margin-top:10px}
-.sectionTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
-.tab{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px 4px;font-size:12px;font-weight:950;color:var(--muted)}
-.tab.active{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}
-.statGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{border:1px solid var(--line);background:#fff;border-radius:18px;padding:10px;text-align:center}
-.stat b{display:block;font-size:20px;color:#2f6f21}.stat span{font-size:10px;color:var(--muted);font-weight:900}
-.order{border:1px solid var(--line);background:#fff;border-radius:18px;padding:11px;margin-bottom:8px}
-.orderTop{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:950}
-.orderPrice{color:#2f6f21;font-size:16px}
-.orderMeta{font-size:12px;color:var(--muted);font-weight:850;line-height:1.35;margin-top:5px}
-.orderDetails{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
-.mini{background:#f7fbf3;border:1px solid var(--line);border-radius:14px;padding:8px}
-.mini small{display:block;color:var(--muted);font-size:10px;font-weight:900}.mini b{display:block;font-size:12px;margin-top:2px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.accept,.decline{border:0;border-radius:15px;padding:11px;font-size:13px;font-weight:950}
-.accept{background:linear-gradient(var(--g),var(--g2));color:#fff}.decline{background:#f4f6f2;color:#5a6655}
-.payBox{background:#f8fbf5;border:1px solid var(--line);border-radius:18px;padding:12px}
-.payTop{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.payTop b{font-size:16px}.payTop span{font-size:12px;color:var(--muted);font-weight:850}
-.switch{width:52px;height:30px;border:0;border-radius:999px;background:#d9e4d3;position:relative}
-.switch:before{content:"";position:absolute;left:4px;top:4px;width:22px;height:22px;border-radius:999px;background:#fff;transition:.18s;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.switch.on{background:#5b9638}.switch.on:before{left:26px}
-.bottomNav{position:sticky;bottom:8px;z-index:12;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:22px;padding:6px;margin-top:12px}
-.navBtn{border:0;background:transparent;border-radius:16px;padding:9px 3px;color:var(--muted);font-size:10px;font-weight:950}
-.navBtn.active{background:#eaf6e4;color:#2f6f21}
-.toast{position:fixed;left:18px;right:18px;bottom:24px;background:#172033;color:#fff;border-radius:18px;padding:12px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:40}
-.toast.show{display:block}
-.rtlContent .card{direction:rtl;text-align:right}.rtlContent .sheet{direction:rtl;text-align:right}.rtlContent .toast{direction:rtl}
-.hide{display:none!important}
+:root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
+.app{width:100%;max-width:430px;height:100%;margin:0 auto;background:linear-gradient(180deg,#eff8ec,#fbfdf9);position:relative;overflow:hidden}
+.header{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 8px);height:62px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:22px;color:#fff;display:flex;align-items:center;gap:9px;padding:9px 11px;z-index:20;box-shadow:0 16px 34px rgba(47,102,35,.18)}
+.brand{font-size:24px;font-weight:820;letter-spacing:-.025em;flex:1}.rolePill{height:34px;border-radius:999px;background:rgba(255,255,255,.16);display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:950}
+.langGroup{display:flex;gap:4px;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}.langChip{width:30px;height:30px;border:0;border-radius:999px;background:transparent;color:#fff;font-size:10px;font-weight:950}.langChip.active{background:rgba(255,255,255,.26)}
+.swipeWrap{height:100%;width:200%;display:flex;transform:translateX(-50%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}.screen{width:50%;height:100%;position:relative;overflow:hidden;padding:calc(env(safe-area-inset-top) + 82px) 10px calc(env(safe-area-inset-bottom) + 14px)}
+.mapScreen{padding:0}.map{position:absolute;inset:0;background:linear-gradient(90deg,rgba(88,129,75,.13) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(rgba(88,129,75,.13) 1px,transparent 1px) 0 0/44px 44px,#eaf3e6}
+.map:before{content:"";position:absolute;inset:-60px;background:linear-gradient(28deg,transparent 0 41%,#fff 41.2% 43.6%,transparent 43.8%),linear-gradient(108deg,transparent 0 46%,#fff 46.2% 48.5%,transparent 48.7%),linear-gradient(-15deg,transparent 0 58%,rgba(255,255,255,.82) 58.2% 60.2%,transparent 60.4%),linear-gradient(72deg,transparent 0 35%,rgba(255,255,255,.75) 35.2% 37.2%,transparent 37.4%);opacity:.95}
+.road{position:absolute;background:#fff;border-radius:999px;box-shadow:0 0 0 3px rgba(212,225,205,.9)}.r1{height:16px;left:-30px;right:-30px;top:44%;transform:rotate(-8deg)}.r2{height:14px;left:-40px;right:-40px;top:68%;transform:rotate(12deg)}.r3{width:16px;top:-40px;bottom:-40px;left:52%;transform:rotate(9deg)}.r4{width:14px;top:-50px;bottom:-50px;left:24%;transform:rotate(-16deg)}
+.topStats{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 82px);z-index:5;display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.stat{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:9px 8px;box-shadow:0 10px 24px rgba(35,63,31,.08);text-align:center}.stat b{display:block;font-size:17px;color:#2f6f21}.stat span{font-size:10px;color:var(--muted);font-weight:900}
+.marker{position:absolute;z-index:3;display:flex;align-items:center;justify-content:center;animation:floaty 4s ease-in-out infinite}.car{width:38px;height:26px;border-radius:12px;background:linear-gradient(var(--g),var(--g2));box-shadow:0 12px 26px rgba(31,41,55,.16);position:relative}.car:before,.car:after{content:"";position:absolute;bottom:-4px;width:8px;height:8px;border-radius:50%;background:#263242}.car:before{left:7px}.car:after{right:7px}.orderDot{width:30px;height:30px;border-radius:12px;background:linear-gradient(#56a0ff,#2478ff);box-shadow:0 12px 26px rgba(31,41,55,.16);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:950}.urgent{background:linear-gradient(#f5c653,#d89b11)}
+.m1{left:22%;top:34%}.m2{left:68%;top:28%;animation-delay:.7s}.m3{left:52%;top:57%;animation-delay:1.2s}.m4{left:15%;top:70%}.m5{left:78%;top:62%;animation-delay:1.9s}.m6{left:37%;top:44%}.m7{left:62%;top:78%;animation-delay:.4s}.m8{left:30%;top:82%}
+.bottomSheet{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);z-index:7;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:26px;padding:11px;box-shadow:0 22px 54px rgba(35,63,31,.16)}.handle{width:42px;height:5px;border-radius:999px;background:#d5e4cf;margin:0 auto 10px}.sheetTitle{font-size:18px;font-weight:900;letter-spacing:-.025em;margin-bottom:8px}.modeRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.modeBtn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px 8px;font-size:13px;font-weight:950;color:var(--muted)}.modeBtn.active{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}.rangeRow{display:flex;align-items:center;gap:10px;margin-top:10px}.rangeRow span{font-size:12px;color:var(--muted);font-weight:900;min-width:56px}input[type=range]{width:100%;accent-color:var(--g)}.ctaRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.cta{border:0;border-radius:17px;padding:12px 7px;font-size:14px;font-weight:950}.cta.main{background:linear-gradient(var(--g),var(--g2));color:#fff}.cta.light{background:#eef8e8;color:#2f6f21}
+.profile{overflow:auto;-webkit-overflow-scrolling:touch}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:12px;margin-bottom:10px;box-shadow:0 10px 26px rgba(40,80,30,.05)}.profileTop{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:center}.ava{width:70px;height:70px;border-radius:24px;background:#eef8e8;color:#2f6f21;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:950}.name{font-size:22px;font-weight:900;letter-spacing:-.03em;margin:0}.meta{margin-top:3px;color:var(--muted);font-size:12px;font-weight:850}.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.pill{border-radius:999px;background:#eef8e8;color:#2f6f21;padding:6px 9px;font-size:11px;font-weight:950}.pill.gray{background:#f1f4ef;color:#5f6b5a}.title{font-size:18px;font-weight:900;margin:0 0 9px}.actionGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actionCard{border:1px solid var(--line);border-radius:18px;background:#fff;padding:12px;min-height:82px}.actionCard b{font-size:15px}.actionCard span{display:block;color:var(--muted);font-size:11px;font-weight:850;margin-top:5px;line-height:1.3}.bigButton{width:100%;border:0;border-radius:18px;background:linear-gradient(var(--g),var(--g2));color:#fff;font-size:15px;font-weight:950;padding:14px;margin-top:10px}.order{border:1px solid var(--line);border-radius:18px;background:#fff;padding:11px;margin-bottom:8px}.orderTop{display:flex;justify-content:space-between;font-size:13px;font-weight:950}.price{color:#2f6f21;font-size:16px}.orderMeta{color:var(--muted);font-size:12px;font-weight:850;margin-top:5px;line-height:1.35}
+.pageDots{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom) + 8px);transform:translateX(-50%);z-index:30;display:flex;gap:6px}.dot{width:7px;height:7px;border-radius:50%;background:rgba(23,32,51,.25)}.dot.active{background:#2f6f21;width:18px;border-radius:999px}.refresh{position:absolute;left:50%;top:calc(env(safe-area-inset-top) + 82px);transform:translate(-50%,-58px);z-index:40;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;font-size:12px;font-weight:950;color:#2f6f21;box-shadow:0 10px 24px rgba(35,63,31,.12);opacity:0;transition:.2s}.refresh.show{opacity:1;transform:translate(-50%,0)}.toast{position:absolute;left:18px;right:18px;bottom:calc(env(safe-area-inset-bottom) + 30px);background:#172033;color:#fff;border-radius:18px;padding:12px;text-align:center;font-size:13px;font-weight:850;display:none;z-index:50}.toast.show{display:block}@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}.rtlContent .profile .card{direction:rtl;text-align:right}.hide{display:none!important}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <div class="brand">ProfiClick</div>
-    <div class="langGroup">
-      <button class="langChip active" data-lang="ru" type="button">RU</button>
-      <button class="langChip" data-lang="en" type="button">EN</button>
-      <button class="langChip" data-lang="he" type="button">HE</button>
-    </div>
+<div class="app" id="app">
+  <div class="header"><div class="brand">ProfiClick</div><div class="rolePill" id="rolePill">Заказчик</div><div class="langGroup"><button class="langChip active" data-lang="ru">RU</button><button class="langChip" data-lang="en">EN</button><button class="langChip" data-lang="he">HE</button></div></div>
+  <div class="refresh" id="refresh">Обновление…</div>
+  <div class="swipeWrap" id="swipeWrap">
+    <section class="screen profile" id="profileScreen">
+      <div class="card"><div class="profileTop"><div class="ava">AZ</div><div><h1 class="name" id="profileName">Моя страница</h1><div class="meta" id="profileMeta">Заказчик · Хайфа</div><div class="pills"><span class="pill">★ 4.9</span><span class="pill gray" id="historyPill">12 заказов</span></div></div></div><button class="bigButton" id="roleToggle">Показать режим исполнителя</button></div>
+      <div class="card customerBox"><div class="title">Заказчик</div><div class="actionGrid"><div class="actionCard"><b>Создать заказ</b><span>Открыть калькулятор v7.4.62</span></div><div class="actionCard"><b>Мои заявки</b><span>Активные и завершённые перевозки</span></div></div><button class="bigButton" id="createOrder">Создать новый заказ</button></div>
+      <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
+      <div class="card"><div class="title">Активность</div><div class="order"><div class="orderTop"><span>PC-2401</span><span class="price">₪1680</span></div><div class="orderMeta">Хайфа → Нетания · 6 вещей · ждёт отклика</div></div><div class="order"><div class="orderTop"><span>PC-2398</span><span class="price">₪1250</span></div><div class="orderMeta">Хайфа → Хадера · исполнитель найден</div></div></div>
+    </section>
+    <section class="screen mapScreen" id="mapScreen"><div class="map"><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div><div class="topStats"><div class="stat"><b id="onlineCount">42</b><span>онлайн</span></div><div class="stat"><b id="ordersCount">18</b><span>заявок</span></div><div class="stat"><b id="nearCount">7</b><span>рядом</span></div></div><div class="marker m1"><div class="car"></div></div><div class="marker m2"><div class="car"></div></div><div class="marker m3"><div class="orderDot">•</div></div><div class="marker m4"><div class="car"></div></div><div class="marker m5"><div class="orderDot urgent">•</div></div><div class="marker m6"><div class="car"></div></div><div class="marker m7"><div class="orderDot">•</div></div><div class="marker m8"><div class="car"></div></div></div><div class="bottomSheet"><div class="handle"></div><div class="sheetTitle" id="sheetTitle">Живая карта ProfiClick</div><div class="modeRow"><button class="modeBtn active">Перевозчики</button><button class="modeBtn">Заявки</button></div><div class="rangeRow"><span>Радиус</span><input id="radius" type="range" min="1" max="100" value="25"><span id="radiusText">25 км</span></div><div class="ctaRow"><button class="cta main" id="mainCta">Мне нужна перевозка</button><button class="cta light" id="profileCta">Моя страница</button></div></div></section>
   </div>
-
-  <section class="card">
-    <div class="profileTop">
-      <label class="avatar" id="avatarBox">
-        <span id="avatarLetters">PC</span>
-        <img id="avatarImg" class="hide" alt="">
-        <input id="photoInput" class="hiddenFile" type="file" accept="image/*">
-      </label>
-      <div>
-        <h1 class="name" id="profileName">ProfiMove Haifa</h1>
-        <div class="meta" id="profileMeta">Хайфа · радиус 100 км</div>
-        <div class="trust">
-          <span class="pill" id="verifiedPill">Проверенный</span>
-          <span class="pill orange" id="ratingPill">★ 4.9</span>
-          <span class="pill gray" id="trustPill">87 доверие</span>
-        </div>
-      </div>
-    </div>
-    <div class="roleRow">
-      <button class="roleBtn active" id="statusBtn" type="button">Свободен</button>
-      <button class="roleBtn" id="subscriptionBtn" type="button">Plus активен</button>
-    </div>
-  </section>
-
-  <section class="card view" id="viewProfile">
-    <div class="title" data-t="profileTitle">Профиль исполнителя</div>
-    <div class="grid2">
-      <div class="field"><label data-t="company">Компания</label><input id="companyName" value="ProfiMove Haifa"></div>
-      <div class="field"><label data-t="phone">Телефон</label><input id="phone" value="050-000-0000"></div>
-      <div class="field"><label data-t="city">Базовый город</label>
-        <select id="city">
-          <option value="haifa">Хайфа</option><option value="telaviv">Тель-Авив</option><option value="netanya">Нетания</option><option value="jerusalem">Иерусалим</option>
-        </select>
-      </div>
-      <div class="field"><label data-t="radius">Радиус</label>
-        <select id="radius"><option>30 км</option><option>50 км</option><option selected>100 км</option><option>Весь Израиль</option></select>
-      </div>
-      <div class="field"><label data-t="maxRooms">Макс. объём</label>
-        <select id="rooms"><option>до 1 комнаты</option><option selected>до 2 комнат</option><option>до 3 комнат</option><option>любые объёмы</option></select>
-      </div>
-      <div class="field"><label data-t="car">Машина</label>
-        <select id="car"><option>Фургон</option><option selected>Грузовик</option><option>2 грузчика + грузовик</option></select>
-      </div>
-    </div>
-    <div style="height:8px"></div>
-    <textarea id="about" placeholder="Коротко о компании">Перевозки по Хайфе и северу. Аккуратно, быстро, WhatsApp на связи.</textarea>
-    <button class="saveBtn" id="saveProfile" type="button" data-t="save">Сохранить</button>
-  </section>
-
-  <section class="card view hide" id="viewSettings">
-    <div class="title" data-t="workSettings">Настройки работы</div>
-    <div class="checkGrid">
-      <label class="checkChip"><input type="checkbox" checked> <span data-t="smallMove">Малые перевозки</span></label>
-      <label class="checkChip"><input type="checkbox" checked> <span data-t="twoRooms">До 2 комнат</span></label>
-      <label class="checkChip"><input type="checkbox"> <span data-t="piano">Пианино</span></label>
-      <label class="checkChip"><input type="checkbox" checked> <span data-t="noLift">Без лифта</span></label>
-      <label class="checkChip"><input type="checkbox" checked> <span data-t="packing">Упаковка</span></label>
-      <label class="checkChip"><input type="checkbox"> <span data-t="assembly">Сборка мебели</span></label>
-    </div>
-    <div style="height:10px"></div>
-    <div class="payBox">
-      <div class="payTop">
-        <div><b data-t="subscription">Подписка исполнителя</b><span data-t="subNote">Бесплатно: 3 заявки/мес · Plus: безлимит</span></div>
-        <button class="switch on" id="plusSwitch" type="button"></button>
-      </div>
-    </div>
-  </section>
-
-  <section class="card view hide" id="viewOrders">
-    <div class="title" data-t="ordersTitle">Заказы</div>
-    <div class="sectionTabs">
-      <button class="tab active" data-filter="new" type="button" data-t="newOrders">Новые</button>
-      <button class="tab" data-filter="work" type="button" data-t="inWork">В работе</button>
-      <button class="tab" data-filter="done" type="button" data-t="done">Архив</button>
-    </div>
-    <div id="ordersList"></div>
-  </section>
-
-  <section class="card view hide" id="viewReviews">
-    <div class="title" data-t="reviewsTitle">Рейтинг и отзывы</div>
-    <div class="statGrid">
-      <div class="stat"><b>4.9</b><span data-t="rating">Рейтинг</span></div>
-      <div class="stat"><b>187</b><span data-t="jobs">Заказов</span></div>
-      <div class="stat"><b>87</b><span data-t="trust">Доверие</span></div>
-    </div>
-    <div style="height:10px"></div>
-    <div class="order">
-      <div class="orderTop"><span>★★★★★</span><span>Хайфа → Нетания</span></div>
-      <div class="orderMeta">Клиент: быстро приехали, аккуратно перевезли холодильник и диван.</div>
-    </div>
-    <div class="order">
-      <div class="orderTop"><span>★★★★★</span><span>Хайфа</span></div>
-      <div class="orderMeta">Отличная работа, связь через WhatsApp, цена как в заявке.</div>
-    </div>
-  </section>
-
-  <div class="bottomNav">
-    <button class="navBtn active" data-view="Profile" type="button" data-t="navProfile">Профиль</button>
-    <button class="navBtn" data-view="Settings" type="button" data-t="navSettings">Настройки</button>
-    <button class="navBtn" data-view="Orders" type="button" data-t="navOrders">Заказы</button>
-    <button class="navBtn" data-view="Reviews" type="button" data-t="navReviews">Рейтинг</button>
-  </div>
+  <div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
 </div>
-<div class="toast" id="toast">Сохранено</div>
-
 <script>
-const langs=["ru","en","he"];
-let lang=(()=>{try{return localStorage.getItem("executor_lang")||"ru"}catch(e){return"ru"}})();
-const tr={
-ru:{profileTitle:"Профиль исполнителя",company:"Компания",phone:"Телефон",city:"Базовый город",radius:"Радиус",maxRooms:"Макс. объём",car:"Машина",save:"Сохранить",workSettings:"Настройки работы",smallMove:"Малые перевозки",twoRooms:"До 2 комнат",piano:"Пианино",noLift:"Без лифта",packing:"Упаковка",assembly:"Сборка мебели",subscription:"Подписка исполнителя",subNote:"Бесплатно: 3 заявки/мес · Plus: безлимит",ordersTitle:"Заказы",newOrders:"Новые",inWork:"В работе",done:"Архив",reviewsTitle:"Рейтинг и отзывы",rating:"Рейтинг",jobs:"Заказов",trust:"Доверие",navProfile:"Профиль",navSettings:"Настройки",navOrders:"Заказы",navReviews:"Рейтинг",saved:"Сохранено",free:"Свободен",busy:"Занят",plus:"Plus активен",verified:"Проверенный",accept:"Принять",decline:"Отказаться",floor:"этаж",lift:"лифт",items:"вещи"},
-en:{profileTitle:"Executor profile",company:"Company",phone:"Phone",city:"Base city",radius:"Radius",maxRooms:"Max volume",car:"Vehicle",save:"Save",workSettings:"Work settings",smallMove:"Small moves",twoRooms:"Up to 2 rooms",piano:"Piano",noLift:"No elevator",packing:"Packing",assembly:"Furniture assembly",subscription:"Executor subscription",subNote:"Free: 3 requests/month · Plus: unlimited",ordersTitle:"Orders",newOrders:"New",inWork:"In progress",done:"Archive",reviewsTitle:"Rating and reviews",rating:"Rating",jobs:"Jobs",trust:"Trust",navProfile:"Profile",navSettings:"Settings",navOrders:"Orders",navReviews:"Rating",saved:"Saved",free:"Available",busy:"Busy",plus:"Plus active",verified:"Verified",accept:"Accept",decline:"Decline",floor:"floor",lift:"elevator",items:"items"},
-he:{profileTitle:"פרופיל מבצע",company:"חברה",phone:"טלפון",city:"עיר בסיס",radius:"רדיוס",maxRooms:"נפח מקסימלי",car:"רכב",save:"שמור",workSettings:"הגדרות עבודה",smallMove:"הובלות קטנות",twoRooms:"עד 2 חדרים",piano:"פסנתר",noLift:"בלי מעלית",packing:"אריזה",assembly:"הרכבת רהיטים",subscription:"מנוי מבצע",subNote:"חינם: 3 פניות בחודש · Plus: ללא הגבלה",ordersTitle:"הזמנות",newOrders:"חדשות",inWork:"בעבודה",done:"ארכיון",reviewsTitle:"דירוג וביקורות",rating:"דירוג",jobs:"עבודות",trust:"אמון",navProfile:"פרופיל",navSettings:"הגדרות",navOrders:"הזמנות",navReviews:"דירוג",saved:"נשמר",free:"פנוי",busy:"עסוק",plus:"Plus פעיל",verified:"מאומת",accept:"קבל",decline:"דחה",floor:"קומה",lift:"מעלית",items:"פריטים"}
-};
-const cityNames={
-haifa:{ru:"Хайфа",en:"Haifa",he:"חיפה"},
-telaviv:{ru:"Тель-Авив",en:"Tel Aviv",he:"תל אביב"},
-netanya:{ru:"Нетания",en:"Netanya",he:"נתניה"},
-jerusalem:{ru:"Иерусалим",en:"Jerusalem",he:"ירושלים"}
-};
-const orders=[
-{id:"PC-2401",route:{ru:"Хайфа → Нетания",en:"Haifa → Netanya",he:"חיפה → נתניה"},price:1680,status:"new",meta:{ru:"6 вещей · 2 этаж → 5 этаж · лифт есть",en:"6 items · floor 2 → floor 5 · elevator",he:"6 פריטים · קומה 2 → קומה 5 · מעלית"}},
-{id:"PC-2402",route:{ru:"Хайфа → Хайфа",en:"Haifa → Haifa",he:"חיפה → חיפה"},price:880,status:"new",meta:{ru:"2 вещи · 3 этаж → 5 этаж · лифт есть",en:"2 items · floor 3 → floor 5 · elevator",he:"2 פריטים · קומה 3 → קומה 5 · מעלית"}},
-{id:"PC-2398",route:{ru:"Хайфа → Хадера",en:"Haifa → Hadera",he:"חיפה → חדרה"},price:1250,status:"work",meta:{ru:"Шкаф, диван, коробки · без лифта",en:"Wardrobe, sofa, boxes · no elevator",he:"ארון, ספה, ארגזים · בלי מעלית"}},
-{id:"PC-2380",route:{ru:"Нетания → Тель-Авив",en:"Netanya → Tel Aviv",he:"נתניה → תל אביב"},price:2100,status:"done",meta:{ru:"Выполнен · оценка 5★",en:"Completed · 5★ rating",he:"בוצע · דירוג 5★"}}
-];
-const $=id=>document.getElementById(id);
-const T=k=>tr[lang][k]||k;
-let orderFilter="new";
-function applyLang(){
- document.documentElement.lang=lang; document.documentElement.dir="ltr"; document.body.classList.toggle("rtlContent",lang==="he");
- document.querySelectorAll(".langChip").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
- document.querySelectorAll("[data-t]").forEach(el=>el.textContent=T(el.dataset.t));
- $("verifiedPill").textContent=T("verified"); $("statusBtn").textContent=T($("statusBtn").dataset.busy==="1"?"busy":"free"); $("subscriptionBtn").textContent=T("plus");
- updateMeta(); renderOrders();
-}
-function updateMeta(){
- const c=$("city").value; $("profileName").textContent=$("companyName").value||"ProfiClick";
- $("profileMeta").textContent=(cityNames[c]?.[lang]||c)+" · "+$("radius").value;
-}
-function renderOrders(){
- const box=$("ordersList"); box.innerHTML="";
- orders.filter(o=>o.status===orderFilter).forEach(o=>{
-  const div=document.createElement("div"); div.className="order";
-  div.innerHTML=`<div class="orderTop"><span>${o.id}</span><span class="orderPrice">₪${o.price}</span></div>
-  <div class="orderMeta"><b>${o.route[lang]}</b><br>${o.meta[lang]}</div>
-  <div class="orderDetails"><div class="mini"><small>${T("items")}</small><b>${o.status==="new"?"2–6":"—"}</b></div><div class="mini"><small>WhatsApp</small><b>050-XXX</b></div></div>
-  ${o.status==="new"?`<div class="actions"><button class="accept">${T("accept")}</button><button class="decline">${T("decline")}</button></div>`:""}`;
-  div.querySelector(".accept")?.addEventListener("click",()=>toast(`${o.id} · ${T("accept")}`));
-  div.querySelector(".decline")?.addEventListener("click",()=>toast(`${o.id} · ${T("decline")}`));
-  box.appendChild(div);
- });
- if(!box.innerHTML) box.innerHTML=`<div class="order"><div class="orderMeta">—</div></div>`;
-}
-function showView(name){
- document.querySelectorAll(".view").forEach(v=>v.classList.add("hide"));
- $("view"+name).classList.remove("hide");
- document.querySelectorAll(".navBtn").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
-}
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
-document.querySelectorAll(".langChip").forEach(btn=>btn.addEventListener("click",()=>{lang=btn.dataset.lang;try{localStorage.setItem("executor_lang",lang)}catch(e){} applyLang();}));
-document.querySelectorAll(".navBtn").forEach(btn=>btn.addEventListener("click",()=>showView(btn.dataset.view)));
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{orderFilter=btn.dataset.filter;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b===btn));renderOrders();}));
-["companyName","city","radius"].forEach(id=>$(id).addEventListener("input",updateMeta));
-$("saveProfile").addEventListener("click",()=>toast(T("saved")));
-$("statusBtn").addEventListener("click",()=>{$("statusBtn").dataset.busy=$("statusBtn").dataset.busy==="1"?"0":"1";applyLang();});
-$("plusSwitch").addEventListener("click",()=>$("plusSwitch").classList.toggle("on"));
-$("photoInput").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("avatarImg").src=r.result;$("avatarImg").classList.remove("hide");$("avatarLetters").classList.add("hide")};r.readAsDataURL(f);});
-applyLang();
+const $=id=>document.getElementById(id);let page="map",role="customer",startX=0,startY=0,dx=0,dy=0,pulling=false,lang="ru";
+const tr={ru:{customer:"Заказчик",executor:"Исполнитель",showExec:"Показать режим исполнителя",showCust:"Показать режим заказчика",my:"Моя страница",need:"Мне нужна перевозка",map:"Живая карта ProfiClick",updated:"Обновлено"},en:{customer:"Customer",executor:"Executor",showExec:"Show executor mode",showCust:"Show customer mode",my:"My page",need:"I need moving",map:"Live ProfiClick map",updated:"Updated"},he:{customer:"לקוח",executor:"מבצע",showExec:"הצג מצב מבצע",showCust:"הצג מצב לקוח",my:"העמוד שלי",need:"אני צריך הובלה",map:"מפת ProfiClick",updated:"עודכן"}};
+function T(k){return tr[lang][k]||k}
+function setPage(p){page=p;$("swipeWrap").style.transform=p==="map"?"translateX(-50%)":"translateX(0)";$("dotMap").classList.toggle("active",p==="map");$("dotProfile").classList.toggle("active",p==="profile")}
+function setLang(l){lang=l;document.body.classList.toggle("rtlContent",l==="he");document.querySelectorAll(".langChip").forEach(b=>b.classList.toggle("active",b.dataset.lang===l));applyText()}
+function applyText(){$("rolePill").textContent=role==="customer"?T("customer"):T("executor");$("profileName").textContent=T("my");$("profileMeta").textContent=(role==="customer"?T("customer"):T("executor"))+" · Haifa";$("roleToggle").textContent=role==="customer"?T("showExec"):T("showCust");$("sheetTitle").textContent=T("map");$("mainCta").textContent=T("need");$("profileCta").textContent=T("my")}
+function setRole(r){role=r;document.querySelector(".customerBox").classList.toggle("hide",r!=="customer");document.querySelector(".executorBox").classList.toggle("hide",r!=="executor");applyText()}
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1400)}
+function refresh(){const r=$("refresh");r.textContent="PC · "+T("updated");r.classList.add("show");$("onlineCount").textContent=String(38+Math.floor(Math.random()*16));$("ordersCount").textContent=String(12+Math.floor(Math.random()*14));$("nearCount").textContent=String(4+Math.floor(Math.random()*8));setTimeout(()=>r.classList.remove("show"),900);toast(T("updated"))}
+document.querySelectorAll(".langChip").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));$("roleToggle").onclick=()=>setRole(role==="customer"?"executor":"customer");$("profileCta").onclick=()=>setPage("profile");$("mainCta").onclick=()=>{setPage("profile");toast("Открыть калькулятор v7.4.62")};$("createOrder").onclick=()=>toast("Здесь откроется калькулятор v7.4.62");$("radius").oninput=()=>{$("radiusText").textContent=$("radius").value+" км"};document.querySelectorAll(".modeBtn").forEach(btn=>btn.onclick=()=>{document.querySelectorAll(".modeBtn").forEach(b=>b.classList.remove("active"));btn.classList.add("active")});
+const app=$("app");app.addEventListener("touchstart",e=>{startX=e.touches[0].clientX;startY=e.touches[0].clientY;dx=0;dy=0;pulling=false},{passive:true});app.addEventListener("touchmove",e=>{dx=e.touches[0].clientX-startX;dy=e.touches[0].clientY-startY;if(Math.abs(dy)>Math.abs(dx)&&dy>65){pulling=true;$("refresh").classList.add("show")}}, {passive:true});app.addEventListener("touchend",()=>{if(pulling){refresh();return} if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)){ if(dx<0) setPage("map"); else setPage("profile"); }}, {passive:true});
+setPage("map");applyText();
 </script>
 </body>
 </html>
