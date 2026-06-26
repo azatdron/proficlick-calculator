@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7508</title>
+<title>ProfiClick Smart Platform v7509</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -91,6 +91,43 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
 .geoHint{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 220px);z-index:760;background:rgba(23,32,51,.9);color:#fff;border-radius:16px;padding:10px 12px;font-size:12px;font-weight:850;box-shadow:0 14px 34px rgba(0,0,0,.18);display:none}.geoHint.show{display:block}
 .selectDriverBtn{width:100%;margin-top:12px;border:0;border-radius:18px;padding:13px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
 </style>
+
+<style>
+/* v7509 Live Orders */
+.mapScreen{padding:0!important;background:#eaf3e6!important}
+.map{position:absolute!important;inset:0!important;background:#eaf3e6!important;overflow:hidden!important}
+#realMap{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:1!important;background:#eaf3e6!important;display:block!important}
+#fallbackMap{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;background:#eaf3e6!important}
+.map.real #realMap{display:block!important}
+.leaflet-container{width:100%!important;height:100%!important;background:#eaf3e6!important}
+.leaflet-control-container{display:none!important}
+.map:before,.road,.map>.marker{display:none!important}
+.topStats{top:calc(env(safe-area-inset-top) + 82px)!important;z-index:650!important}
+.aiCard{top:calc(env(safe-area-inset-top) + 139px)!important;z-index:650!important}
+.aiLive{top:calc(env(safe-area-inset-top) + 178px)!important;z-index:660!important;font-size:12px!important}
+.bottomSheet{left:10px!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom) + 2px)!important;z-index:700!important;max-height:none!important;padding:8px 10px 10px!important;overflow:visible!important}
+.sheetContent{display:block!important;margin-top:0!important}.bottomSheet:not(.open) .sheetContent{display:block!important}.sheetTitle{display:none!important}.ctaRow{display:none!important}
+.locBtn{position:absolute;right:14px;bottom:calc(env(safe-area-inset-bottom) + 138px);z-index:710;width:42px;height:42px;border:0;border-radius:999px;background:#fff;color:#2f6f21;font-size:18px;font-weight:900;box-shadow:0 12px 28px rgba(35,63,31,.18)}
+.pcVehicleIcon{background:transparent!important;border:0!important}
+.pcVehicleIcon .pcCar{width:44px;height:30px;border-radius:15px 15px 12px 12px;background:linear-gradient(180deg,#69a94a,#347024);box-shadow:0 12px 24px rgba(24,55,20,.26);position:relative}
+.pcVehicleIcon .pcCar:before{content:"";position:absolute;left:8px;right:8px;top:4px;height:9px;border-radius:8px 8px 4px 4px;background:rgba(255,255,255,.72);box-shadow:0 13px 0 rgba(255,255,255,.34)}
+.pcVehicleIcon .pcCar:after{content:"";position:absolute;left:4px;right:4px;bottom:-4px;height:8px;background:radial-gradient(circle at 6px 50%,#172033 0 4px,transparent 4.5px),radial-gradient(circle at calc(100% - 6px) 50%,#172033 0 4px,transparent 4.5px)}
+.pcVehicleIcon.busy .pcCar{background:linear-gradient(180deg,#f1c24d,#c98908)}
+.pcVehicleIcon.track .pcCar{background:linear-gradient(180deg,#4d97ff,#1869df)}
+.pcOrderIcon .pcDot{min-width:46px;height:34px;border-radius:16px;background:linear-gradient(#ffb84d,#df8508);border:2px solid #fff;box-shadow:0 12px 24px rgba(31,41,55,.23);color:#fff;font-size:11px;font-weight:950;display:flex;align-items:center;justify-content:center;padding:0 7px}
+.pcOrderIcon.good .pcDot{background:linear-gradient(#66b84d,#2f7922)}
+.pcOrderIcon.medium .pcDot{background:linear-gradient(#ffbd4f,#df8b10)}
+.pcOrderIcon.far .pcDot{background:linear-gradient(#ef6969,#c93434)}
+.orderCard{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 116px);z-index:930;background:#fff;border:1px solid var(--line);border-radius:26px;padding:14px;box-shadow:0 20px 52px rgba(35,63,31,.22);display:none}
+.orderCard.show{display:block}
+.orderCardTop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.orderCardTop button{border:0;background:#f2f6ef;border-radius:999px;width:32px;height:32px;font-size:19px;color:#1680ff}
+.orderBadge{display:inline-flex;border-radius:999px;background:#eaf6e4;color:#2f6f21;padding:6px 9px;font-size:11px;font-weight:950;margin-bottom:6px}
+.orderCard h3{font-size:20px;line-height:1.1;margin:0 0 8px;letter-spacing:-.025em}.orderGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.orderGrid div{border:1px solid var(--line);border-radius:15px;background:#f7fbf3;padding:9px;text-align:center}.orderGrid b{display:block;color:#2f6f21;font-size:15px}.orderGrid span{font-size:10px;color:var(--muted);font-weight:900}.orderInfo{margin-top:9px;color:var(--muted);font-size:12px;font-weight:850;line-height:1.35}.acceptOrderBtn{width:100%;margin-top:12px;border:0;border-radius:18px;padding:13px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
+.mapLegend{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 101px);z-index:690;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;padding:7px 8px;display:flex;gap:8px;justify-content:space-between;font-size:9px;font-weight:950;color:#5f6b5a;opacity:.92}
+.mapLegend span{display:flex;align-items:center;gap:4px}.mapLegend i{width:9px;height:9px;border-radius:50%;display:inline-block}.mapLegend .free{background:#3d8428}.mapLegend .busy{background:#d99a14}.mapLegend .track{background:#2478ff}.mapLegend .job{background:#ff9500}
+.orderFlow{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 116px);z-index:940;background:#fff;border:1px solid var(--line);border-radius:26px;padding:14px;box-shadow:0 20px 52px rgba(35,63,31,.22);display:none}.orderFlow.show{display:block}.flowTitle{font-size:19px;font-weight:950;letter-spacing:-.025em;margin-bottom:8px}.flowStep{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eef4ea}.flowStep:last-child{border-bottom:0}.flowDot{width:28px;height:28px;border-radius:50%;background:#eaf6e4;color:#2f6f21;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}.flowStep.active .flowDot{background:#2f6f21;color:#fff}.flowStep.done .flowDot{background:#5b9638;color:#fff}.flowText b{display:block;font-size:13px}.flowText span{display:block;font-size:11px;color:var(--muted);font-weight:850;margin-top:1px}.closeFlow{width:100%;margin-top:10px;border:0;border-radius:16px;padding:11px;background:#eef8e8;color:#2f6f21;font-weight:950}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -105,7 +142,30 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
     </section>
     <section class="screen mapScreen" id="mapScreen"><div class="map"><div id="realMap"></div><div id="fallbackMap"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div><div class="topStats"><div class="stat"><b id="onlineCount">42</b><span>онлайн</span></div><div class="stat"><b id="ordersCount">18</b><span>заявок</span></div><div class="stat"><b id="nearCount">7</b><span>рядом</span></div></div><div class="aiCard"><b>AI нашёл 5 исполнителей рядом</b><span>Показаны анонимно: без телефона и личных данных</span></div><div class="marker m1"><div class="car"><span class="carLabel">4.9</span></div></div><div class="marker m2"><div class="car"><span class="carLabel">5.0</span></div></div><div class="marker m3"><div class="orderDot">•</div></div><div class="marker m4"><div class="car"><span class="carLabel">4.7</span></div></div><div class="marker m5"><div class="orderDot urgent">•</div></div><div class="marker m6"><div class="car"><span class="carLabel">AI</span></div></div><div class="marker m7"><div class="orderDot">•</div></div><div class="marker m8"><div class="car"></div></div></div><div class="bottomSheet" id="bottomSheet"><div class="handle"></div><div class="sheetTitle" id="sheetTitle"></div><div class="sheetContent"><div class="modeRow"><button class="modeBtn active">Исполнители</button><button class="modeBtn">Заявки</button></div><div class="filterRow"><button class="filterChip active">Все</button><button class="filterChip">Рядом</button><button class="filterChip">AI</button><button class="filterChip">Срочно</button></div><div class="rangeRow"><span>Радиус</span><input id="radius" type="range" min="1" max="100" value="25"><span id="radiusText">25 км</span></div><div class="ctaRow"></div></div></div></section>
   </div>
-  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div><button class="selectDriverBtn" id="selectDriverBtn" type="button">Выбрать исполнителя</button></div><div class="aiLive" id="aiLive">AI: рекомендует исполнителя 1.9 км</div><button class="locBtn" id="locBtn" type="button">⌖</button><div class="orderFlow" id="orderFlow"><div class="flowTitle">AI отправляет заявку</div><div class="flowStep done" id="flow1"><div class="flowDot">✓</div><div class="flowText"><b>Заказ подготовлен</b><span>Цена, маршрут и вещи проверены</span></div></div><div class="flowStep active" id="flow2"><div class="flowDot">2</div><div class="flowText"><b>Исполнитель просматривает</b><span>Данные клиента скрыты</span></div></div><div class="flowStep" id="flow3"><div class="flowDot">3</div><div class="flowText"><b>Ожидаем подтверждение</b><span>После принятия откроется профиль</span></div></div><button class="closeFlow" id="closeFlow" type="button">Понятно</button></div><div class="geoHint" id="geoHint">Показываем ваше местоположение на карте</div><div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
+  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div><button class="selectDriverBtn" id="selectDriverBtn" type="button">Выбрать исполнителя</button></div><div class="aiLive" id="aiLive">AI: рекомендует исполнителя 1.9 км</div><button class="locBtn" id="locBtn" type="button">⌖</button><div class="orderFlow" id="orderFlow"><div class="flowTitle">AI отправляет заявку</div><div class="flowStep done" id="flow1"><div class="flowDot">✓</div><div class="flowText"><b>Заказ подготовлен</b><span>Цена, маршрут и вещи проверены</span></div></div><div class="flowStep active" id="flow2"><div class="flowDot">2</div><div class="flowText"><b>Исполнитель просматривает</b><span>Данные клиента скрыты</span></div></div><div class="flowStep" id="flow3"><div class="flowDot">3</div><div class="flowText"><b>Ожидаем подтверждение</b><span>После принятия откроется профиль</span></div></div><button class="closeFlow" id="closeFlow" type="button">Понятно</button></div><div class="geoHint" id="geoHint">Показываем ваше местоположение на карте</div>
+<div class="orderCard" id="orderCard">
+  <div class="orderCardTop">
+    <div>
+      <div class="orderBadge" id="orderBadge">AI: отличный заказ</div>
+      <h3 id="orderTitle">Хайфа → Нетания</h3>
+    </div>
+    <button id="closeOrderCard" type="button">×</button>
+  </div>
+  <div class="orderGrid">
+    <div><b id="orderItems">6</b><span>вещей</span></div>
+    <div><b id="orderFloors">2 → 5</b><span>этажи</span></div>
+    <div><b id="orderPrice">₪1680</b><span>примерно</span></div>
+  </div>
+  <div class="orderInfo" id="orderInfo">Лифт есть · сложный подход нет · подходит вам на 96%</div>
+  <button class="acceptOrderBtn" id="acceptOrderBtn" type="button">Принять заявку</button>
+</div>
+<div class="mapLegend" id="mapLegend">
+  <span><i class="free"></i>Свободен</span>
+  <span><i class="busy"></i>Занят</span>
+  <span><i class="track"></i>Едет</span>
+  <span><i class="job"></i>Заявка</span>
+</div>
+<div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
 </div>
 <script>
 const $=id=>document.getElementById(id);let page="map",role="customer",startX=0,startY=0,dx=0,dy=0,pulling=false,lang="ru";
@@ -264,6 +324,110 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
   });
 })();
 </script>
+
+<script>
+(function(){
+  const HAIFA=[32.812,34.996];
+  const drivers=[
+    {lat:32.815,lng:34.989,rating:"4.9",km:"2.3 км",car:"Фургон",status:"Свободен",type:"free"},
+    {lat:32.803,lng:35.002,rating:"5.0",km:"3.1 км",car:"Грузовик",status:"Свободен",type:"free"},
+    {lat:32.827,lng:35.010,rating:"4.7",km:"4.8 км",car:"2 грузчика",status:"Занят",type:"busy"},
+    {lat:32.792,lng:34.982,rating:"AI",km:"1.9 км",car:"Фургон",status:"Едет к клиенту",type:"track"}
+  ];
+  const orders=[
+    {lat:32.810,lng:34.975,score:"96%",kind:"good",title:"Хайфа → Нетания",items:"6",floors:"2 → 5",price:"₪1680",info:"Лифт есть · сложный подход нет · AI: подходит вам на 96%"},
+    {lat:32.833,lng:34.998,score:"82%",kind:"medium",title:"Хайфа → Хайфа",items:"2",floors:"3 → 5",price:"₪880",info:"По месту · лифт есть · быстрый заказ рядом"},
+    {lat:32.799,lng:35.018,score:"64%",kind:"far",title:"Хайфа → Хадера",items:"4",floors:"0 → 2",price:"₪1250",info:"Дальше от вас · AI: средняя выгода"}
+  ];
+  function byId(id){return document.getElementById(id)}
+  function vehicleIcon(type){
+    return L.divIcon({className:"pcVehicleIcon "+(type||""),html:'<div class="pcCar"></div>',iconSize:[48,36],iconAnchor:[24,18]});
+  }
+  function orderIcon(o){
+    return L.divIcon({className:"pcOrderIcon "+o.kind,html:'<div class="pcDot">'+o.price+'</div>',iconSize:[54,38],iconAnchor:[27,19]});
+  }
+  function showOrder(o){
+    if(byId("orderBadge")) byId("orderBadge").textContent = o.kind==="good" ? "AI: отличный заказ" : o.kind==="medium" ? "AI: средний заказ" : "AI: далеко";
+    if(byId("orderTitle")) byId("orderTitle").textContent=o.title;
+    if(byId("orderItems")) byId("orderItems").textContent=o.items;
+    if(byId("orderFloors")) byId("orderFloors").textContent=o.floors;
+    if(byId("orderPrice")) byId("orderPrice").textContent=o.price;
+    if(byId("orderInfo")) byId("orderInfo").textContent=o.info;
+    if(byId("orderCard")) byId("orderCard").classList.add("show");
+    if(byId("driverCard")) byId("driverCard").classList.remove("show");
+    if(window.pcMap) window.pcMap.flyTo([o.lat,o.lng],14,{duration:.55});
+  }
+  function showDriver(d){
+    if(byId("driverTitle")) byId("driverTitle").textContent=d.type==="track"?"Исполнитель едет":"Исполнитель рядом";
+    if(byId("driverMeta")) byId("driverMeta").textContent=d.status+" · контакты скрыты до подтверждения заказа";
+    if(byId("dRating")) byId("dRating").textContent=d.rating;
+    if(byId("dKm")) byId("dKm").textContent=d.km;
+    if(byId("dCar")) byId("dCar").textContent=d.car;
+    if(byId("driverCard")) byId("driverCard").classList.add("show");
+    if(byId("orderCard")) byId("orderCard").classList.remove("show");
+    if(window.pcMap) window.pcMap.flyTo([d.lat,d.lng],14,{duration:.55});
+  }
+  function startFlow(){
+    if(byId("orderCard")) byId("orderCard").classList.remove("show");
+    const f=byId("orderFlow"); if(!f)return;
+    f.classList.add("show");
+    byId("flow1").className="flowStep done"; byId("flow2").className="flowStep active"; byId("flow3").className="flowStep";
+    setTimeout(()=>{if(byId("flow2"))byId("flow2").className="flowStep done"; if(byId("flow3"))byId("flow3").className="flowStep active";},1500);
+    setTimeout(()=>{if(byId("flow3"))byId("flow3").className="flowStep done"; const live=byId("aiLive"); if(live){live.textContent="AI: исполнитель получил заявку";live.classList.add("show");setTimeout(()=>live.classList.remove("show"),2600);}},3100);
+  }
+  function init7509(){
+    const el=byId("realMap");
+    if(!el || typeof L==="undefined"){setTimeout(init7509,300);return}
+    try{ if(window.pcMap){window.pcMap.remove(); window.pcMap=null;} }catch(e){}
+    window.pcMap=L.map(el,{zoomControl:false,attributionControl:false,preferCanvas:true,worldCopyJump:true}).setView(HAIFA,13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,crossOrigin:true}).addTo(window.pcMap);
+    window.pcLiveMarkers=[];
+    drivers.forEach(d=>{
+      const m=L.marker([d.lat,d.lng],{icon:vehicleIcon(d.type)}).addTo(window.pcMap);
+      m.on("click",()=>showDriver(d));
+      window.pcLiveMarkers.push({m,d});
+    });
+    window.pcOrderMarkers=[];
+    orders.forEach(o=>{
+      const m=L.marker([o.lat,o.lng],{icon:orderIcon(o)}).addTo(window.pcMap);
+      m.on("click",()=>showOrder(o));
+      window.pcOrderMarkers.push({m,o});
+    });
+    const mw=document.querySelector(".map"); if(mw) mw.classList.add("real");
+    setTimeout(()=>window.pcMap.invalidateSize(true),200);
+    setTimeout(()=>window.pcMap.invalidateSize(true),700);
+    clearInterval(window.pcMoveTimer);
+    window.pcMoveTimer=setInterval(()=>{
+      (window.pcLiveMarkers||[]).forEach(obj=>{
+        obj.d.lat+=(Math.random()-.5)*0.00032;
+        obj.d.lng+=(Math.random()-.5)*0.00032;
+        obj.m.setLatLng([obj.d.lat,obj.d.lng]);
+      });
+      const online=byId("onlineCount"), ordersCount=byId("ordersCount"), near=byId("nearCount");
+      if(online) online.textContent=String(42+Math.floor(Math.random()*12));
+      if(ordersCount) ordersCount.textContent=String(14+Math.floor(Math.random()*8));
+      if(near) near.textContent=String(6+Math.floor(Math.random()*7));
+    },2600);
+    clearInterval(window.pcAiTimer7509);
+    const msgs=["AI: новая заявка рядом","AI: отличный заказ в 2.3 км","AI: свободных исполнителей стало больше","AI: высокий спрос на перевозки рядом"];
+    window.pcAiTimer7509=setInterval(()=>{
+      const live=byId("aiLive"); if(!live)return;
+      live.textContent=msgs[Math.floor(Math.random()*msgs.length)];
+      live.classList.add("show");
+      setTimeout(()=>live.classList.remove("show"),2600);
+    },5200);
+  }
+  document.addEventListener("DOMContentLoaded",()=>setTimeout(init7509,450));
+  setTimeout(init7509,900);
+  document.addEventListener("click",function(e){
+    if(e.target && e.target.id==="locBtn" && window.pcMap) window.pcMap.flyTo(HAIFA,13,{duration:.5});
+    if(e.target && e.target.id==="closeOrderCard" && byId("orderCard")) byId("orderCard").classList.remove("show");
+    if(e.target && e.target.id==="acceptOrderBtn") startFlow();
+    if(e.target && e.target.id==="closeFlow" && byId("orderFlow")) byId("orderFlow").classList.remove("show");
+  });
+})();
+</script>
+
 </body>
 </html>
 <style>
