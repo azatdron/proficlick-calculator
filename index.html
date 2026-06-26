@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7505</title>
+<title>ProfiClick Smart Platform v7506</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -37,6 +37,36 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
 <style>
 #realMap,#fallbackMap{position:absolute;inset:0;z-index:1}.map{background:#eaf3e6!important}.map.real #realMap{display:block}.map.real #fallbackMap{display:none}#realMap{display:none}#fallbackMap{display:block;background:linear-gradient(90deg,rgba(88,129,75,.13) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(rgba(88,129,75,.13) 1px,transparent 1px) 0 0/44px 44px,#eaf3e6;overflow:hidden}#fallbackMap:before{content:"";position:absolute;inset:-60px;background:linear-gradient(28deg,transparent 0 41%,#fff 41.2% 43.6%,transparent 43.8%),linear-gradient(108deg,transparent 0 46%,#fff 46.2% 48.5%,transparent 48.7%),linear-gradient(-15deg,transparent 0 58%,rgba(255,255,255,.82) 58.2% 60.2%,transparent 60.4%),linear-gradient(72deg,transparent 0 35%,rgba(255,255,255,.75) 35.2% 37.2%,transparent 37.4%);opacity:.95}.map:before,.road,.map>.marker{display:none!important}.leaflet-control-container{display:none!important}.topStats,.aiCard,.bottomSheet{z-index:650!important}.pcVehicleIcon .pcCar,.fbCar{width:38px;height:26px;border-radius:12px;background:linear-gradient(#5b9638,#2f6623);box-shadow:0 10px 20px rgba(31,41,55,.20);position:relative}.pcVehicleIcon .pcCar:before,.pcVehicleIcon .pcCar:after,.fbCar:before,.fbCar:after{content:"";position:absolute;bottom:-4px;width:8px;height:8px;border-radius:50%;background:#263242}.pcVehicleIcon .pcCar:before,.fbCar:before{left:7px}.pcVehicleIcon .pcCar:after,.fbCar:after{right:7px}.pcOrderIcon .pcDot,.fbDot{width:30px;height:30px;border-radius:12px;background:linear-gradient(#56a0ff,#2478ff);box-shadow:0 10px 20px rgba(31,41,55,.20);border:2px solid #fff}.pcOrderIcon.urgent .pcDot,.fbDot.urgent{background:linear-gradient(#f5c653,#d89b11)}.fbMarker{position:absolute;z-index:4;animation:floaty 4s ease-in-out infinite}.fbLabel{position:absolute;top:-20px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 6px;font-size:9px;font-weight:950;color:#2f6f21;box-shadow:0 6px 12px rgba(0,0,0,.08)}.driverCard{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 118px);z-index:900;background:#fff;border:1px solid var(--line);border-radius:22px;padding:12px;box-shadow:0 18px 44px rgba(35,63,31,.20);display:none}.driverCard.show{display:block}.driverTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.driverTop b{font-size:17px}.driverTop button{border:0;background:#f2f6ef;border-radius:999px;width:32px;height:32px;font-size:19px}.driverMeta{color:var(--muted);font-size:12px;font-weight:850;line-height:1.45;margin-top:5px}.driverGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}.driverMini{border:1px solid var(--line);border-radius:14px;background:#f7fbf3;padding:8px;text-align:center}.driverMini b{display:block;color:#2f6f21;font-size:13px}.driverMini span{font-size:10px;color:var(--muted);font-weight:900}.aiLive{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 186px);z-index:650;background:rgba(23,32,51,.88);color:#fff;border-radius:16px;padding:9px 12px;font-size:12px;font-weight:850;box-shadow:0 14px 34px rgba(0,0,0,.18);opacity:0;transform:translateY(-8px);transition:.24s}.aiLive.show{opacity:1;transform:translateY(0)}
 </style>
+
+<style>
+/* v7506 Live Map full-screen fix */
+.mapScreen{padding:0!important;background:#eaf3e6!important}
+.map{position:absolute!important;inset:0!important;background:#eaf3e6!important;overflow:hidden!important}
+#realMap{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:1!important;background:#eaf3e6!important;display:block!important}
+#fallbackMap{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;background:#eaf3e6!important}
+.map.real #realMap{display:block!important}
+.leaflet-container{width:100%!important;height:100%!important;background:#eaf3e6!important}
+.leaflet-tile-container img{max-width:none!important}
+.leaflet-control-container{display:none!important}
+.map:before,.road,.map>.marker{display:none!important}
+.topStats{top:calc(env(safe-area-inset-top) + 82px)!important;z-index:650!important}
+.aiCard{top:calc(env(safe-area-inset-top) + 139px)!important;z-index:650!important}
+.aiLive{top:calc(env(safe-area-inset-top) + 178px)!important;z-index:660!important}
+.bottomSheet{left:10px!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom) + 2px)!important;z-index:700!important;max-height:none!important;padding:8px 10px 10px!important;overflow:visible!important}
+.bottomSheet.open{max-height:none!important}
+.sheetContent{display:block!important;margin-top:0!important}
+.bottomSheet:not(.open) .sheetContent{display:block!important}
+.sheetTitle{display:none!important}
+.ctaRow{display:none!important}
+.driverCard{bottom:calc(env(safe-area-inset-bottom) + 112px)!important;z-index:920!important}
+.locBtn{position:absolute;right:14px;bottom:calc(env(safe-area-inset-bottom) + 138px);z-index:710;width:42px;height:42px;border:0;border-radius:999px;background:#fff;color:#2f6f21;font-size:18px;font-weight:900;box-shadow:0 12px 28px rgba(35,63,31,.18)}
+.pcVehicleIcon .pcCar{width:38px;height:26px;border-radius:12px;background:linear-gradient(#5b9638,#2f6623);box-shadow:0 10px 20px rgba(31,41,55,.20);position:relative}
+.pcVehicleIcon .pcCar:before,.pcVehicleIcon .pcCar:after{content:"";position:absolute;bottom:-4px;width:8px;height:8px;border-radius:50%;background:#263242}
+.pcVehicleIcon .pcCar:before{left:7px}.pcVehicleIcon .pcCar:after{right:7px}
+.pcOrderIcon .pcDot{width:30px;height:30px;border-radius:12px;background:linear-gradient(#56a0ff,#2478ff);box-shadow:0 10px 20px rgba(31,41,55,.20);border:2px solid #fff}
+.pcOrderIcon.urgent .pcDot{background:linear-gradient(#f5c653,#d89b11)}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -51,7 +81,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
     </section>
     <section class="screen mapScreen" id="mapScreen"><div class="map"><div id="realMap"></div><div id="fallbackMap"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div><div class="topStats"><div class="stat"><b id="onlineCount">42</b><span>онлайн</span></div><div class="stat"><b id="ordersCount">18</b><span>заявок</span></div><div class="stat"><b id="nearCount">7</b><span>рядом</span></div></div><div class="aiCard"><b>AI нашёл 5 подходящих исполнителей</b><span>Показаны анонимно: без телефона и личных данных</span></div><div class="marker m1"><div class="car"><span class="carLabel">4.9</span></div></div><div class="marker m2"><div class="car"><span class="carLabel">5.0</span></div></div><div class="marker m3"><div class="orderDot">•</div></div><div class="marker m4"><div class="car"><span class="carLabel">4.7</span></div></div><div class="marker m5"><div class="orderDot urgent">•</div></div><div class="marker m6"><div class="car"><span class="carLabel">AI</span></div></div><div class="marker m7"><div class="orderDot">•</div></div><div class="marker m8"><div class="car"></div></div></div><div class="bottomSheet" id="bottomSheet"><div class="handle"></div><div class="sheetTitle" id="sheetTitle"></div><div class="sheetContent"><div class="modeRow"><button class="modeBtn active">Исполнители</button><button class="modeBtn">Заявки</button></div><div class="filterRow"><button class="filterChip active">Все</button><button class="filterChip">Рядом</button><button class="filterChip">AI</button><button class="filterChip">Срочно</button></div><div class="rangeRow"><span>Радиус</span><input id="radius" type="range" min="1" max="100" value="25"><span id="radiusText">25 км</span></div><div class="ctaRow"></div></div></div></section>
   </div>
-  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div></div><div class="aiLive" id="aiLive">AI: найден новый исполнитель рядом</div><div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
+  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div></div><div class="aiLive" id="aiLive">AI: найден новый исполнитель рядом</div><button class="locBtn" id="locBtn" type="button">⌖</button><div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
 </div>
 <script>
 const $=id=>document.getElementById(id);let page="map",role="customer",startX=0,startY=0,dx=0,dy=0,pulling=false,lang="ru";
@@ -86,6 +116,73 @@ function startAiLive(){const msgs=["AI: найден новый исполнит
 const app=$("app");app.addEventListener("touchstart",e=>{startX=e.touches[0].clientX;startY=e.touches[0].clientY;dx=0;dy=0;pulling=false},{passive:true});app.addEventListener("touchmove",e=>{dx=e.touches[0].clientX-startX;dy=e.touches[0].clientY-startY;if(Math.abs(dy)>Math.abs(dx)&&dy>65){pulling=true;$("refresh").classList.add("show")}}, {passive:true});app.addEventListener("touchend",()=>{if(pulling){refresh();return} if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)){ if(dx<0) setPage("map"); else setPage("profile"); }}, {passive:true});
 renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 </script>
+
+<script>
+(function(){
+  const HAIFA=[32.812,34.996];
+  const drivers=[
+    {lat:32.815,lng:34.989,rating:"4.9",km:"2.3 км",car:"Фургон",status:"Свободен"},
+    {lat:32.803,lng:35.002,rating:"5.0",km:"3.1 км",car:"Грузовик",status:"Свободен"},
+    {lat:32.827,lng:35.010,rating:"4.7",km:"4.8 км",car:"2 грузчика",status:"Занят"},
+    {lat:32.792,lng:34.982,rating:"AI",km:"1.9 км",car:"Фургон",status:"Рекомендуется"}
+  ];
+  const orders=[
+    {lat:32.810,lng:34.975,urgent:false},
+    {lat:32.833,lng:34.998,urgent:true},
+    {lat:32.799,lng:35.018,urgent:false}
+  ];
+  function byId(id){return document.getElementById(id)}
+  function showDriverCard(d){
+    if(byId("driverTitle")) byId("driverTitle").textContent="Исполнитель рядом";
+    if(byId("driverMeta")) byId("driverMeta").textContent=d.status+" · без телефона до подтверждения заказа";
+    if(byId("dRating")) byId("dRating").textContent=d.rating;
+    if(byId("dKm")) byId("dKm").textContent=d.km;
+    if(byId("dCar")) byId("dCar").textContent=d.car;
+    if(byId("driverCard")) byId("driverCard").classList.add("show");
+    if(window.pcMap) window.pcMap.flyTo([d.lat,d.lng],14,{duration:.6});
+  }
+  function vehicleIcon(){return L.divIcon({className:"pcVehicleIcon",html:'<div class="pcCar"></div>',iconSize:[42,32],iconAnchor:[21,16]})}
+  function orderIcon(u){return L.divIcon({className:"pcOrderIcon "+(u?"urgent":""),html:'<div class="pcDot"></div>',iconSize:[32,32],iconAnchor:[16,16]})}
+  function boot(){
+    const el=byId("realMap");
+    if(!el || typeof L==="undefined"){setTimeout(boot,300);return}
+    if(window.pcMapBooted)return;
+    window.pcMapBooted=true;
+    try{
+      if(window.pcMap){try{window.pcMap.remove()}catch(e){}}
+      window.pcMap=L.map(el,{zoomControl:false,attributionControl:false,preferCanvas:true,worldCopyJump:true}).setView(HAIFA,13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,crossOrigin:true}).addTo(window.pcMap);
+      window.pcLiveMarkers=[];
+      drivers.forEach(d=>{
+        const m=L.marker([d.lat,d.lng],{icon:vehicleIcon()}).addTo(window.pcMap);
+        m.on("click",()=>showDriverCard(d));
+        window.pcLiveMarkers.push({m,d});
+      });
+      orders.forEach(o=>L.marker([o.lat,o.lng],{icon:orderIcon(o.urgent)}).addTo(window.pcMap));
+      const mapWrap=document.querySelector(".map");
+      if(mapWrap) mapWrap.classList.add("real");
+      setTimeout(()=>window.pcMap.invalidateSize(true),150);
+      setTimeout(()=>window.pcMap.invalidateSize(true),700);
+      clearInterval(window.pcMoveTimer);
+      window.pcMoveTimer=setInterval(()=>{
+        (window.pcLiveMarkers||[]).forEach(obj=>{
+          obj.d.lat+=(Math.random()-.5)*0.00055;
+          obj.d.lng+=(Math.random()-.5)*0.00055;
+          obj.m.setLatLng([obj.d.lat,obj.d.lng]);
+        });
+      },2600);
+    }catch(e){window.pcMapBooted=false;}
+  }
+  document.addEventListener("DOMContentLoaded",boot);
+  setTimeout(boot,500);
+  setTimeout(boot,1300);
+  document.addEventListener("click",function(e){
+    if(e.target && e.target.id==="locBtn" && window.pcMap) window.pcMap.flyTo(HAIFA,13,{duration:.5});
+    if(e.target && e.target.id==="closeDriver" && byId("driverCard")) byId("driverCard").classList.remove("show");
+  });
+})();
+</script>
+
 </body>
 </html>
 <style>
