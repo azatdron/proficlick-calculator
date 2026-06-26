@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7507</title>
+<title>ProfiClick Smart Platform v7508</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -79,6 +79,18 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
 .driverCard{bottom:calc(env(safe-area-inset-bottom) + 116px)!important;border-radius:26px!important;padding:14px!important}.driverTop b{font-size:19px!important;letter-spacing:-.02em}.driverMeta{font-size:13px!important}.driverStatus{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.driverStatus span{border-radius:999px;background:#eef8e8;color:#2f6f21;padding:7px 9px;font-size:11px;font-weight:950}.selectDriverBtn{width:100%;margin-top:12px;border:0;border-radius:18px;padding:13px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
 .orderFlow{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 116px);z-index:940;background:#fff;border:1px solid var(--line);border-radius:26px;padding:14px;box-shadow:0 20px 52px rgba(35,63,31,.22);display:none}.orderFlow.show{display:block}.flowTitle{font-size:19px;font-weight:950;letter-spacing:-.025em;margin-bottom:8px}.flowStep{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eef4ea}.flowStep:last-child{border-bottom:0}.flowDot{width:28px;height:28px;border-radius:50%;background:#eaf6e4;color:#2f6f21;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}.flowStep.active .flowDot{background:#2f6f21;color:#fff}.flowStep.done .flowDot{background:#5b9638;color:#fff}.flowText b{display:block;font-size:13px}.flowText span{display:block;font-size:11px;color:var(--muted);font-weight:850;margin-top:1px}.closeFlow{width:100%;margin-top:10px;border:0;border-radius:16px;padding:11px;background:#eef8e8;color:#2f6f21;font-weight:950}
 </style>
+
+<style>
+/* v7508: current user location marker + better center button */
+.locBtn{background:#fff!important;color:#2f6f21!important;font-size:22px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.locBtn.follow{background:#2f6f21!important;color:#fff!important}
+.userLocIcon{background:transparent!important;border:0!important}
+.userLocIcon .userPulse{width:54px;height:54px;border-radius:50%;background:rgba(44,132,255,.20);display:flex;align-items:center;justify-content:center;animation:userPulse 1.8s ease-in-out infinite}
+.userLocIcon .userDot{width:20px;height:20px;border-radius:50%;background:#2f84ff;border:4px solid #fff;box-shadow:0 6px 18px rgba(24,108,220,.35)}
+@keyframes userPulse{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+.geoHint{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 220px);z-index:760;background:rgba(23,32,51,.9);color:#fff;border-radius:16px;padding:10px 12px;font-size:12px;font-weight:850;box-shadow:0 14px 34px rgba(0,0,0,.18);display:none}.geoHint.show{display:block}
+.selectDriverBtn{width:100%;margin-top:12px;border:0;border-radius:18px;padding:13px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -93,7 +105,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
     </section>
     <section class="screen mapScreen" id="mapScreen"><div class="map"><div id="realMap"></div><div id="fallbackMap"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div><div class="topStats"><div class="stat"><b id="onlineCount">42</b><span>онлайн</span></div><div class="stat"><b id="ordersCount">18</b><span>заявок</span></div><div class="stat"><b id="nearCount">7</b><span>рядом</span></div></div><div class="aiCard"><b>AI нашёл 5 исполнителей рядом</b><span>Показаны анонимно: без телефона и личных данных</span></div><div class="marker m1"><div class="car"><span class="carLabel">4.9</span></div></div><div class="marker m2"><div class="car"><span class="carLabel">5.0</span></div></div><div class="marker m3"><div class="orderDot">•</div></div><div class="marker m4"><div class="car"><span class="carLabel">4.7</span></div></div><div class="marker m5"><div class="orderDot urgent">•</div></div><div class="marker m6"><div class="car"><span class="carLabel">AI</span></div></div><div class="marker m7"><div class="orderDot">•</div></div><div class="marker m8"><div class="car"></div></div></div><div class="bottomSheet" id="bottomSheet"><div class="handle"></div><div class="sheetTitle" id="sheetTitle"></div><div class="sheetContent"><div class="modeRow"><button class="modeBtn active">Исполнители</button><button class="modeBtn">Заявки</button></div><div class="filterRow"><button class="filterChip active">Все</button><button class="filterChip">Рядом</button><button class="filterChip">AI</button><button class="filterChip">Срочно</button></div><div class="rangeRow"><span>Радиус</span><input id="radius" type="range" min="1" max="100" value="25"><span id="radiusText">25 км</span></div><div class="ctaRow"></div></div></div></section>
   </div>
-  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div></div><div class="aiLive" id="aiLive">AI: рекомендует исполнителя 1.9 км</div><button class="locBtn" id="locBtn" type="button">⌖</button><div class="orderFlow" id="orderFlow"><div class="flowTitle">AI отправляет заявку</div><div class="flowStep done" id="flow1"><div class="flowDot">✓</div><div class="flowText"><b>Заказ подготовлен</b><span>Цена, маршрут и вещи проверены</span></div></div><div class="flowStep active" id="flow2"><div class="flowDot">2</div><div class="flowText"><b>Исполнитель просматривает</b><span>Данные клиента скрыты</span></div></div><div class="flowStep" id="flow3"><div class="flowDot">3</div><div class="flowText"><b>Ожидаем подтверждение</b><span>После принятия откроется профиль</span></div></div><button class="closeFlow" id="closeFlow" type="button">Понятно</button></div><div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
+  <div class="driverCard" id="driverCard"><div class="driverTop"><b id="driverTitle">Исполнитель рядом</b><button id="closeDriver" type="button">×</button></div><div class="driverMeta" id="driverMeta">Без телефона и личных данных до подтверждения заказа.</div><div class="driverGrid"><div class="driverMini"><b id="dRating">4.9</b><span>рейтинг</span></div><div class="driverMini"><b id="dKm">2.3 км</b><span>рядом</span></div><div class="driverMini"><b id="dCar">Фургон</b><span>машина</span></div></div><button class="selectDriverBtn" id="selectDriverBtn" type="button">Выбрать исполнителя</button></div><div class="aiLive" id="aiLive">AI: рекомендует исполнителя 1.9 км</div><button class="locBtn" id="locBtn" type="button">⌖</button><div class="orderFlow" id="orderFlow"><div class="flowTitle">AI отправляет заявку</div><div class="flowStep done" id="flow1"><div class="flowDot">✓</div><div class="flowText"><b>Заказ подготовлен</b><span>Цена, маршрут и вещи проверены</span></div></div><div class="flowStep active" id="flow2"><div class="flowDot">2</div><div class="flowText"><b>Исполнитель просматривает</b><span>Данные клиента скрыты</span></div></div><div class="flowStep" id="flow3"><div class="flowDot">3</div><div class="flowText"><b>Ожидаем подтверждение</b><span>После принятия откроется профиль</span></div></div><button class="closeFlow" id="closeFlow" type="button">Понятно</button></div><div class="geoHint" id="geoHint">Показываем ваше местоположение на карте</div><div class="pageDots"><div class="dot" id="dotProfile"></div><div class="dot active" id="dotMap"></div></div><div class="toast" id="toast">Обновлено</div>
 </div>
 <script>
 const $=id=>document.getElementById(id);let page="map",role="customer",startX=0,startY=0,dx=0,dy=0,pulling=false,lang="ru";
@@ -206,6 +218,50 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
  document.addEventListener('click',e=>{if(e.target&&e.target.id==='selectDriverBtn')startFlow();if(e.target&&e.target.id==='closeFlow'&&byId('orderFlow'))byId('orderFlow').classList.remove('show')});
  function boot(){patch();setTimeout(patch,600);setTimeout(patch,1500);setTimeout(()=>{if(window.pcMoveTimer)clearInterval(window.pcMoveTimer);window.pcMoveTimer=setInterval(()=>{(window.pcLiveMarkers||[]).forEach(o=>{if(!o.d||!o.m)return;o.d.lat+=(Math.random()-.5)*0.00030;o.d.lng+=(Math.random()-.5)*0.00030;o.m.setLatLng([o.d.lat,o.d.lng])})},1800)},2200)}
  document.addEventListener('DOMContentLoaded',boot);setTimeout(boot,1100);
+})();
+</script>
+
+<script>
+(function(){
+  let userMarker=null, followMode=false, watchId=null, fallbackPos=[32.812,34.996];
+  function byId(id){return document.getElementById(id)}
+  function showHint(txt){const h=byId('geoHint'); if(!h)return; h.textContent=txt; h.classList.add('show'); setTimeout(()=>h.classList.remove('show'),2200)}
+  function userIcon(){return L.divIcon({className:'userLocIcon',html:'<div class="userPulse"><div class="userDot"></div></div>',iconSize:[54,54],iconAnchor:[27,27]})}
+  function placeUser(lat,lng,zoom=true){
+    if(typeof L==='undefined' || !window.pcMap) return;
+    if(!userMarker){ userMarker=L.marker([lat,lng],{icon:userIcon(),zIndexOffset:1000}).addTo(window.pcMap); }
+    else userMarker.setLatLng([lat,lng]);
+    if(zoom || followMode) window.pcMap.flyTo([lat,lng],15,{duration:.55});
+  }
+  function getLocation(){
+    const btn=byId('locBtn');
+    if(!navigator.geolocation){ placeUser(fallbackPos[0],fallbackPos[1]); showHint('Геолокация недоступна, показан центр Хайфы'); return; }
+    showHint('Определяем ваше местоположение…');
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const lat=pos.coords.latitude, lng=pos.coords.longitude;
+      placeUser(lat,lng,true); showHint('Вы на карте');
+    },err=>{
+      placeUser(fallbackPos[0],fallbackPos[1],true); showHint('Разрешите геолокацию. Пока показан центр Хайфы');
+    },{enableHighAccuracy:true,timeout:7000,maximumAge:10000});
+  }
+  function toggleFollow(){
+    const btn=byId('locBtn');
+    if(!btn)return;
+    if(!userMarker){ getLocation(); return; }
+    followMode=!followMode;
+    btn.classList.toggle('follow',followMode);
+    showHint(followMode?'Режим следования включён':'Режим следования выключен');
+    if(followMode && navigator.geolocation){
+      if(watchId!==null) navigator.geolocation.clearWatch(watchId);
+      watchId=navigator.geolocation.watchPosition(pos=>placeUser(pos.coords.latitude,pos.coords.longitude,false),()=>{}, {enableHighAccuracy:true,maximumAge:5000});
+    } else if(watchId!==null && navigator.geolocation){ navigator.geolocation.clearWatch(watchId); watchId=null; }
+  }
+  document.addEventListener('click',function(e){
+    if(e.target && e.target.id==='locBtn'){
+      if(!window.pcMap){setTimeout(getLocation,500);return;}
+      if(!userMarker) getLocation(); else toggleFollow();
+    }
+  });
 })();
 </script>
 </body>
