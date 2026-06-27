@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7509</title>
+<title>ProfiClick Smart Platform v7512</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -128,6 +128,45 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
 .orderFlow{position:absolute;left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom) + 116px);z-index:940;background:#fff;border:1px solid var(--line);border-radius:26px;padding:14px;box-shadow:0 20px 52px rgba(35,63,31,.22);display:none}.orderFlow.show{display:block}.flowTitle{font-size:19px;font-weight:950;letter-spacing:-.025em;margin-bottom:8px}.flowStep{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eef4ea}.flowStep:last-child{border-bottom:0}.flowDot{width:28px;height:28px;border-radius:50%;background:#eaf6e4;color:#2f6f21;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:950}.flowStep.active .flowDot{background:#2f6f21;color:#fff}.flowStep.done .flowDot{background:#5b9638;color:#fff}.flowText b{display:block;font-size:13px}.flowText span{display:block;font-size:11px;color:var(--muted);font-weight:850;margin-top:1px}.closeFlow{width:100%;margin-top:10px;border:0;border-radius:16px;padding:11px;background:#eef8e8;color:#2f6f21;font-weight:950}
 </style>
 
+
+<style>
+.fleetPanel{margin:10px 0;border:1px solid var(--line);background:#f8fbf5;border-radius:20px;padding:11px}
+.fleetHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
+.fleetHead b{display:block;font-size:17px;font-weight:950;letter-spacing:-.02em}
+.fleetHead span{display:block;color:var(--muted);font-size:11px;font-weight:850;margin-top:2px}
+.fleetHead button{border:0;border-radius:15px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:12px;font-weight:950;padding:10px}
+.fleetStats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:9px}
+.fleetStats div{background:#fff;border:1px solid var(--line);border-radius:15px;padding:8px;text-align:center}
+.fleetStats b{display:block;color:#2f6f21;font-size:16px}.fleetStats span{font-size:9px;color:var(--muted);font-weight:900}
+.vehicleCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:10px;margin-bottom:8px}
+.vehicleTop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.vehicleName{font-size:14px;font-weight:950}.vehicleNum{font-size:11px;color:var(--muted);font-weight:850;margin-top:2px}
+.vehicleStatus{border-radius:999px;padding:6px 8px;font-size:10px;font-weight:950;background:#eef8e8;color:#2f6f21;white-space:nowrap}
+.vehicleStatus.busy{background:#fff4df;color:#9a6700}.vehicleStatus.off{background:#f1f4ef;color:#5f6b5a}.vehicleStatus.paid{background:#e9f1ff;color:#1869df}
+.vehicleActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.vehicleActions button{border:1px solid var(--line);border-radius:14px;background:#fff;padding:9px 6px;font-size:11px;font-weight:950;color:var(--ink)}
+.vehicleActions button.primary{background:#eaf6e4;color:#2f6f21;border-color:#cfe7c9}
+.slotModal{position:absolute;inset:0;z-index:2000;background:rgba(23,32,51,.35);display:none;align-items:flex-end;padding:10px}
+.slotModal.show{display:flex}.slotBox{width:100%;background:#fff;border-radius:26px;padding:16px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.slotBox h3{margin:0 0 8px;font-size:21px;letter-spacing:-.03em}.slotBox p{margin:0;color:var(--muted);font-size:13px;font-weight:850;line-height:1.35}
+.slotActions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.slotActions button{border:0;border-radius:17px;padding:13px;font-size:14px;font-weight:950}
+#cancelSlotBtn{background:#f2f6ef;color:#5f6b5a}#paySlotBtn{background:linear-gradient(#5b9638,#2f6623);color:#fff}
+</style>
+
+
+<style>
+/* v7512: map-only overlays only on map page */
+body:not(.onMap) .mapLegend,
+body:not(.onMap) .locBtn,
+body:not(.onMap) .driverCard,
+body:not(.onMap) .orderCard,
+body:not(.onMap) .orderFlow,
+body:not(.onMap) .aiLive {
+  display:none!important;
+}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -138,7 +177,20 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);f
       <div class="card"><div class="profileTop"><div class="ava">AZ</div><div><h1 class="name" id="profileName"></h1><div class="meta" id="profileMeta">Заказчик · Хайфа</div><div class="pills"><span class="pill">★ 4.9</span><span class="pill gray" id="historyPill">12 заказов</span></div></div></div><button class="bigButton" id="roleToggle">Показать режим исполнителя</button></div>
       <div class="card customerBox"><div class="title">Заказчик</div><div class="actionGrid"><div class="actionCard"><b>Новый заказ</b><span>Быстрый расчёт и оформление перевозки</span></div><div class="actionCard"><b>Архив</b><span>Завершённые заявки и история цен</span></div></div><button class="bigButton" id="createOrder">Открыть калькулятор</button></div>
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
-      <div class="card"><div class="title">Активность</div><div class="miniTabs"><button class="miniTab active" data-act="active">Активные</button><button class="miniTab" data-act="work">В работе</button><button class="miniTab" data-act="archive">Архив</button></div><div id="activityList"></div></div>
+      
+<div class="fleetPanel" id="fleetPanel">
+  <div class="fleetHead">
+    <div><b>Мои машины</b><span>2 машины включены · доп. слот до 15 числа</span></div>
+    <button id="addVehicleBtn" type="button">+ Машина</button>
+  </div>
+  <div class="fleetStats">
+    <div><b id="activeCount">2</b><span>активно</span></div>
+    <div><b>2</b><span>бесплатно</span></div>
+    <div><b id="paidCount">0</b><span>доп. слотов</span></div>
+  </div>
+  <div id="fleetList"></div>
+</div>
+<div class="card"><div class="title">Активность</div><div class="miniTabs"><button class="miniTab active" data-act="active">Активные</button><button class="miniTab" data-act="work">В работе</button><button class="miniTab" data-act="archive">Архив</button></div><div id="activityList"></div></div>
     </section>
     <section class="screen mapScreen" id="mapScreen"><div class="map"><div id="realMap"></div><div id="fallbackMap"></div><div class="road r1"></div><div class="road r2"></div><div class="road r3"></div><div class="road r4"></div><div class="topStats"><div class="stat"><b id="onlineCount">42</b><span>онлайн</span></div><div class="stat"><b id="ordersCount">18</b><span>заявок</span></div><div class="stat"><b id="nearCount">7</b><span>рядом</span></div></div><div class="aiCard"><b>AI нашёл 5 исполнителей рядом</b><span>Показаны анонимно: без телефона и личных данных</span></div><div class="marker m1"><div class="car"><span class="carLabel">4.9</span></div></div><div class="marker m2"><div class="car"><span class="carLabel">5.0</span></div></div><div class="marker m3"><div class="orderDot">•</div></div><div class="marker m4"><div class="car"><span class="carLabel">4.7</span></div></div><div class="marker m5"><div class="orderDot urgent">•</div></div><div class="marker m6"><div class="car"><span class="carLabel">AI</span></div></div><div class="marker m7"><div class="orderDot">•</div></div><div class="marker m8"><div class="car"></div></div></div><div class="bottomSheet" id="bottomSheet"><div class="handle"></div><div class="sheetTitle" id="sheetTitle"></div><div class="sheetContent"><div class="modeRow"><button class="modeBtn active">Исполнители</button><button class="modeBtn">Заявки</button></div><div class="filterRow"><button class="filterChip active">Все</button><button class="filterChip">Рядом</button><button class="filterChip">AI</button><button class="filterChip">Срочно</button></div><div class="rangeRow"><span>Радиус</span><input id="radius" type="range" min="1" max="100" value="25"><span id="radiusText">25 км</span></div><div class="ctaRow"></div></div></div></section>
   </div>
@@ -425,6 +477,119 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
     if(e.target && e.target.id==="acceptOrderBtn") startFlow();
     if(e.target && e.target.id==="closeFlow" && byId("orderFlow")) byId("orderFlow").classList.remove("show");
   });
+})();
+</script>
+
+
+<div class="slotModal" id="slotModal">
+  <div class="slotBox">
+    <h3>Открыть дополнительный слот?</h3>
+    <p id="slotText">В подписке уже есть 2 бесплатные машины. Чтобы активировать ещё одну машину, нужен дополнительный слот до 15 числа.</p>
+    <div class="slotActions"><button id="cancelSlotBtn" type="button">Отмена</button><button id="paySlotBtn" type="button">Открыть слот</button></div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  const FREE_LIMIT=2, RENEW_DAY=15;
+  const vehicles=[
+    {id:1,name:"Машина №1",num:"12-345-67",status:"free",paid:true,free:true,active:true},
+    {id:2,name:"Машина №2",num:"98-765-43",status:"busy",paid:true,free:true,active:true},
+    {id:3,name:"Машина №3",num:"73-456-12",status:"off",paid:false,free:false,active:false}
+  ];
+  let pendingVehicle=null;
+  const $=id=>document.getElementById(id);
+  function nextRenewText(){
+    const d=new Date(); let m=d.getMonth(), y=d.getFullYear();
+    if(d.getDate()>=RENEW_DAY){m++; if(m>11){m=0;y++;}}
+    const months=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+    return RENEW_DAY+" "+months[m];
+  }
+  function statusText(v){
+    if(!v.active) return "Неактивна";
+    if(v.status==="busy") return "На заказе";
+    if(v.status==="free") return "Свободна";
+    return "Неактивна";
+  }
+  function renderFleet(){
+    const box=$("fleetList"); if(!box)return;
+    box.innerHTML="";
+    const active=vehicles.filter(v=>v.active).length;
+    const paid=vehicles.filter(v=>!v.free&&v.paid).length;
+    if($("activeCount")) $("activeCount").textContent=String(active);
+    if($("paidCount")) $("paidCount").textContent=String(paid);
+    vehicles.forEach(v=>{
+      const div=document.createElement("div");
+      div.className="vehicleCard";
+      const cls=!v.active?"off":v.status==="busy"?"busy":(!v.free&&v.paid)?"paid":"";
+      const slotText=v.free?"Входит в подписку":(v.paid?"Оплачено до "+nextRenewText():"Нужен слот");
+      div.innerHTML=`<div class="vehicleTop"><div><div class="vehicleName">🚚 ${v.name}</div><div class="vehicleNum">Гос. номер: ${v.num} · ${slotText}</div></div><div class="vehicleStatus ${cls}">${statusText(v)}</div></div>
+      <div class="vehicleActions"><button class="primary" data-action="toggle" data-id="${v.id}">${v.active?"Выключить":"Включить"}</button><button data-action="busy" data-id="${v.id}">${v.status==="busy"?"Сделать свободной":"На заказе"}</button></div>`;
+      box.appendChild(div);
+    });
+  }
+  function openSlot(v){
+    pendingVehicle=v;
+    if($("slotText")) $("slotText").textContent=`${v.name} — дополнительная машина. Если открыть слот сейчас, он будет активен до ${nextRenewText()}. До этой даты её можно включать и выключать без повторной оплаты.`;
+    $("slotModal")?.classList.add("show");
+  }
+  function toast(msg){const t=$("toast"); if(t){t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600);}}
+  document.addEventListener("click",function(e){
+    const t=e.target; if(!t)return;
+    if(t.id==="addVehicleBtn"){
+      const id=vehicles.length+1;
+      vehicles.push({id,name:"Машина №"+id,num:"Введите номер",status:"off",paid:false,free:false,active:false});
+      renderFleet(); toast("Машина добавлена. Для активации нужен слот."); return;
+    }
+    if(t.id==="cancelSlotBtn"){ $("slotModal")?.classList.remove("show"); pendingVehicle=null; return; }
+    if(t.id==="paySlotBtn" && pendingVehicle){
+      pendingVehicle.paid=true; pendingVehicle.active=true; pendingVehicle.status="free";
+      $("slotModal")?.classList.remove("show"); toast("Слот открыт до "+nextRenewText());
+      renderFleet(); pendingVehicle=null; return;
+    }
+    const action=t.dataset?.action, id=Number(t.dataset?.id); if(!action||!id)return;
+    const v=vehicles.find(x=>x.id===id); if(!v)return;
+    if(action==="toggle"){
+      if(!v.free && !v.paid && !v.active){openSlot(v);return;}
+      v.active=!v.active; v.status=v.active?(v.status==="off"?"free":v.status):"off"; renderFleet(); return;
+    }
+    if(action==="busy"){
+      if(!v.active){
+        if(!v.free && !v.paid){openSlot(v);return;}
+        v.active=true;
+      }
+      v.status=v.status==="busy"?"free":"busy"; renderFleet(); return;
+    }
+  });
+  document.addEventListener("DOMContentLoaded",renderFleet);
+  setTimeout(renderFleet,300);
+})();
+</script>
+
+
+<script>
+(function(){
+  function markPage(){
+    const wrap=document.getElementById("swipeWrap");
+    const isMap = wrap && String(wrap.style.transform||"").includes("-50%");
+    document.body.classList.toggle("onMap", !!isMap);
+  }
+  const oldSetPage = window.setPage;
+  if(typeof oldSetPage === "function"){
+    window.setPage = function(p){
+      oldSetPage(p);
+      document.body.classList.toggle("onMap", p==="map");
+    };
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    markPage();
+    const wrap=document.getElementById("swipeWrap");
+    if(wrap){
+      new MutationObserver(markPage).observe(wrap,{attributes:true,attributeFilter:["style","class"]});
+    }
+  });
+  setInterval(markPage, 500);
 })();
 </script>
 
