@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6 Fleet AI</title>
+<title>ProfiClick v7.6.10 Clean Fleet</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -228,6 +228,106 @@ body:not(.onMap) .aiLive {
 .lgCar,.lgOrder{display:inline-block;width:16px;height:16px;border-radius:50%}.lgCar.free{background:#2f7d25}.lgCar.busy{background:#cfd4cf}.lgCar.track{background:#2478ff}.lgCar.temp{background:#e0a20e}.lgOrder.active{background:#2f7d25;border-radius:6px}.lgOrder.pending{background:#e0a20e;border-radius:6px}
 </style>
 
+
+<style>
+/* v7610 clean fleet UI */
+.pcTopCards{display:none!important}
+.pcVehiclePlate{display:none!important}
+.mapLegend{display:none!important}
+.bottomSheet{
+  left:10px!important;
+  right:10px!important;
+  bottom:calc(env(safe-area-inset-bottom) - 7px)!important;
+  padding:10px!important;
+  border-radius:24px 24px 20px 20px!important;
+}
+.sheetHandle{margin-bottom:8px!important}
+.bottomSheet .filterRow,
+.bottomSheet .chips,
+.bottomSheet .tabs,
+.bottomSheet .segment,
+.bottomSheet .filterTabs,
+.bottomSheet .viewTabs,
+.bottomSheet .pillRow,
+.bottomSheet .switchRow,
+.bottomSheet .sheetTitle,
+.bottomSheet [data-tab],
+.bottomSheet .radiusScale,
+.bottomSheet .radiusInfo{
+  display:none!important;
+}
+.pcFleetTabs{
+  display:grid!important;
+  grid-template-columns:1fr 1fr 1fr 44px!important;
+  gap:7px!important;
+  margin-bottom:10px!important;
+}
+.pcFleetTabs button{
+  height:42px!important;
+  border-radius:16px!important;
+  font-size:13px!important;
+  background:#fff!important;
+  color:var(--ink)!important;
+  border:1px solid var(--line)!important;
+  box-shadow:none!important;
+}
+.pcFleetTabs button.active{
+  background:#eaf6e4!important;
+  color:#2f7d25!important;
+  border-color:#cfe7c9!important;
+}
+.radiusTitle{
+  margin:2px 4px 6px!important;
+  font-size:14px!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+}
+.radiusTitle span:first-child{font-size:0!important}
+.radiusTitle span:first-child::after{content:"Радиус";font-size:14px;color:var(--ink);font-weight:950}
+.radiusTitle b{font-size:14px!important;color:#2f7d25!important}
+.rangeRow{
+  display:grid!important;
+  grid-template-columns:auto 1fr auto!important;
+  gap:8px!important;
+  align-items:center!important;
+  margin:0 4px!important;
+}
+.rangeRow label{font-size:0!important}
+.rangeRow b{font-size:14px!important;color:#6b7280!important}
+.pcOrderIcon .pcDot span{font-size:0!important}
+.pcOrderIcon .pcDot span::after{content:"📦";font-size:17px}
+.pcOrderIcon .pcDot{
+  min-width:38px!important;
+  width:38px!important;
+  height:38px!important;
+  border-radius:15px 15px 15px 5px!important;
+}
+.pcOrderIcon.pending .pcDot span::after{content:"📦"}
+.subscriptionRules{
+  margin:10px 0;
+  border:1px solid var(--line);
+  background:#f8fbf5;
+  border-radius:20px;
+  padding:10px;
+  display:grid;
+  gap:7px;
+}
+.subscriptionRules div{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:9px 10px;
+}
+.subscriptionRules b{display:block;font-size:14px;color:var(--ink);font-weight:950}
+.subscriptionRules span{display:block;margin-top:2px;font-size:11px;color:var(--muted);font-weight:850}
+body.standardPlan #addVehicleBtn{
+  pointer-events:none!important;
+  opacity:.45!important;
+  filter:grayscale(1)!important;
+}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -239,6 +339,12 @@ body:not(.onMap) .aiLive {
       <div class="card customerBox"><div class="title">Заказчик</div><div class="actionGrid"><div class="actionCard"><b>Новый заказ</b><span>Быстрый расчёт и оформление перевозки</span></div><div class="actionCard"><b>Архив</b><span>Завершённые заявки и история цен</span></div></div><button class="bigButton" id="createOrder">Открыть калькулятор</button></div>
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
       
+
+<div class="subscriptionRules" id="subscriptionRules">
+  <div><b>1 месяц бесплатно</b><span>Полный доступ для проверки сервиса</span></div>
+  <div><b>₪100 / месяц</b><span>1 активная машина</span></div>
+  <div><b>₪200 / месяц</b><span>до 10 машин · кнопка «Добавить машину» активна</span></div>
+</div>
 <div class="fleetPanel" id="fleetPanel">
   <div class="fleetHead">
     <div><b>Мои машины</b><span>2 машины включены · доп. слот до 15 числа</span></div>
@@ -839,6 +945,66 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
   });
   function boot(){bind();setTimeout(rebuild,700);setTimeout(()=>{bind();rebuild()},1800)}
   document.addEventListener("DOMContentLoaded",boot); setTimeout(boot,1200);
+})();
+</script>
+
+
+<script>
+(function(){
+  function $(id){return document.getElementById(id)}
+  function updateRadiusText(s){
+    const vals=[5,10,25,50,100];
+    const km=vals[Number(s.value)||2] || 25;
+    const t=$("pcRadiusText");
+    if(t) t.textContent=km+" км";
+    document.querySelectorAll(".rangeRow b").forEach(b=>{b.textContent=km+" км"});
+  }
+  function cleanFleetUI(){
+    const top=$("pcTopCards");
+    if(top) top.remove();
+    document.querySelectorAll(".pcVehiclePlate").forEach(x=>x.remove());
+
+    const sheet=document.querySelector(".bottomSheet");
+    if(sheet){
+      document.querySelectorAll(".bottomSheet button, .bottomSheet div").forEach(el=>{
+        const txt=(el.textContent||"").trim();
+        if((txt==="Исполнители" || txt==="Заявки") && !el.closest("#pcFleetTabs")){
+          const parent=el.parentElement;
+          if(parent && parent.children.length<=3) parent.style.display="none";
+        }
+      });
+    }
+
+    const row=document.querySelector(".rangeRow");
+    if(row && !$("radiusTitle")){
+      const title=document.createElement("div");
+      title.className="radiusTitle";
+      title.id="radiusTitle";
+      title.innerHTML='<span>Радиус</span><b id="pcRadiusText">25 км</b>';
+      row.insertAdjacentElement("beforebegin", title);
+    }
+    document.querySelectorAll(".radiusScale").forEach(x=>x.remove());
+
+    document.querySelectorAll('input[type="range"]').forEach(s=>{
+      if(!s.dataset.cleanRadius){
+        s.dataset.cleanRadius="1";
+        s.min=0; s.max=4; s.step=1;
+        if(!s.value || Number(s.value)>4) s.value=2;
+        s.addEventListener("input",()=>updateRadiusText(s));
+        s.addEventListener("change",()=>updateRadiusText(s));
+      }
+      updateRadiusText(s);
+    });
+
+    document.querySelectorAll(".card,.actionCard,.toolCard,.executorTile").forEach(el=>{
+      const txt=(el.textContent||"").toLowerCase();
+      if(txt.includes("мой калькулятор") || txt.includes("my calculator")) el.remove();
+    });
+  }
+  document.addEventListener("DOMContentLoaded",cleanFleetUI);
+  setTimeout(cleanFleetUI,500);
+  setTimeout(cleanFleetUI,1500);
+  setInterval(cleanFleetUI,2500);
 })();
 </script>
 
