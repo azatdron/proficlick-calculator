@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7515</title>
+<title>ProfiClick v7.6 Fleet AI</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -201,6 +201,31 @@ body:not(.onMap) .aiLive {
 .locBtn{bottom:calc(env(safe-area-inset-bottom) + 210px)!important}
 .radiusInfo{display:flex;justify-content:space-between;align-items:center;margin-top:6px;color:#6b7280;font-weight:950;font-size:11px}
 .radiusInfo b{color:#2f6f21}
+</style>
+
+
+<style>
+.mapLegend{display:none!important}
+.bottomSheet{left:10px!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom) - 4px)!important;padding:12px 10px 11px!important;border-radius:26px 26px 22px 22px!important}
+.sheetHandle{margin-bottom:9px!important}.filterRow,.chips,.tabs,.segment,.filterTabs,.viewTabs{display:none!important}
+.pcFleetTabs{display:grid;grid-template-columns:1fr 1fr 1fr 48px;gap:8px;margin-bottom:13px}
+.pcFleetTabs button{height:48px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:6px}
+.pcFleetTabs button.active{background:#111827;color:#fff;border-color:#111827;box-shadow:0 10px 20px rgba(17,24,39,.16)}
+.radiusTitle{display:flex;justify-content:space-between;align-items:baseline;margin:0 4px 7px;font-size:15px;font-weight:900;color:var(--ink)}
+.radiusTitle b{color:#2f7d25}.radiusScale{display:flex;justify-content:space-between;margin:7px 4px 0;color:#111827;font-size:11px;font-weight:850}.radiusInfo{display:none!important}
+.pcOrderIcon .pcDot{min-width:42px!important;height:42px!important;border-radius:18px 18px 18px 5px!important;transform:rotate(-45deg);display:flex!important;align-items:center!important;justify-content:center!important;background:linear-gradient(#69b84b,#2f7d25)!important;border:3px solid #fff!important;box-shadow:0 12px 24px rgba(24,55,20,.24)!important}
+.pcOrderIcon .pcDot span{transform:rotate(45deg);font-size:10px;font-weight:950;color:#fff}.pcOrderIcon.pending .pcDot{background:linear-gradient(#ffd457,#e0a20e)!important}
+.pcVehicleIcon.busy .pcCar{background:linear-gradient(#dfe3df,#9ca3af)!important;opacity:.42!important;filter:grayscale(.25)}.pcVehicleIcon.busy{pointer-events:none!important}
+.pcVehicleIcon.temp .pcCar{background:linear-gradient(#ffd457,#e0a20e)!important;opacity:.65!important}.pcVehicleIcon.mine .pcCar{box-shadow:0 0 0 4px rgba(47,125,37,.18),0 12px 24px rgba(24,55,20,.26)!important}
+.pcVehiclePlate{position:absolute;left:50%;top:33px;transform:translateX(-50%);background:#fff;border:1px solid #9bd49a;color:#2f7d25;border-radius:7px;padding:2px 5px;font-size:9px;font-weight:950;white-space:nowrap;box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.pcTopCards{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 96px);z-index:650;display:grid;grid-template-columns:1fr 1fr;gap:10px;pointer-events:none}
+.pcTopCard{background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:10px 12px;box-shadow:0 12px 24px rgba(35,63,31,.12)}
+.pcTopCard b{display:block;color:#111827;font-size:13px;font-weight:950}.pcTopCard span{display:block;margin-top:3px;color:#2f7d25;font-size:12px;font-weight:950}
+.pcLegendModal{position:absolute;inset:0;z-index:2200;background:rgba(17,24,39,.28);display:none;align-items:flex-end;padding:10px}.pcLegendModal.show{display:flex}
+.pcLegendBox{width:100%;background:#fff;border:1px solid var(--line);border-radius:26px;padding:15px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.pcLegendHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.pcLegendHead b{font-size:20px;font-weight:950}.pcLegendHead button{border:0;background:#f2f6ef;border-radius:999px;width:34px;height:34px;font-size:20px;color:#1680ff}
+.pcLegendCols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.pcLegendCols h4{margin:0 0 8px;font-size:13px}.pcLegendCols p{margin:8px 0;color:#4b5563;font-size:12px;font-weight:850;display:flex;align-items:center;gap:8px}
+.lgCar,.lgOrder{display:inline-block;width:16px;height:16px;border-radius:50%}.lgCar.free{background:#2f7d25}.lgCar.busy{background:#cfd4cf}.lgCar.track{background:#2478ff}.lgCar.temp{background:#e0a20e}.lgOrder.active{background:#2f7d25;border-radius:6px}.lgOrder.pending{background:#e0a20e;border-radius:6px}
 </style>
 
 </head>
@@ -709,6 +734,111 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
   setTimeout(bind,1200);
   setTimeout(bind,2400);
   setInterval(()=>{ if(document.body.classList.contains("onMap")) apply(); },4000);
+})();
+</script>
+
+
+<div class="pcLegendModal" id="pcLegendModal">
+  <div class="pcLegendBox">
+    <div class="pcLegendHead"><b>Обозначения</b><button id="closePcLegend" type="button">×</button></div>
+    <div class="pcLegendCols">
+      <div><h4>Машины</h4><p><i class="lgCar free"></i>Свободна</p><p><i class="lgCar busy"></i>Занята</p><p><i class="lgCar track"></i>Едет к клиенту</p><p><i class="lgCar temp"></i>Временно недоступна</p></div>
+      <div><h4>Заявки</h4><p><i class="lgOrder active"></i>Активная заявка</p><p><i class="lgOrder pending"></i>Есть отклик</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const state={mode:"all"};
+  function $(id){return document.getElementById(id)}
+  function ensureTabs(){
+    const sheet=document.querySelector(".bottomSheet"); if(!sheet||$("pcFleetTabs"))return;
+    const tabs=document.createElement("div"); tabs.className="pcFleetTabs"; tabs.id="pcFleetTabs";
+    tabs.innerHTML='<button data-map-mode="all" class="active">🌐 Все</button><button data-map-mode="mine">🚚 Мои</button><button data-map-mode="drivers">👤 Исполнители</button><button id="openPcLegend" type="button">ⓘ</button>';
+    sheet.insertBefore(tabs,sheet.firstElementChild);
+    const row=sheet.querySelector(".rangeRow");
+    if(row&&!$("radiusTitle")){
+      const title=document.createElement("div"); title.className="radiusTitle"; title.id="radiusTitle"; title.innerHTML='<span>Радиус поиска: <b id="pcRadiusText">25 км</b></span>';
+      const scale=document.createElement("div"); scale.className="radiusScale"; scale.innerHTML='<span>5 км</span><span>10 км</span><span>25 км</span><span>50 км</span><span>100 км</span>';
+      row.insertAdjacentElement("beforebegin",title); row.insertAdjacentElement("afterend",scale);
+    }
+  }
+  function vehicleIcon(type,mine,plate){
+    const cls=(type||"")+(mine?" mine":"");
+    const plateHtml=plate?'<span class="pcVehiclePlate">'+plate+'</span>':'';
+    return L.divIcon({className:"pcVehicleIcon "+cls,html:'<div class="pcCar"></div>'+plateHtml,iconSize:[54,48],iconAnchor:[27,20]});
+  }
+  function orderIcon(o){
+    return L.divIcon({className:"pcOrderIcon "+(o.state==="pending"?"pending":"active"),html:'<div class="pcDot"><span>'+o.price+'</span></div>',iconSize:[48,48],iconAnchor:[24,24]});
+  }
+  function rebuild(){
+    if(!window.pcMap||typeof L==="undefined")return;
+    (window.pcLiveMarkers||[]).forEach(x=>{try{window.pcMap.removeLayer(x.m)}catch(e){}});
+    (window.pcOrderMarkers||[]).forEach(x=>{try{window.pcMap.removeLayer(x.m)}catch(e){}});
+    window.pcLiveMarkers=[]; window.pcOrderMarkers=[];
+    const drivers=[
+      {lat:32.815,lng:34.989,rating:"4.9",km:"2.3 км",car:"Фургон",status:"Свободен",type:"free",mine:true,plate:"AA-123-45"},
+      {lat:32.803,lng:35.002,rating:"5.0",km:"3.1 км",car:"Грузовик",status:"Свободен",type:"free",mine:true,plate:"BB-234-56"},
+      {lat:32.827,lng:35.010,rating:"4.7",km:"4.8 км",car:"Фургон",status:"Занята",type:"busy",mine:false,plate:""},
+      {lat:32.792,lng:34.982,rating:"AI",km:"1.9 км",car:"Фургон",status:"Едет к клиенту",type:"track",mine:true,plate:"CC-345-67"},
+      {lat:32.835,lng:34.975,rating:"4.8",km:"7.2 км",car:"Фургон",status:"Временно недоступна",type:"temp",mine:false,plate:""}
+    ];
+    const orders=[
+      {lat:32.810,lng:34.975,price:"₪1680",state:"active",title:"Хайфа → Нетания"},
+      {lat:32.833,lng:34.998,price:"₪880",state:"pending",title:"Хайфа → Хайфа"},
+      {lat:32.799,lng:35.018,price:"₪1250",state:"active",title:"Хайфа → Хадера"},
+      {lat:32.790,lng:34.970,price:"₪950",state:"active",title:"Тират-Кармель → Хайфа"}
+    ];
+    drivers.forEach((d,i)=>{
+      const m=L.marker([d.lat,d.lng],{icon:vehicleIcon(d.type,d.mine,d.plate)}).addTo(window.pcMap);
+      if(d.type!=="busy")m.on("click",()=>{if(window.showDriverV7507)window.showDriverV7507(d,i)});
+      window.pcLiveMarkers.push({m,d});
+    });
+    orders.forEach(o=>{
+      const m=L.marker([o.lat,o.lng],{icon:orderIcon(o)}).addTo(window.pcMap);
+      m.on("click",()=>{const live=$("aiLive"); if(live){live.textContent="Заявка: "+o.title+" · "+o.price;live.classList.add("show");setTimeout(()=>live.classList.remove("show"),2400)}});
+      window.pcOrderMarkers.push({m,o});
+    });
+    applyMode(); topCards();
+  }
+  function applyMode(){
+    if(!window.pcMap)return;
+    (window.pcLiveMarkers||[]).forEach(obj=>{
+      let show=true; if(state.mode==="mine")show=!!obj.d.mine; if(state.mode==="drivers")show=!obj.d.mine;
+      try{ if(show&&!window.pcMap.hasLayer(obj.m))obj.m.addTo(window.pcMap); if(!show&&window.pcMap.hasLayer(obj.m))window.pcMap.removeLayer(obj.m);}catch(e){}
+    });
+    (window.pcOrderMarkers||[]).forEach(obj=>{try{if(!window.pcMap.hasLayer(obj.m))obj.m.addTo(window.pcMap)}catch(e){}});
+    document.querySelectorAll("[data-map-mode]").forEach(b=>b.classList.toggle("active",b.dataset.mapMode===state.mode));
+    if(state.mode==="mine")fitMine();
+  }
+  function fitMine(){
+    if(!window.pcMap||typeof L==="undefined")return;
+    const pts=(window.pcLiveMarkers||[]).filter(x=>x.d&&x.d.mine).map(x=>x.m.getLatLng());
+    if(pts.length>1)window.pcMap.fitBounds(L.latLngBounds(pts).pad(.45),{animate:true,maxZoom:13});
+  }
+  function topCards(){
+    const map=document.querySelector(".map"); if(!map)return;
+    let c=$("pcTopCards"); if(!c){c=document.createElement("div");c.className="pcTopCards";c.id="pcTopCards";c.innerHTML='<div class="pcTopCard"><b>Мои машины</b><span id="myCarsStat"></span></div><div class="pcTopCard"><b>Активные заявки</b><span id="ordersStat"></span></div>';map.appendChild(c);}
+    const mine=(window.pcLiveMarkers||[]).filter(x=>x.d&&x.d.mine).length, free=(window.pcLiveMarkers||[]).filter(x=>x.d&&x.d.mine&&x.d.type==="free").length;
+    if($("myCarsStat"))$("myCarsStat").textContent=mine+" машины · свободны "+free;
+    if($("ordersStat"))$("ordersStat").textContent=(window.pcOrderMarkers||[]).length+" активные";
+  }
+  function bind(){
+    ensureTabs();
+    document.querySelectorAll('input[type="range"]').forEach(s=>{
+      s.min=0;s.max=4;s.step=1;if(!s.dataset.v7600){s.value=2;s.dataset.v7600="1";}
+      s.oninput=()=>{const vals=[5,10,25,50,100];const v=vals[Number(s.value)||2];if($("pcRadiusText"))$("pcRadiusText").textContent=v+" км";}
+    });
+  }
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("[data-map-mode]"); if(b){state.mode=b.dataset.mapMode;applyMode();}
+    if(e.target&&e.target.id==="openPcLegend")$("pcLegendModal")?.classList.add("show");
+    if(e.target&&e.target.id==="closePcLegend")$("pcLegendModal")?.classList.remove("show");
+    if(e.target&&e.target.id==="pcLegendModal")e.target.classList.remove("show");
+  });
+  function boot(){bind();setTimeout(rebuild,700);setTimeout(()=>{bind();rebuild()},1800)}
+  document.addEventListener("DOMContentLoaded",boot); setTimeout(boot,1200);
 })();
 </script>
 
