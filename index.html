@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick Smart Platform v7512</title>
+<title>ProfiClick Smart Platform v7513</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -164,6 +164,31 @@ body:not(.onMap) .orderCard,
 body:not(.onMap) .orderFlow,
 body:not(.onMap) .aiLive {
   display:none!important;
+}
+</style>
+
+
+<style>
+/* v7513: legend no longer overlaps bottom sheet */
+.mapLegend{
+  bottom:calc(env(safe-area-inset-bottom) + 184px)!important;
+  left:12px!important;
+  right:12px!important;
+  z-index:690!important;
+  padding:6px 8px!important;
+  border-radius:15px!important;
+  box-shadow:0 10px 24px rgba(35,63,31,.12)!important;
+}
+.bottomSheet{
+  z-index:700!important;
+}
+.locBtn{
+  bottom:calc(env(safe-area-inset-bottom) + 218px)!important;
+}
+.driverCard,
+.orderCard,
+.orderFlow{
+  bottom:calc(env(safe-area-inset-bottom) + 198px)!important;
 }
 </style>
 
