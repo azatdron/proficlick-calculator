@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick Clean Fleet",
+  "name": "ProfiClick Clean Account",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7610",
+  "start_url": "./index.html?v=7611",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",

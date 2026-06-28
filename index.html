@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.10 Clean Fleet</title>
+<title>ProfiClick v7.6.11 Clean Account</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -328,6 +328,24 @@ body.standardPlan #addVehicleBtn{
 }
 </style>
 
+
+<style>
+.hideByV7611{display:none!important}
+body.standardPlan #fleetList .vehicleCard:nth-child(n+2){display:none!important}
+body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!important;color:#9ca3af!important;border:1px solid #dfe7dc!important;box-shadow:none!important;filter:grayscale(1)!important}
+.fleetPanel .fleetHead b::after{content:" · стандарт";color:#6b7280;font-size:11px;font-weight:900}
+.fleetStats div:nth-child(2) b{font-size:0!important}.fleetStats div:nth-child(2) b::after{content:"1";font-size:16px;color:#2f6f21}
+.fleetStats div:nth-child(2) span{font-size:0!important}.fleetStats div:nth-child(2) span::after{content:"машина";font-size:9px;color:var(--muted);font-weight:900}
+.upgradeModal{position:absolute;inset:0;z-index:2400;background:rgba(17,24,39,.34);display:none;align-items:flex-end;padding:10px}
+.upgradeModal.show{display:flex}
+.upgradeBox{width:100%;background:#fff;border:1px solid var(--line);border-radius:28px;padding:18px 16px 16px;box-shadow:0 24px 64px rgba(0,0,0,.26);position:relative}
+.upgradeClose{position:absolute;right:12px;top:12px;width:34px;height:34px;border:0;border-radius:999px;background:#f2f6ef;color:#1680ff;font-size:20px;font-weight:900}
+.upgradeBox h3{margin:0 42px 8px 0;font-size:22px;line-height:1.1;letter-spacing:-.03em}
+.upgradeBox p{margin:0 0 12px;color:var(--muted);font-size:13px;font-weight:850;line-height:1.35}
+.upgradePlans{display:grid;gap:8px;margin:12px 0}.upgradePlans div{border:1px solid var(--line);border-radius:16px;padding:10px;background:#fff}
+.upgradePlans div.active{border-color:#cfe7c9;background:#f1faed}.upgradePlans b{display:block;font-size:15px;color:var(--ink);font-weight:950}.upgradePlans span{display:block;margin-top:2px;color:var(--muted);font-size:12px;font-weight:850}
+.upgradeBtn{width:100%;border:0;border-radius:18px;padding:14px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -338,66 +356,6 @@ body.standardPlan #addVehicleBtn{
       <div class="card"><div class="profileTop"><div class="ava">AZ</div><div><h1 class="name" id="profileName"></h1><div class="meta" id="profileMeta">Заказчик · Хайфа</div><div class="pills"><span class="pill">★ 4.9</span><span class="pill gray" id="historyPill">12 заказов</span></div></div></div><button class="bigButton" id="roleToggle">Показать режим исполнителя</button></div>
       <div class="card customerBox"><div class="title">Заказчик</div><div class="actionGrid"><div class="actionCard"><b>Новый заказ</b><span>Быстрый расчёт и оформление перевозки</span></div><div class="actionCard"><b>Архив</b><span>Завершённые заявки и история цен</span></div></div><button class="bigButton" id="createOrder">Открыть калькулятор</button></div>
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
-      <div class="card workSettingsPanel hide" id="workSettingsPanel">
-        <div class="workHead">
-          <div><div class="title">Настройки работы</div><span>AI будет показывать только подходящие заявки</span></div>
-          <div class="workStatus">Активно</div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Радиус работы</b><span id="workRadiusValue">25 км</span></div>
-          <input id="workRadius" type="range" min="5" max="100" step="5" value="25">
-          <div class="settingHint">Рекомендуем для Хайфы: 25–40 км, для межгорода: 80–100 км.</div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Тип машины</b><span id="workCarValue">Фургон</span></div>
-          <div class="chipGrid" data-setting="carType">
-            <button class="workChip active" data-value="Фургон">🚐 Фургон</button>
-            <button class="workChip" data-value="Грузовик">🚚 Грузовик</button>
-            <button class="workChip" data-value="Малый бус">🛻 Малый бус</button>
-          </div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Максимальный объём</b><span id="workVolumeValue">до 2 комнат</span></div>
-          <div class="chipGrid" data-setting="volume">
-            <button class="workChip" data-value="до 1 комнаты">1 комната</button>
-            <button class="workChip active" data-value="до 2 комнат">2 комнаты</button>
-            <button class="workChip" data-value="до 3 комнат">3 комнаты</button>
-            <button class="workChip" data-value="без лимита">Без лимита</button>
-          </div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Услуги</b><span id="workServicesValue">4 выбрано</span></div>
-          <div class="chipGrid services" data-multi="services">
-            <button class="workChip active" data-value="Разборка">🔧 Разборка</button>
-            <button class="workChip active" data-value="Сборка">🪛 Сборка</button>
-            <button class="workChip active" data-value="Упаковка">📦 Упаковка</button>
-            <button class="workChip active" data-value="Кран">🏗️ Кран</button>
-            <button class="workChip" data-value="Пианино">🎹 Пианино</button>
-            <button class="workChip" data-value="Сейф">🧱 Сейф</button>
-          </div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Рабочие дни</b><span id="workDaysValue">Вс–Пт</span></div>
-          <div class="chipGrid days" data-multi="days">
-            <button class="workChip active" data-value="Вс">Вс</button>
-            <button class="workChip active" data-value="Пн">Пн</button>
-            <button class="workChip active" data-value="Вт">Вт</button>
-            <button class="workChip active" data-value="Ср">Ср</button>
-            <button class="workChip active" data-value="Чт">Чт</button>
-            <button class="workChip active" data-value="Пт">Пт</button>
-            <button class="workChip" data-value="Сб">Сб</button>
-          </div>
-        </div>
-        <div class="settingBlock">
-          <div class="settingTitle"><b>Время работы</b><span id="workTimeValue">08:00–20:00</span></div>
-          <div class="timeGrid">
-            <label>С <select id="workFrom"><option>07:00</option><option selected>08:00</option><option>09:00</option><option>10:00</option></select></label>
-            <label>До <select id="workTo"><option>18:00</option><option>19:00</option><option selected>20:00</option><option>22:00</option></select></label>
-          </div>
-        </div>
-        <div class="aiMatchCard"><b id="aiMatchCount">AI подобрал 4 заявки</b><span id="aiMatchText">Радиус 25 км · фургон · до 2 комнат · услуги: 4</span></div>
-        <button class="saveSettingsBtn" id="saveWorkSettings" type="button">Сохранить настройки</button>
-      </div>
       
 
 <div class="subscriptionRules" id="subscriptionRules">
@@ -1069,47 +1027,57 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 </script>
 
 
+<div class="upgradeModal" id="upgradeModal">
+  <div class="upgradeBox">
+    <button class="upgradeClose" id="upgradeClose" type="button">×</button>
+    <h3>Подключить ProfiClick Автопарк</h3>
+    <p>В обычной версии доступна 1 машина. Чтобы добавить до 10 машин, подключите расширенный режим.</p>
+    <div class="upgradePlans">
+      <div><b>₪100 / месяц</b><span>1 активная машина</span></div>
+      <div class="active"><b>₪200 / месяц</b><span>до 10 машин · автопарк</span></div>
+    </div>
+    <button class="upgradeBtn" type="button">Подключить ₪200 / месяц</button>
+  </div>
+</div>
+
 <script>
-/* v7612: настройки исполнителя — радиус, машина, объём, услуги, дни и время */
 (function(){
-  function byId(id){return document.getElementById(id)}
-  function selectedText(box){return Array.from(box.querySelectorAll('.workChip.active')).map(b=>b.dataset.value||b.textContent.trim())}
-  function compactDays(days){
-    const order=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-    if(days.length===6 && days.indexOf('Сб')<0) return 'Вс–Пт';
-    if(days.length===5 && days.every(d=>['Вс','Пн','Вт','Ср','Чт'].includes(d))) return 'Вс–Чт';
-    if(days.length===7) return 'Каждый день';
-    return days.join(', ')||'не выбрано';
-  }
-  function calcMatches(radius,servicesCount,volume){
-    let base=2; if(radius>=25)base+=2; if(radius>=50)base+=2; if(radius>=80)base+=2; if(servicesCount>=4)base+=1; if(volume==='без лимита')base+=2;
-    return Math.min(12,base);
-  }
-  function updateSummary(){
-    const radius=byId('workRadius'); if(!radius)return;
-    const r=+radius.value; const carBox=document.querySelector('[data-setting="carType"]'); const volBox=document.querySelector('[data-setting="volume"]');
-    const srvBox=document.querySelector('[data-multi="services"]'); const daysBox=document.querySelector('[data-multi="days"]');
-    const car=carBox?selectedText(carBox)[0]:'Фургон'; const vol=volBox?selectedText(volBox)[0]:'до 2 комнат'; const services=srvBox?selectedText(srvBox):[]; const days=daysBox?selectedText(daysBox):[];
-    byId('workRadiusValue').textContent=r+' км'; byId('workCarValue').textContent=car; byId('workVolumeValue').textContent=vol; byId('workServicesValue').textContent=services.length+' выбрано'; byId('workDaysValue').textContent=compactDays(days);
-    const from=byId('workFrom')?.value||'08:00', to=byId('workTo')?.value||'20:00'; byId('workTimeValue').textContent=from+'–'+to;
-    const matches=calcMatches(r,services.length,vol); byId('aiMatchCount').textContent='AI подобрал '+matches+' '+(matches===1?'заявку':'заявок');
-    byId('aiMatchText').textContent='Радиус '+r+' км · '+car.toLowerCase()+' · '+vol+' · услуги: '+services.length;
-    const mapRadius=byId('radius'); if(mapRadius){mapRadius.value=r; if(byId('radiusText'))byId('radiusText').textContent=r+' км'}
-    const execSpan=document.querySelector('.executorBox .actionCard:nth-child(2) span'); if(execSpan) execSpan.textContent='Радиус '+r+' км · '+car+' · '+vol;
-    const newOrders=document.querySelector('.executorBox .actionCard:first-child span'); if(newOrders) newOrders.textContent='AI подобрал '+matches+' подходящих заказов';
-  }
-  function bind(){
-    const radius=byId('workRadius'); if(radius) radius.addEventListener('input',updateSummary);
-    document.querySelectorAll('[data-setting] .workChip').forEach(btn=>btn.addEventListener('click',()=>{const box=btn.closest('[data-setting]');box.querySelectorAll('.workChip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');updateSummary()}));
-    document.querySelectorAll('[data-multi] .workChip').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.toggle('active');updateSummary()}));
-    ['workFrom','workTo'].forEach(id=>{const el=byId(id); if(el)el.addEventListener('change',updateSummary)});
-    const save=byId('saveWorkSettings'); if(save)save.addEventListener('click',()=>{try{toast('Настройки исполнителя сохранены')}catch(e){} updateSummary();});
-    updateSummary();
-  }
-  document.addEventListener('DOMContentLoaded',bind); setTimeout(bind,500);
+function $(id){return document.getElementById(id)}
+function clean(){
+ document.body.classList.add("standardPlan");
+ document.querySelectorAll(".card,.actionCard,.toolCard,.tile,section").forEach(el=>{
+   const txt=(el.textContent||"").trim().toLowerCase();
+   const small=txt.length<220;
+   if(small && (txt.includes("новый заказ") || txt.includes("архив")) && !txt.includes("активность")){
+     el.classList.add("hideByV7611");
+   }
+   if(txt.includes("открыть калькулятор")){
+     el.querySelectorAll("div").forEach(ch=>{
+       const t=(ch.textContent||"").trim().toLowerCase();
+       if(t.length<140 && (t.includes("новый заказ") || t.includes("архив"))) ch.classList.add("hideByV7611");
+     });
+   }
+ });
+ const add=$("addVehicleBtn");
+ if(add){
+   add.classList.add("lockedAdd");
+   add.onclick=function(e){e.preventDefault();e.stopPropagation();$("upgradeModal")?.classList.add("show");return false;};
+ }
+ const cards=document.querySelectorAll("#fleetList .vehicleCard");
+ cards.forEach((c,i)=>{if(i>0)c.style.display="none";});
+ if($("activeCount"))$("activeCount").textContent="1";
+ if($("paidCount"))$("paidCount").textContent="0";
+ const fleetHead=document.querySelector(".fleetHead span");
+ if(fleetHead)fleetHead.textContent="1 машина включена · до 10 машин в режиме Автопарк";
+}
+document.addEventListener("click",e=>{
+ if(e.target&&e.target.id==="upgradeClose")$("upgradeModal")?.classList.remove("show");
+ if(e.target&&e.target.id==="upgradeModal")e.target.classList.remove("show");
+});
+document.addEventListener("DOMContentLoaded",clean);
+setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
-
 </body>
 </html>
 <style>
@@ -1130,90 +1098,3 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 .filterRow{margin-top:8px!important}
 .rangeRow{margin-top:8px!important}
 </style>
-
-
-<style>
-/* v7612: профессиональные настройки исполнителя */
-.workSettingsPanel{display:none;background:linear-gradient(180deg,#ffffff,#f8fbf5);border-color:#d7ebd0!important}
-body.pcRoleExecutor #workSettingsPanel{display:block!important}
-body.pcRoleCustomer #workSettingsPanel{display:none!important}
-.workHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
-.workHead .title{margin-bottom:2px}.workHead span{display:block;color:var(--muted);font-size:11px;font-weight:850;line-height:1.25}
-.workStatus{background:#eaf6e4;color:#2f7d25;border:1px solid #cfe7c9;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950;white-space:nowrap}
-.settingBlock{background:#fff;border:1px solid var(--line);border-radius:18px;padding:11px;margin-top:9px}
-.settingTitle{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.settingTitle b{font-size:14px}.settingTitle span{font-size:12px;color:#2f7d25;font-weight:950;white-space:nowrap}
-.settingHint{margin-top:6px;font-size:10px;color:var(--muted);font-weight:850;line-height:1.35}.chipGrid{display:flex;flex-wrap:wrap;gap:7px}.chipGrid.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.chipGrid.days .workChip{padding:8px 0}.workChip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 10px;font-size:11px;font-weight:950;color:var(--ink)}.workChip.active{background:#eaf6e4;border-color:#9bd49a;color:#2f7d25;box-shadow:0 5px 12px rgba(47,125,37,.08)}
-.timeGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.timeGrid label{font-size:11px;font-weight:950;color:var(--muted)}.timeGrid select{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 8px;font-size:13px;font-weight:900;color:var(--ink)}
-.aiMatchCard{margin-top:10px;background:#eef8e8;border:1px solid #cfe7c9;border-radius:18px;padding:12px}.aiMatchCard b{font-size:15px;color:#2f7d25}.aiMatchCard span{display:block;margin-top:4px;color:var(--muted);font-size:11px;font-weight:850;line-height:1.35}
-.saveSettingsBtn{width:100%;border:0;border-radius:18px;background:linear-gradient(var(--g),var(--g2));color:#fff;font-size:15px;font-weight:950;padding:14px;margin-top:10px;box-shadow:0 12px 24px rgba(47,102,35,.16)}
-.executorBox .actionCard:nth-child(2){background:#eef8e8;border-color:#cfe7c9}.executorBox .actionCard:nth-child(2) b{color:#2f7d25}
-</style>
-
-<style>
-/* v7611: точечная правка ролей + красивые иконки машин */
-body.pcRoleCustomer #fleetPanel{display:none!important}
-body.pcRoleCustomer #addVehicleBtn{display:none!important}
-body.pcRoleExecutor #fleetPanel{display:block!important}
-
-/* Машины на карте: современная плашка, отличия по статусу */
-.pcVehicleIcon{background:transparent!important;border:0!important;filter:drop-shadow(0 12px 18px rgba(23,32,51,.22))}
-.pcVehicleIcon .pcCar{
-  width:48px!important;height:38px!important;border-radius:18px!important;
-  background:linear-gradient(180deg,#63ad47 0%,#2f7d25 100%)!important;
-  border:3px solid #fff!important;box-shadow:0 0 0 2px rgba(47,125,37,.22),0 12px 24px rgba(24,55,20,.24)!important;
-  position:relative!important;overflow:visible!important;
-}
-.pcVehicleIcon .pcCar:before{
-  content:"🚚"!important;position:absolute!important;inset:0!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  height:auto!important;background:transparent!important;box-shadow:none!important;
-  font-size:23px!important;line-height:1!important;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));
-}
-.pcVehicleIcon .pcCar:after{
-  content:""!important;position:absolute!important;left:50%!important;bottom:-8px!important;transform:translateX(-50%) rotate(45deg)!important;
-  width:14px!important;height:14px!important;border-radius:3px!important;
-  background:#2f7d25!important;border-right:3px solid #fff!important;border-bottom:3px solid #fff!important;
-}
-.pcVehicleIcon.mine .pcCar{background:linear-gradient(180deg,#6ebe50,#2f7d25)!important;box-shadow:0 0 0 5px rgba(47,125,37,.17),0 12px 24px rgba(24,55,20,.28)!important}
-.pcVehicleIcon.track .pcCar{background:linear-gradient(180deg,#55a5ff,#2478ff)!important;box-shadow:0 0 0 5px rgba(36,120,255,.16),0 12px 24px rgba(24,55,20,.25)!important}
-.pcVehicleIcon.track .pcCar:after{background:#2478ff!important}
-.pcVehicleIcon.busy .pcCar{background:linear-gradient(180deg,#ffc84f,#d6950b)!important;opacity:.92!important;filter:none!important;box-shadow:0 0 0 5px rgba(214,149,11,.14),0 12px 24px rgba(24,55,20,.22)!important}
-.pcVehicleIcon.busy .pcCar:after{background:#d6950b!important}
-.pcVehicleIcon.temp .pcCar{background:linear-gradient(180deg,#d7dde1,#9ca3af)!important;opacity:.78!important;box-shadow:0 0 0 5px rgba(156,163,175,.12),0 12px 24px rgba(24,55,20,.18)!important}
-.pcVehicleIcon.temp .pcCar:after{background:#9ca3af!important}
-.pcVehicleIcon.mine .pcCar:before{content:"🚛"!important}
-.pcVehicleIcon.track .pcCar:before{content:"🚚"!important}
-.pcVehicleIcon.busy .pcCar:before{content:"🚚"!important}
-
-/* Номера машин убраны с карты, чтобы не перегружать заказчика */
-.pcVehiclePlate{display:none!important}
-
-/* Заявки оставляем как красивые коробки-пины */
-.pcOrderIcon .pcDot,.fbDot{
-  width:42px!important;height:42px!important;border-radius:16px 16px 16px 4px!important;
-  transform:rotate(-45deg)!important;background:linear-gradient(180deg,#66a6ff,#2478ff)!important;
-  border:3px solid #fff!important;box-shadow:0 12px 24px rgba(31,41,55,.22)!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-}
-.pcOrderIcon .pcDot:before,.fbDot:before{content:"📦";transform:rotate(45deg);font-size:18px}
-.pcOrderIcon .pcDot span{display:none!important}
-.pcOrderIcon.pending .pcDot,.pcOrderIcon.urgent .pcDot,.fbDot.urgent{background:linear-gradient(180deg,#f5c653,#d89b11)!important}
-</style>
-
-<script>
-/* v7611: режимы заказчик/исполнитель — машины только в режиме исполнителя */
-(function(){
-  function syncRoleUI(){
-    var pill=document.getElementById('rolePill');
-    var txt=(pill&&pill.textContent||'').toLowerCase();
-    var isExecutor=txt.includes('исполнитель')||txt.includes('executor')||txt.includes('מבצע');
-    document.body.classList.toggle('pcRoleExecutor',isExecutor);
-    document.body.classList.toggle('pcRoleCustomer',!isExecutor);
-    var fleet=document.getElementById('fleetPanel');
-    if(fleet) fleet.style.display=isExecutor?'block':'none';
-  }
-  document.addEventListener('DOMContentLoaded',syncRoleUI);
-  document.addEventListener('click',function(){setTimeout(syncRoleUI,60);setTimeout(syncRoleUI,320)});
-  setTimeout(syncRoleUI,300);setTimeout(syncRoleUI,1200);setInterval(syncRoleUI,2500);
-})();
-</script>
