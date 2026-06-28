@@ -338,6 +338,66 @@ body.standardPlan #addVehicleBtn{
       <div class="card"><div class="profileTop"><div class="ava">AZ</div><div><h1 class="name" id="profileName"></h1><div class="meta" id="profileMeta">Заказчик · Хайфа</div><div class="pills"><span class="pill">★ 4.9</span><span class="pill gray" id="historyPill">12 заказов</span></div></div></div><button class="bigButton" id="roleToggle">Показать режим исполнителя</button></div>
       <div class="card customerBox"><div class="title">Заказчик</div><div class="actionGrid"><div class="actionCard"><b>Новый заказ</b><span>Быстрый расчёт и оформление перевозки</span></div><div class="actionCard"><b>Архив</b><span>Завершённые заявки и история цен</span></div></div><button class="bigButton" id="createOrder">Открыть калькулятор</button></div>
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
+      <div class="card workSettingsPanel hide" id="workSettingsPanel">
+        <div class="workHead">
+          <div><div class="title">Настройки работы</div><span>AI будет показывать только подходящие заявки</span></div>
+          <div class="workStatus">Активно</div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Радиус работы</b><span id="workRadiusValue">25 км</span></div>
+          <input id="workRadius" type="range" min="5" max="100" step="5" value="25">
+          <div class="settingHint">Рекомендуем для Хайфы: 25–40 км, для межгорода: 80–100 км.</div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Тип машины</b><span id="workCarValue">Фургон</span></div>
+          <div class="chipGrid" data-setting="carType">
+            <button class="workChip active" data-value="Фургон">🚐 Фургон</button>
+            <button class="workChip" data-value="Грузовик">🚚 Грузовик</button>
+            <button class="workChip" data-value="Малый бус">🛻 Малый бус</button>
+          </div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Максимальный объём</b><span id="workVolumeValue">до 2 комнат</span></div>
+          <div class="chipGrid" data-setting="volume">
+            <button class="workChip" data-value="до 1 комнаты">1 комната</button>
+            <button class="workChip active" data-value="до 2 комнат">2 комнаты</button>
+            <button class="workChip" data-value="до 3 комнат">3 комнаты</button>
+            <button class="workChip" data-value="без лимита">Без лимита</button>
+          </div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Услуги</b><span id="workServicesValue">4 выбрано</span></div>
+          <div class="chipGrid services" data-multi="services">
+            <button class="workChip active" data-value="Разборка">🔧 Разборка</button>
+            <button class="workChip active" data-value="Сборка">🪛 Сборка</button>
+            <button class="workChip active" data-value="Упаковка">📦 Упаковка</button>
+            <button class="workChip active" data-value="Кран">🏗️ Кран</button>
+            <button class="workChip" data-value="Пианино">🎹 Пианино</button>
+            <button class="workChip" data-value="Сейф">🧱 Сейф</button>
+          </div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Рабочие дни</b><span id="workDaysValue">Вс–Пт</span></div>
+          <div class="chipGrid days" data-multi="days">
+            <button class="workChip active" data-value="Вс">Вс</button>
+            <button class="workChip active" data-value="Пн">Пн</button>
+            <button class="workChip active" data-value="Вт">Вт</button>
+            <button class="workChip active" data-value="Ср">Ср</button>
+            <button class="workChip active" data-value="Чт">Чт</button>
+            <button class="workChip active" data-value="Пт">Пт</button>
+            <button class="workChip" data-value="Сб">Сб</button>
+          </div>
+        </div>
+        <div class="settingBlock">
+          <div class="settingTitle"><b>Время работы</b><span id="workTimeValue">08:00–20:00</span></div>
+          <div class="timeGrid">
+            <label>С <select id="workFrom"><option>07:00</option><option selected>08:00</option><option>09:00</option><option>10:00</option></select></label>
+            <label>До <select id="workTo"><option>18:00</option><option>19:00</option><option selected>20:00</option><option>22:00</option></select></label>
+          </div>
+        </div>
+        <div class="aiMatchCard"><b id="aiMatchCount">AI подобрал 4 заявки</b><span id="aiMatchText">Радиус 25 км · фургон · до 2 комнат · услуги: 4</span></div>
+        <button class="saveSettingsBtn" id="saveWorkSettings" type="button">Сохранить настройки</button>
+      </div>
       
 
 <div class="subscriptionRules" id="subscriptionRules">
@@ -1008,6 +1068,48 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 })();
 </script>
 
+
+<script>
+/* v7612: настройки исполнителя — радиус, машина, объём, услуги, дни и время */
+(function(){
+  function byId(id){return document.getElementById(id)}
+  function selectedText(box){return Array.from(box.querySelectorAll('.workChip.active')).map(b=>b.dataset.value||b.textContent.trim())}
+  function compactDays(days){
+    const order=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+    if(days.length===6 && days.indexOf('Сб')<0) return 'Вс–Пт';
+    if(days.length===5 && days.every(d=>['Вс','Пн','Вт','Ср','Чт'].includes(d))) return 'Вс–Чт';
+    if(days.length===7) return 'Каждый день';
+    return days.join(', ')||'не выбрано';
+  }
+  function calcMatches(radius,servicesCount,volume){
+    let base=2; if(radius>=25)base+=2; if(radius>=50)base+=2; if(radius>=80)base+=2; if(servicesCount>=4)base+=1; if(volume==='без лимита')base+=2;
+    return Math.min(12,base);
+  }
+  function updateSummary(){
+    const radius=byId('workRadius'); if(!radius)return;
+    const r=+radius.value; const carBox=document.querySelector('[data-setting="carType"]'); const volBox=document.querySelector('[data-setting="volume"]');
+    const srvBox=document.querySelector('[data-multi="services"]'); const daysBox=document.querySelector('[data-multi="days"]');
+    const car=carBox?selectedText(carBox)[0]:'Фургон'; const vol=volBox?selectedText(volBox)[0]:'до 2 комнат'; const services=srvBox?selectedText(srvBox):[]; const days=daysBox?selectedText(daysBox):[];
+    byId('workRadiusValue').textContent=r+' км'; byId('workCarValue').textContent=car; byId('workVolumeValue').textContent=vol; byId('workServicesValue').textContent=services.length+' выбрано'; byId('workDaysValue').textContent=compactDays(days);
+    const from=byId('workFrom')?.value||'08:00', to=byId('workTo')?.value||'20:00'; byId('workTimeValue').textContent=from+'–'+to;
+    const matches=calcMatches(r,services.length,vol); byId('aiMatchCount').textContent='AI подобрал '+matches+' '+(matches===1?'заявку':'заявок');
+    byId('aiMatchText').textContent='Радиус '+r+' км · '+car.toLowerCase()+' · '+vol+' · услуги: '+services.length;
+    const mapRadius=byId('radius'); if(mapRadius){mapRadius.value=r; if(byId('radiusText'))byId('radiusText').textContent=r+' км'}
+    const execSpan=document.querySelector('.executorBox .actionCard:nth-child(2) span'); if(execSpan) execSpan.textContent='Радиус '+r+' км · '+car+' · '+vol;
+    const newOrders=document.querySelector('.executorBox .actionCard:first-child span'); if(newOrders) newOrders.textContent='AI подобрал '+matches+' подходящих заказов';
+  }
+  function bind(){
+    const radius=byId('workRadius'); if(radius) radius.addEventListener('input',updateSummary);
+    document.querySelectorAll('[data-setting] .workChip').forEach(btn=>btn.addEventListener('click',()=>{const box=btn.closest('[data-setting]');box.querySelectorAll('.workChip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');updateSummary()}));
+    document.querySelectorAll('[data-multi] .workChip').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.toggle('active');updateSummary()}));
+    ['workFrom','workTo'].forEach(id=>{const el=byId(id); if(el)el.addEventListener('change',updateSummary)});
+    const save=byId('saveWorkSettings'); if(save)save.addEventListener('click',()=>{try{toast('Настройки исполнителя сохранены')}catch(e){} updateSummary();});
+    updateSummary();
+  }
+  document.addEventListener('DOMContentLoaded',bind); setTimeout(bind,500);
+})();
+</script>
+
 </body>
 </html>
 <style>
@@ -1027,6 +1129,24 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 .modeRow{margin-top:0!important}
 .filterRow{margin-top:8px!important}
 .rangeRow{margin-top:8px!important}
+</style>
+
+
+<style>
+/* v7612: профессиональные настройки исполнителя */
+.workSettingsPanel{display:none;background:linear-gradient(180deg,#ffffff,#f8fbf5);border-color:#d7ebd0!important}
+body.pcRoleExecutor #workSettingsPanel{display:block!important}
+body.pcRoleCustomer #workSettingsPanel{display:none!important}
+.workHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.workHead .title{margin-bottom:2px}.workHead span{display:block;color:var(--muted);font-size:11px;font-weight:850;line-height:1.25}
+.workStatus{background:#eaf6e4;color:#2f7d25;border:1px solid #cfe7c9;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950;white-space:nowrap}
+.settingBlock{background:#fff;border:1px solid var(--line);border-radius:18px;padding:11px;margin-top:9px}
+.settingTitle{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.settingTitle b{font-size:14px}.settingTitle span{font-size:12px;color:#2f7d25;font-weight:950;white-space:nowrap}
+.settingHint{margin-top:6px;font-size:10px;color:var(--muted);font-weight:850;line-height:1.35}.chipGrid{display:flex;flex-wrap:wrap;gap:7px}.chipGrid.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.chipGrid.days .workChip{padding:8px 0}.workChip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 10px;font-size:11px;font-weight:950;color:var(--ink)}.workChip.active{background:#eaf6e4;border-color:#9bd49a;color:#2f7d25;box-shadow:0 5px 12px rgba(47,125,37,.08)}
+.timeGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.timeGrid label{font-size:11px;font-weight:950;color:var(--muted)}.timeGrid select{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 8px;font-size:13px;font-weight:900;color:var(--ink)}
+.aiMatchCard{margin-top:10px;background:#eef8e8;border:1px solid #cfe7c9;border-radius:18px;padding:12px}.aiMatchCard b{font-size:15px;color:#2f7d25}.aiMatchCard span{display:block;margin-top:4px;color:var(--muted);font-size:11px;font-weight:850;line-height:1.35}
+.saveSettingsBtn{width:100%;border:0;border-radius:18px;background:linear-gradient(var(--g),var(--g2));color:#fff;font-size:15px;font-weight:950;padding:14px;margin-top:10px;box-shadow:0 12px 24px rgba(47,102,35,.16)}
+.executorBox .actionCard:nth-child(2){background:#eef8e8;border-color:#cfe7c9}.executorBox .actionCard:nth-child(2) b{color:#2f7d25}
 </style>
 
 <style>
