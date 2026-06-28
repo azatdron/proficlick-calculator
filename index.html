@@ -1028,3 +1028,72 @@ renderActivity("active");setPage("map");setSheet(true);applyText();initMap();
 .filterRow{margin-top:8px!important}
 .rangeRow{margin-top:8px!important}
 </style>
+
+<style>
+/* v7611: точечная правка ролей + красивые иконки машин */
+body.pcRoleCustomer #fleetPanel{display:none!important}
+body.pcRoleCustomer #addVehicleBtn{display:none!important}
+body.pcRoleExecutor #fleetPanel{display:block!important}
+
+/* Машины на карте: современная плашка, отличия по статусу */
+.pcVehicleIcon{background:transparent!important;border:0!important;filter:drop-shadow(0 12px 18px rgba(23,32,51,.22))}
+.pcVehicleIcon .pcCar{
+  width:48px!important;height:38px!important;border-radius:18px!important;
+  background:linear-gradient(180deg,#63ad47 0%,#2f7d25 100%)!important;
+  border:3px solid #fff!important;box-shadow:0 0 0 2px rgba(47,125,37,.22),0 12px 24px rgba(24,55,20,.24)!important;
+  position:relative!important;overflow:visible!important;
+}
+.pcVehicleIcon .pcCar:before{
+  content:"🚚"!important;position:absolute!important;inset:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  height:auto!important;background:transparent!important;box-shadow:none!important;
+  font-size:23px!important;line-height:1!important;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));
+}
+.pcVehicleIcon .pcCar:after{
+  content:""!important;position:absolute!important;left:50%!important;bottom:-8px!important;transform:translateX(-50%) rotate(45deg)!important;
+  width:14px!important;height:14px!important;border-radius:3px!important;
+  background:#2f7d25!important;border-right:3px solid #fff!important;border-bottom:3px solid #fff!important;
+}
+.pcVehicleIcon.mine .pcCar{background:linear-gradient(180deg,#6ebe50,#2f7d25)!important;box-shadow:0 0 0 5px rgba(47,125,37,.17),0 12px 24px rgba(24,55,20,.28)!important}
+.pcVehicleIcon.track .pcCar{background:linear-gradient(180deg,#55a5ff,#2478ff)!important;box-shadow:0 0 0 5px rgba(36,120,255,.16),0 12px 24px rgba(24,55,20,.25)!important}
+.pcVehicleIcon.track .pcCar:after{background:#2478ff!important}
+.pcVehicleIcon.busy .pcCar{background:linear-gradient(180deg,#ffc84f,#d6950b)!important;opacity:.92!important;filter:none!important;box-shadow:0 0 0 5px rgba(214,149,11,.14),0 12px 24px rgba(24,55,20,.22)!important}
+.pcVehicleIcon.busy .pcCar:after{background:#d6950b!important}
+.pcVehicleIcon.temp .pcCar{background:linear-gradient(180deg,#d7dde1,#9ca3af)!important;opacity:.78!important;box-shadow:0 0 0 5px rgba(156,163,175,.12),0 12px 24px rgba(24,55,20,.18)!important}
+.pcVehicleIcon.temp .pcCar:after{background:#9ca3af!important}
+.pcVehicleIcon.mine .pcCar:before{content:"🚛"!important}
+.pcVehicleIcon.track .pcCar:before{content:"🚚"!important}
+.pcVehicleIcon.busy .pcCar:before{content:"🚚"!important}
+
+/* Номера машин убраны с карты, чтобы не перегружать заказчика */
+.pcVehiclePlate{display:none!important}
+
+/* Заявки оставляем как красивые коробки-пины */
+.pcOrderIcon .pcDot,.fbDot{
+  width:42px!important;height:42px!important;border-radius:16px 16px 16px 4px!important;
+  transform:rotate(-45deg)!important;background:linear-gradient(180deg,#66a6ff,#2478ff)!important;
+  border:3px solid #fff!important;box-shadow:0 12px 24px rgba(31,41,55,.22)!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+}
+.pcOrderIcon .pcDot:before,.fbDot:before{content:"📦";transform:rotate(45deg);font-size:18px}
+.pcOrderIcon .pcDot span{display:none!important}
+.pcOrderIcon.pending .pcDot,.pcOrderIcon.urgent .pcDot,.fbDot.urgent{background:linear-gradient(180deg,#f5c653,#d89b11)!important}
+</style>
+
+<script>
+/* v7611: режимы заказчик/исполнитель — машины только в режиме исполнителя */
+(function(){
+  function syncRoleUI(){
+    var pill=document.getElementById('rolePill');
+    var txt=(pill&&pill.textContent||'').toLowerCase();
+    var isExecutor=txt.includes('исполнитель')||txt.includes('executor')||txt.includes('מבצע');
+    document.body.classList.toggle('pcRoleExecutor',isExecutor);
+    document.body.classList.toggle('pcRoleCustomer',!isExecutor);
+    var fleet=document.getElementById('fleetPanel');
+    if(fleet) fleet.style.display=isExecutor?'block':'none';
+  }
+  document.addEventListener('DOMContentLoaded',syncRoleUI);
+  document.addEventListener('click',function(){setTimeout(syncRoleUI,60);setTimeout(syncRoleUI,320)});
+  setTimeout(syncRoleUI,300);setTimeout(syncRoleUI,1200);setInterval(syncRoleUI,2500);
+})();
+</script>
