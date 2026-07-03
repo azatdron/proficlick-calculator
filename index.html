@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.11 Clean Account</title>
+<title>ProfiClick v7.6.12 Customer Account Fix</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -346,6 +346,22 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
 .upgradePlans div.active{border-color:#cfe7c9;background:#f1faed}.upgradePlans b{display:block;font-size:15px;color:var(--ink);font-weight:950}.upgradePlans span{display:block;margin-top:2px;color:var(--muted);font-size:12px;font-weight:850}
 .upgradeBtn{width:100%;border:0;border-radius:18px;padding:14px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:15px;font-weight:950}
 </style>
+
+<style>
+body.customerMode #subscriptionRules,
+body.customerMode #fleetPanel,
+body.customerMode .fleetPanel,
+body.customerMode .subscriptionRules{display:none!important}
+.customerTools7612{margin:10px 0;border:1px solid var(--line);background:#fff;border-radius:24px;padding:12px}
+.customerTools7612 h2{margin:0 0 10px;font-size:22px;line-height:1.1;letter-spacing:-.03em}
+.customerGrid7612{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.customerGrid7612 .tool{border:1px solid var(--line);border-radius:18px;padding:12px;background:#fff}
+.customerGrid7612 .tool b{display:block;font-size:16px;color:var(--ink);font-weight:950}
+.customerGrid7612 .tool span{display:block;margin-top:4px;font-size:12px;color:var(--muted);font-weight:850;line-height:1.25}
+.customerCalcBtn7612{width:100%;border:0;border-radius:19px;padding:14px;background:linear-gradient(#5b9638,#2f6623);color:#fff;font-size:16px;font-weight:950}
+body.executorMode .customerTools7612{display:none!important}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -358,6 +374,15 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
       
 
+
+<div class="customerTools7612" id="customerTools7612">
+  <h2>Заказчик</h2>
+  <div class="customerGrid7612">
+    <div class="tool"><b>Активные заказы</b><span>Заявки, которые ждут отклика или уже в работе</span></div>
+    <div class="tool"><b>Архив</b><span>Завершённые перевозки и история цен</span></div>
+  </div>
+  <button class="customerCalcBtn7612" type="button">Открыть калькулятор</button>
+</div>
 <div class="subscriptionRules" id="subscriptionRules">
   <div><b>1 месяц бесплатно</b><span>Полный доступ для проверки сервиса</span></div>
   <div><b>₪100 / месяц</b><span>1 активная машина</span></div>
@@ -1078,6 +1103,45 @@ document.addEventListener("DOMContentLoaded",clean);
 setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
+
+<script>
+(function(){
+  function detectMode(){
+    var bodyText = document.body.innerText || "";
+    var roleNodes = Array.from(document.querySelectorAll("button,.role,.pill,.badge"));
+    var roleText = roleNodes.map(function(x){return x.textContent||""}).join(" ");
+    var isExecutor = roleText.indexOf("Исполнитель") !== -1 && roleText.indexOf("Заказчик") === -1;
+    // fallback: if profile subtitle says Заказчик, force customer
+    if(bodyText.indexOf("Заказчик · Haifa") !== -1 || bodyText.indexOf("Заказчик · Хайфа") !== -1) isExecutor = false;
+    document.body.classList.toggle("executorMode", isExecutor);
+    document.body.classList.toggle("customerMode", !isExecutor);
+  }
+  function cleanCustomer(){
+    detectMode();
+    var customer = document.body.classList.contains("customerMode");
+    var cust = document.getElementById("customerTools7612");
+    if(cust) cust.style.display = customer ? "" : "none";
+    var fleet = document.getElementById("fleetPanel");
+    if(fleet) fleet.style.display = customer ? "none" : "";
+    var sub = document.getElementById("subscriptionRules");
+    if(sub) sub.style.display = customer ? "none" : "";
+    if(customer){
+      document.querySelectorAll(".card,.fleetPanel,.subscriptionRules,section").forEach(function(el){
+        var t=(el.textContent||"").trim().toLowerCase();
+        if(t.indexOf("мои машины")!==-1 || t.indexOf("машина №")!==-1 || t.indexOf("₪100 / месяц")!==-1 || t.indexOf("₪200 / месяц")!==-1){
+          el.style.display="none";
+        }
+      });
+    }
+  }
+  document.addEventListener("DOMContentLoaded", cleanCustomer);
+  document.addEventListener("click", function(){setTimeout(cleanCustomer,120)});
+  setTimeout(cleanCustomer,500);
+  setTimeout(cleanCustomer,1500);
+  setInterval(cleanCustomer,2500);
+})();
+</script>
+
 </body>
 </html>
 <style>
