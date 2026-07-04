@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick Customer Account Fix",
+  "name": "ProfiClick Location Fix",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7612",
+  "start_url": "./index.html?v=7613",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",
