@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick Customer Clean",
+  "name": "ProfiClick Customer No Cars Fix",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7615",
+  "start_url": "./index.html?v=7616",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",

@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.15 Customer Clean</title>
+<title>ProfiClick v7.6.16 Customer No Cars Fix</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -365,6 +365,21 @@ body.pcCustomerMode .subscriptionRules,
 body.pcCustomerMode .fleetPanel{display:none!important;}
 body.pcExecutorMode .customerBox{display:none!important;}
 body.pcCustomerMode .customerBox{display:block!important;}
+</style>
+
+
+<style>
+/* v7616: customer page must never show fleet/subscription blocks */
+body.customerNoCars .fleetPanel,
+body.customerNoCars #fleetPanel,
+body.customerNoCars .subscriptionRules,
+body.customerNoCars #subscriptionRules,
+body.customerNoCars .vehicleCard,
+body.customerNoCars .fleetStats,
+body.customerNoCars .fleetHead {
+  display:none!important;
+}
+.v7616Hidden{display:none!important}
 </style>
 
 </head>
@@ -1100,6 +1115,63 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
 \n<script>\n(function(){\n  function applyCustomerExecutorMode(){\n    var role=document.getElementById('rolePill');\n    var txt=role ? (role.textContent||'').trim() : '';\n    var isCustomer = txt === 'Заказчик' || txt === 'Customer' || txt === 'לקוח' || txt === '';\n    document.body.classList.toggle('pcCustomerMode', isCustomer);\n    document.body.classList.toggle('pcExecutorMode', !isCustomer);\n    var sub=document.getElementById('subscriptionRules');\n    var fleet=document.getElementById('fleetPanel');\n    if(sub) sub.style.display = isCustomer ? 'none' : '';\n    if(fleet) fleet.style.display = isCustomer ? 'none' : '';\n    var cust=document.querySelector('.customerBox');\n    if(cust) cust.style.display = isCustomer ? '' : 'none';\n  }\n  document.addEventListener('DOMContentLoaded', applyCustomerExecutorMode);\n  document.addEventListener('click', function(){ setTimeout(applyCustomerExecutorMode,80); });\n  setTimeout(applyCustomerExecutorMode,300);\n  setTimeout(applyCustomerExecutorMode,1200);\n  setInterval(applyCustomerExecutorMode,2000);\n})();\n</script>\n
+
+<script>
+(function(){
+  function isCustomerMode(){
+    const bodyText = document.body.innerText || "";
+    const roleButtons = Array.from(document.querySelectorAll("button,.pill,.badge,.role"));
+    const hasCustomerPill = roleButtons.some(el => (el.textContent||"").trim() === "Заказчик");
+    const hasExecutorPill = roleButtons.some(el => (el.textContent||"").trim() === "Исполнитель");
+    if(hasCustomerPill) return true;
+    if(hasExecutorPill) return false;
+    if(bodyText.includes("Показать режим исполнителя")) return true;
+    if(bodyText.includes("Показать режим заказчика")) return false;
+    if(bodyText.includes("Заказчик · Haifa") || bodyText.includes("Заказчик · Хайфа")) return true;
+    return false;
+  }
+
+  function hideCustomerCars(){
+    const customer = isCustomerMode();
+    document.body.classList.toggle("customerNoCars", customer);
+
+    if(!customer) {
+      document.querySelectorAll(".v7616Hidden").forEach(el => el.classList.remove("v7616Hidden"));
+      return;
+    }
+
+    document.querySelectorAll("section,.card,.fleetPanel,.subscriptionRules,div").forEach(el => {
+      const txt = (el.textContent || "").trim().toLowerCase();
+      if(!txt) return;
+
+      const isFleet =
+        txt.includes("мои машины") ||
+        txt.includes("машина №") ||
+        txt.includes("гос. номер") ||
+        txt.includes("доп. слотов") ||
+        txt.includes("добавить машину") ||
+        txt.includes("1 машина включена") ||
+        txt.includes("₪100 / месяц") ||
+        txt.includes("₪200 / месяц");
+
+      if(isFleet) {
+        // hide the closest meaningful card/container, not the whole app
+        const card = el.closest(".card,.fleetPanel,.subscriptionRules,section") || el;
+        card.classList.add("v7616Hidden");
+        card.style.display = "none";
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", hideCustomerCars);
+  document.addEventListener("click", () => setTimeout(hideCustomerCars, 80));
+  setTimeout(hideCustomerCars, 300);
+  setTimeout(hideCustomerCars, 1000);
+  setTimeout(hideCustomerCars, 1800);
+  setInterval(hideCustomerCars, 2000);
+})();
+</script>
+
 </body>
 </html>
 <style>
