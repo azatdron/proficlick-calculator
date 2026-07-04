@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.17 Safe Rollback</title>
+<title>ProfiClick v7.6.18 Customer Tools Only</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -356,6 +356,59 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
 }
 </style>
 
+
+<style>
+/* v7618: customer sees customer tools only, executor sees fleet */
+.customerToolsOnly{
+  display:none;
+  margin:10px 0;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:#fff;
+  padding:12px;
+}
+.customerToolsGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-bottom:10px;
+}
+.customerToolCard{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:12px;
+}
+.customerToolCard b{
+  display:block;
+  font-size:17px;
+  font-weight:950;
+  color:var(--ink);
+}
+.customerToolCard span{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:850;
+  line-height:1.25;
+}
+.customerToolButton{
+  width:100%;
+  border:0;
+  border-radius:19px;
+  padding:15px;
+  background:linear-gradient(#5b9638,#2f6623);
+  color:#fff;
+  font-size:17px;
+  font-weight:950;
+}
+body.roleCustomer #customerToolsOnly{display:block!important}
+body.roleCustomer #fleetPanel,
+body.roleCustomer #subscriptionRules{display:none!important}
+body.roleExecutor #customerToolsOnly{display:none!important}
+</style>
+
 </head>
 <body>
 <div class="app" id="app">
@@ -368,6 +421,20 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
       
 
+
+<div class="customerToolsOnly" id="customerToolsOnly">
+  <div class="customerToolsGrid">
+    <div class="customerToolCard">
+      <b>Активные заказы</b>
+      <span>Открытые заявки и перевозки в работе</span>
+    </div>
+    <div class="customerToolCard">
+      <b>Архив</b>
+      <span>Завершённые заявки и история цен</span>
+    </div>
+  </div>
+  <button class="customerToolButton" type="button">Открыть калькулятор</button>
+</div>
 <div class="subscriptionRules" id="subscriptionRules">
   <div><b>1 месяц бесплатно</b><span>Полный доступ для проверки сервиса</span></div>
   <div><b>₪100 / месяц</b><span>1 активная машина</span></div>
@@ -1088,6 +1155,49 @@ document.addEventListener("DOMContentLoaded",clean);
 setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
+
+<script>
+(function(){
+  function getRole(){
+    var roleText = "";
+    document.querySelectorAll("button,.pill,.badge,.role").forEach(function(el){
+      var t = (el.textContent || "").trim();
+      if(t === "Заказчик" || t === "Исполнитель") roleText = t;
+    });
+    if(roleText === "Исполнитель") return "executor";
+    if(roleText === "Заказчик") return "customer";
+
+    var body = document.body.innerText || "";
+    if(body.indexOf("Показать режим исполнителя") !== -1) return "customer";
+    if(body.indexOf("Показать режим заказчика") !== -1) return "executor";
+    if(body.indexOf("Заказчик ·") !== -1) return "customer";
+    if(body.indexOf("Исполнитель ·") !== -1) return "executor";
+    return "customer";
+  }
+
+  function applyRoleTools(){
+    var role = getRole();
+    var isCustomer = role === "customer";
+    document.body.classList.toggle("roleCustomer", isCustomer);
+    document.body.classList.toggle("roleExecutor", !isCustomer);
+
+    var tools = document.getElementById("customerToolsOnly");
+    var fleet = document.getElementById("fleetPanel");
+    var sub = document.getElementById("subscriptionRules");
+
+    if(tools) tools.style.display = isCustomer ? "block" : "none";
+    if(fleet) fleet.style.display = isCustomer ? "none" : "";
+    if(sub) sub.style.display = isCustomer ? "none" : "";
+  }
+
+  document.addEventListener("DOMContentLoaded", applyRoleTools);
+  document.addEventListener("click", function(){ setTimeout(applyRoleTools, 120); });
+  setTimeout(applyRoleTools, 300);
+  setTimeout(applyRoleTools, 1000);
+  setInterval(applyRoleTools, 2000);
+})();
+</script>
+
 </body>
 </html>
 <style>
