@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.14 Customer Mode Fix</title>
+<title>ProfiClick v7.6.15 Customer Clean</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -358,18 +358,13 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
 
 
 <style>
+/* v7615: customer mode must not show executor fleet/subscription */
 body.pcCustomerMode #subscriptionRules,
 body.pcCustomerMode #fleetPanel,
 body.pcCustomerMode .subscriptionRules,
-body.pcCustomerMode .fleetPanel,
-body.pcCustomerMode .vehicleCard{display:none!important}
-body.pcExecutorMode #customerOnlyPanel{display:none!important}
-.customerOnlyPanel{margin:10px 0;border:1px solid var(--line);border-radius:24px;background:#fff;padding:12px}
-.customerOnlyGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
-.customerOnlyCard{border:1px solid var(--line);border-radius:18px;background:#fff;padding:12px}
-.customerOnlyCard b{display:block;font-size:17px;font-weight:950;color:var(--ink)}
-.customerOnlyCard span{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:850;line-height:1.25}
-.customerCalcButton{width:100%;border:0;border-radius:19px;padding:15px;color:#fff;font-size:17px;font-weight:950;background:linear-gradient(#5b9638,#2f6623)}
+body.pcCustomerMode .fleetPanel{display:none!important;}
+body.pcExecutorMode .customerBox{display:none!important;}
+body.pcCustomerMode .customerBox{display:block!important;}
 </style>
 
 </head>
@@ -384,14 +379,6 @@ body.pcExecutorMode #customerOnlyPanel{display:none!important}
       <div class="card executorBox hide"><div class="title">Исполнитель</div><div class="actionGrid"><div class="actionCard"><b>Новые заявки</b><span>AI подобрал 4 подходящих заказа</span></div><div class="actionCard"><b>Настройки работы</b><span>Радиус, машина, объём, услуги</span></div><div class="actionCard"><b>Рейтинг</b><span>Отзывы, доверие, статистика</span></div><div class="actionCard"><b>Подписка</b><span>3 бесплатно · Plus безлимит</span></div></div></div>
       
 
-
-<div class="customerOnlyPanel" id="customerOnlyPanel">
-  <div class="customerOnlyGrid">
-    <div class="customerOnlyCard"><b>Активные заказы</b><span>Открытые заявки, отклики и перевозки в работе</span></div>
-    <div class="customerOnlyCard"><b>Архив</b><span>История завершённых перевозок и цен</span></div>
-  </div>
-  <button class="customerCalcButton" type="button">Открыть калькулятор</button>
-</div>
 <div class="subscriptionRules" id="subscriptionRules">
   <div><b>1 месяц бесплатно</b><span>Полный доступ для проверки сервиса</span></div>
   <div><b>₪100 / месяц</b><span>1 активная машина</span></div>
@@ -1112,47 +1099,7 @@ document.addEventListener("DOMContentLoaded",clean);
 setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
-
-<script>
-(function(){
-  function currentRole(){
-    const nodes = Array.from(document.querySelectorAll('button,.pill,.badge,.role,.lang,.topbar *'));
-    const exactCustomer = nodes.some(el => (el.textContent||'').trim() === 'Заказчик');
-    const exactExecutor = nodes.some(el => (el.textContent||'').trim() === 'Исполнитель');
-    if(exactCustomer) return 'customer';
-    if(exactExecutor) return 'executor';
-    const txt = document.body.innerText || '';
-    if(txt.includes('Заказчик · Haifa') || txt.includes('Заказчик · Хайфа') || txt.includes('Показать режим исполнителя')) return 'customer';
-    if(txt.includes('Исполнитель · Haifa') || txt.includes('Исполнитель · Хайфа') || txt.includes('Показать режим заказчика')) return 'executor';
-    return 'customer';
-  }
-  function applyRole(){
-    const isCustomer = currentRole() === 'customer';
-    document.body.classList.toggle('pcCustomerMode', isCustomer);
-    document.body.classList.toggle('pcExecutorMode', !isCustomer);
-    const customerPanel = document.getElementById('customerOnlyPanel');
-    if(customerPanel) customerPanel.style.display = isCustomer ? '' : 'none';
-    const fleet = document.getElementById('fleetPanel');
-    if(fleet) fleet.style.display = isCustomer ? 'none' : '';
-    const sub = document.getElementById('subscriptionRules');
-    if(sub) sub.style.display = isCustomer ? 'none' : '';
-    if(isCustomer){
-      document.querySelectorAll('.card,.section,section,.fleetPanel,.subscriptionRules').forEach(el=>{
-        const t = (el.textContent||'').toLowerCase();
-        if(t.includes('мои машины') || t.includes('машина №') || t.includes('доп. слотов') || t.includes('₪100 / месяц') || t.includes('₪200 / месяц')){
-          el.style.display = 'none';
-        }
-      });
-    }
-  }
-  document.addEventListener('DOMContentLoaded', applyRole);
-  document.addEventListener('click', () => setTimeout(applyRole, 80));
-  setTimeout(applyRole, 300);
-  setTimeout(applyRole, 1200);
-  setInterval(applyRole, 2000);
-})();
-</script>
-
+\n<script>\n(function(){\n  function applyCustomerExecutorMode(){\n    var role=document.getElementById('rolePill');\n    var txt=role ? (role.textContent||'').trim() : '';\n    var isCustomer = txt === 'Заказчик' || txt === 'Customer' || txt === 'לקוח' || txt === '';\n    document.body.classList.toggle('pcCustomerMode', isCustomer);\n    document.body.classList.toggle('pcExecutorMode', !isCustomer);\n    var sub=document.getElementById('subscriptionRules');\n    var fleet=document.getElementById('fleetPanel');\n    if(sub) sub.style.display = isCustomer ? 'none' : '';\n    if(fleet) fleet.style.display = isCustomer ? 'none' : '';\n    var cust=document.querySelector('.customerBox');\n    if(cust) cust.style.display = isCustomer ? '' : 'none';\n  }\n  document.addEventListener('DOMContentLoaded', applyCustomerExecutorMode);\n  document.addEventListener('click', function(){ setTimeout(applyCustomerExecutorMode,80); });\n  setTimeout(applyCustomerExecutorMode,300);\n  setTimeout(applyCustomerExecutorMode,1200);\n  setInterval(applyCustomerExecutorMode,2000);\n})();\n</script>\n
 </body>
 </html>
 <style>
