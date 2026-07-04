@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.15 Customer Clean</title>
+<title>ProfiClick v7.6.17 Safe Rollback</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -354,17 +354,6 @@ body.standardPlan #addVehicleBtn,#addVehicleBtn.lockedAdd{background:#eef1ec!imp
   right:18px!important;
   z-index:760!important;
 }
-</style>
-
-
-<style>
-/* v7615: customer mode must not show executor fleet/subscription */
-body.pcCustomerMode #subscriptionRules,
-body.pcCustomerMode #fleetPanel,
-body.pcCustomerMode .subscriptionRules,
-body.pcCustomerMode .fleetPanel{display:none!important;}
-body.pcExecutorMode .customerBox{display:none!important;}
-body.pcCustomerMode .customerBox{display:block!important;}
 </style>
 
 </head>
@@ -1099,7 +1088,6 @@ document.addEventListener("DOMContentLoaded",clean);
 setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
 })();
 </script>
-\n<script>\n(function(){\n  function applyCustomerExecutorMode(){\n    var role=document.getElementById('rolePill');\n    var txt=role ? (role.textContent||'').trim() : '';\n    var isCustomer = txt === 'Заказчик' || txt === 'Customer' || txt === 'לקוח' || txt === '';\n    document.body.classList.toggle('pcCustomerMode', isCustomer);\n    document.body.classList.toggle('pcExecutorMode', !isCustomer);\n    var sub=document.getElementById('subscriptionRules');\n    var fleet=document.getElementById('fleetPanel');\n    if(sub) sub.style.display = isCustomer ? 'none' : '';\n    if(fleet) fleet.style.display = isCustomer ? 'none' : '';\n    var cust=document.querySelector('.customerBox');\n    if(cust) cust.style.display = isCustomer ? '' : 'none';\n  }\n  document.addEventListener('DOMContentLoaded', applyCustomerExecutorMode);\n  document.addEventListener('click', function(){ setTimeout(applyCustomerExecutorMode,80); });\n  setTimeout(applyCustomerExecutorMode,300);\n  setTimeout(applyCustomerExecutorMode,1200);\n  setInterval(applyCustomerExecutorMode,2000);\n})();\n</script>\n
 </body>
 </html>
 <style>
