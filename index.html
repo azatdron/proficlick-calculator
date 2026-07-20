@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.19 Green Red Truck Pins</title>
+<title>ProfiClick v7.6.20 Israel Radius Popups</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -533,6 +533,22 @@ body.roleExecutor #customerToolsOnly{display:none!important}
   border-radius:1px 3px 2px 1px!important;
   background:#fff!important;
 }
+</style>
+
+
+<style>
+/* v7620 — compact anonymous marker information windows */
+.leaflet-popup-content-wrapper{border-radius:18px!important;box-shadow:0 16px 40px rgba(23,32,51,.22)!important;padding:0!important}
+.leaflet-popup-content{margin:0!important;width:250px!important}
+.leaflet-popup-tip{box-shadow:none!important}
+.pcMiniPopup{padding:14px 15px;font-family:inherit;color:#172033}
+.pcMiniPopupHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.pcMiniPopupHead b{font-size:15px;line-height:1.2}.pcMiniBadge{border-radius:999px;padding:4px 8px;font-size:10px;font-weight:950;white-space:nowrap}
+.pcMiniBadge.free{background:#e9f7e4;color:#2f7d25}.pcMiniBadge.busy{background:#fde9e7;color:#c52f2a}.pcMiniBadge.order{background:#fff4d7;color:#9a6a00}
+.pcMiniLine{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px solid #eef1ec;font-size:12px}.pcMiniLine span{color:#737d70;font-weight:800}.pcMiniLine strong{text-align:right;font-weight:900}
+.pcMiniNote{margin-top:8px;font-size:10px;color:#737d70;line-height:1.35;font-weight:750}
+.leaflet-popup-close-button{width:28px!important;height:28px!important;line-height:26px!important;font-size:22px!important;color:#687166!important}
+.radiusInfo{display:flex!important;justify-content:space-between!important;align-items:center!important;margin-top:7px!important;font-size:11px!important;font-weight:900!important;color:#737d70!important}.radiusInfo b{color:#2f7d25!important}
 </style>
 
 </head>
@@ -1406,6 +1422,122 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
   });
   setTimeout(patchTruckMarkers,1200);
   setInterval(patchTruckMarkers,2200);
+})();
+</script>
+
+
+<script>
+(function(){
+  const CENTER={lat:32.7940,lng:34.9896}; // Haifa demo location
+  const STEPS=[5,10,25,50,100,250,450];
+  let radiusKm=25;
+  function $(id){return document.getElementById(id)}
+  function km(a,b){
+    const R=6371,dLat=(b.lat-a.lat)*Math.PI/180,dLng=(b.lng-a.lng)*Math.PI/180;
+    const la1=a.lat*Math.PI/180,la2=b.lat*Math.PI/180;
+    const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLng/2)**2;
+    return R*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
+  }
+  function truckIcon(status){
+    const red=status==='busy';
+    return L.divIcon({
+      className:'pcVehicleIcon '+(red?'busy red':'free'),
+      html:'<div class="pcTruckPin"><div class="pcTruck"><span class="pcTruckBody"></span><span class="pcTruckCab"></span><span class="pcTruckWheel w1"></span><span class="pcTruckWheel w2"></span></div></div>',
+      iconSize:[46,52],iconAnchor:[23,47],popupAnchor:[0,-43]
+    });
+  }
+  function jobIcon(o){
+    return L.divIcon({className:'pcOrderIcon '+(o.urgent?'urgent':'active'),html:'<div class="pcDot">📦</div>',iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-13]});
+  }
+  function driverPopup(d){
+    const free=d.status==='free';
+    return '<div class="pcMiniPopup"><div class="pcMiniPopupHead"><b>'+d.vehicle+'</b><span class="pcMiniBadge '+(free?'free':'busy')+'">'+(free?'Свободна':'Занята')+'</span></div>'+
+      '<div class="pcMiniLine"><span>Город</span><strong>'+d.city+'</strong></div>'+
+      '<div class="pcMiniLine"><span>Расстояние</span><strong>'+Math.round(km(CENTER,d))+' км</strong></div>'+
+      '<div class="pcMiniLine"><span>Рейтинг</span><strong>★ '+d.rating+'</strong></div>'+
+      (free?'<div class="pcMiniLine"><span>Готовность</span><strong>'+d.ready+'</strong></div>':'<div class="pcMiniLine"><span>Занята до</span><strong>'+d.until+'</strong></div>')+
+      '<div class="pcMiniNote">Контакты и личные данные откроются только после подтверждения заказа в ProfiClick.</div></div>';
+  }
+  function orderPopup(o){
+    return '<div class="pcMiniPopup"><div class="pcMiniPopupHead"><b>'+o.title+'</b><span class="pcMiniBadge order">Заказ</span></div>'+
+      '<div class="pcMiniLine"><span>Маршрут</span><strong>'+o.route+'</strong></div>'+
+      '<div class="pcMiniLine"><span>Дата</span><strong>'+o.when+'</strong></div>'+
+      '<div class="pcMiniLine"><span>Стоимость</span><strong>'+o.price+'</strong></div>'+
+      '<div class="pcMiniLine"><span>Расстояние от вас</span><strong>'+Math.round(km(CENTER,o))+' км</strong></div>'+
+      '<div class="pcMiniNote">Нажатие показывает только данные заказа без телефона заказчика.</div></div>';
+  }
+  const drivers=[
+    {lat:32.794,lng:34.9896,city:'Хайфа',vehicle:'Фургон 12 м³',status:'free',rating:'4.9',ready:'через 20 минут'},
+    {lat:32.927,lng:35.083,city:'Акко',vehicle:'Грузовик до 3.5 т',status:'busy',rating:'4.8',until:'20:00'},
+    {lat:32.6996,lng:35.3035,city:'Ноф-ха-Галиль',vehicle:'Фургон 10 м³',status:'free',rating:'4.7',ready:'сейчас'},
+    {lat:32.434,lng:34.9196,city:'Хадера',vehicle:'Грузовик до 5 т',status:'free',rating:'5.0',ready:'через 30 минут'},
+    {lat:32.0853,lng:34.7818,city:'Тель-Авив',vehicle:'Фургон 14 м³',status:'busy',rating:'4.9',until:'18:30'},
+    {lat:31.7683,lng:35.2137,city:'Иерусалим',vehicle:'Грузовик до 7.5 т',status:'free',rating:'4.8',ready:'сейчас'},
+    {lat:31.2529,lng:34.7915,city:'Беэр-Шева',vehicle:'Фургон 12 м³',status:'busy',rating:'4.6',until:'21:00'},
+    {lat:29.5577,lng:34.9519,city:'Эйлат',vehicle:'Грузовик до 3.5 т',status:'free',rating:'4.9',ready:'через 15 минут'}
+  ];
+  const orders=[
+    {lat:32.819,lng:34.998,city:'Хайфа',title:'Переезд квартиры',route:'Хайфа → Нешер',when:'Сегодня, 19:00',price:'₪420',urgent:false},
+    {lat:32.929,lng:35.075,city:'Акко',title:'Доставка мебели',route:'Акко → Нагария',when:'Сегодня, 18:00',price:'₪360',urgent:true},
+    {lat:32.3215,lng:34.8532,city:'Нетания',title:'Офисный переезд',route:'Нетания → Герцлия',when:'Завтра, 09:00',price:'₪780',urgent:false},
+    {lat:32.070,lng:34.790,city:'Тель-Авив',title:'Перевозка техники',route:'Тель-Авив → Ришон-ле-Цион',when:'Сегодня, 20:30',price:'₪510',urgent:true},
+    {lat:31.780,lng:35.200,city:'Иерусалим',title:'Переезд квартиры',route:'Иерусалим → Модиин',when:'Завтра, 11:00',price:'₪940',urgent:false},
+    {lat:31.970,lng:34.790,city:'Ришон-ле-Цион',title:'Доставка дивана',route:'Ришон → Холон',when:'Сегодня, 17:45',price:'₪280',urgent:false},
+    {lat:31.245,lng:34.800,city:'Беэр-Шева',title:'Перевозка склада',route:'Беэр-Шева → Офаким',when:'Послезавтра, 08:00',price:'₪1250',urgent:true},
+    {lat:29.560,lng:34.960,city:'Эйлат',title:'Доставка мебели',route:'Эйлат → район Шахамон',when:'Завтра, 16:00',price:'₪390',urgent:false}
+  ];
+  function clearOld(){
+    if(!window.pcMap)return;
+    (window.pcLiveMarkers||[]).forEach(x=>{try{window.pcMap.removeLayer(x.m)}catch(e){}});
+    (window.pcOrderMarkers||[]).forEach(x=>{try{window.pcMap.removeLayer(x.m)}catch(e){}});
+    window.pcLiveMarkers=[];window.pcOrderMarkers=[];
+  }
+  function build(){
+    if(!window.pcMap||typeof L==='undefined')return false;
+    clearOld();
+    drivers.forEach(d=>{
+      const m=L.marker([d.lat,d.lng],{icon:truckIcon(d.status)}).bindPopup(driverPopup(d),{closeButton:true,maxWidth:260}).addTo(window.pcMap);
+      window.pcLiveMarkers.push({m,d});
+    });
+    orders.forEach(o=>{
+      const m=L.marker([o.lat,o.lng],{icon:jobIcon(o)}).bindPopup(orderPopup(o),{closeButton:true,maxWidth:260}).addTo(window.pcMap);
+      window.pcOrderMarkers.push({m,o});
+    });
+    window.pcMap.setView([CENTER.lat,CENTER.lng],9,{animate:false});
+    applyRadius();
+    return true;
+  }
+  function ensureRadiusInfo(){
+    const row=document.querySelector('.rangeRow'); if(!row)return;
+    let info=$('radiusInfo');
+    if(!info){info=document.createElement('div');info.id='radiusInfo';info.className='radiusInfo';info.innerHTML='<span>Показано в радиусе</span><b id="radiusFound"></b>';row.insertAdjacentElement('afterend',info)}
+  }
+  function applyRadius(){
+    if(!window.pcMap)return;
+    let dCount=0,oCount=0;
+    (window.pcLiveMarkers||[]).forEach(x=>{const show=km(CENTER,x.d)<=radiusKm;try{if(show){dCount++;if(!window.pcMap.hasLayer(x.m))x.m.addTo(window.pcMap)}else if(window.pcMap.hasLayer(x.m))window.pcMap.removeLayer(x.m)}catch(e){}});
+    (window.pcOrderMarkers||[]).forEach(x=>{const show=km(CENTER,x.o)<=radiusKm;try{if(show){oCount++;if(!window.pcMap.hasLayer(x.m))x.m.addTo(window.pcMap)}else if(window.pcMap.hasLayer(x.m))window.pcMap.removeLayer(x.m)}catch(e){}});
+    document.querySelectorAll('#pcRadiusText,.rangeRow b,#radiusValue,.radiusValue').forEach(el=>el.textContent=radiusKm+' км');
+    if($('radiusFound'))$('radiusFound').textContent=dCount+' машин · '+oCount+' заказов';
+    if($('nearCount'))$('nearCount').textContent=String(dCount);
+    const ai=document.querySelector('.aiCard b');if(ai)ai.textContent='AI нашёл '+dCount+' исполнителей рядом';
+  }
+  function bindSlider(){
+    ensureRadiusInfo();
+    document.querySelectorAll('input[type="range"]').forEach(s=>{
+      s.min=0;s.max=6;s.step=1;
+      if(!s.dataset.v7620){s.value=2;s.dataset.v7620='1'}
+      const handler=()=>{radiusKm=STEPS[Number(s.value)]||25;applyRadius()};
+      s.oninput=handler;s.onchange=handler;
+    });
+    radiusKm=25;applyRadius();
+  }
+  function boot(){
+    bindSlider();
+    let tries=0;const t=setInterval(()=>{tries++;if(build()||tries>12)clearInterval(t)},350);
+  }
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,2300));
+  setTimeout(boot,4200);
 })();
 </script>
 
