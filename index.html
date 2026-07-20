@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.18 Customer Tools Only</title>
+<title>ProfiClick v7.6.19 Green Red Truck Pins</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -407,6 +407,132 @@ body.roleCustomer #customerToolsOnly{display:block!important}
 body.roleCustomer #fleetPanel,
 body.roleCustomer #subscriptionRules{display:none!important}
 body.roleExecutor #customerToolsOnly{display:none!important}
+</style>
+
+
+<style>
+/* v7619 — single-cab truck pins, green/free and red/busy only */
+.pcVehicleIcon{
+  width:46px!important;
+  height:52px!important;
+  background:transparent!important;
+  border:0!important;
+  overflow:visible!important;
+  pointer-events:auto;
+}
+.pcVehicleIcon .pcTruckPin{
+  position:relative;
+  width:42px;
+  height:42px;
+  border-radius:50% 50% 50% 7px;
+  transform:rotate(-45deg);
+  background:linear-gradient(145deg,#69b64b,#2f7d25);
+  border:3px solid #fff;
+  box-shadow:0 10px 22px rgba(24,55,20,.28);
+}
+.pcVehicleIcon.busy .pcTruckPin,
+.pcVehicleIcon.track .pcTruckPin,
+.pcVehicleIcon.temp .pcTruckPin,
+.pcVehicleIcon.red .pcTruckPin{
+  background:linear-gradient(145deg,#f15b56,#c52f2a);
+  box-shadow:0 10px 22px rgba(133,28,25,.28);
+}
+.pcVehicleIcon .pcTruck{
+  position:absolute;
+  left:7px;
+  top:12px;
+  width:25px;
+  height:15px;
+  transform:rotate(45deg);
+}
+.pcVehicleIcon .pcTruckBody{
+  position:absolute;
+  left:1px;
+  top:2px;
+  width:15px;
+  height:10px;
+  border-radius:2px 1px 1px 2px;
+  background:#fff;
+}
+.pcVehicleIcon .pcTruckCab{
+  position:absolute;
+  right:1px;
+  top:4px;
+  width:9px;
+  height:8px;
+  border-radius:1px 3px 2px 1px;
+  background:#fff;
+}
+.pcVehicleIcon .pcTruckCab:before{
+  content:"";
+  position:absolute;
+  left:2px;
+  top:1px;
+  width:4px;
+  height:3px;
+  border-radius:1px;
+  background:rgba(47,125,37,.55);
+}
+.pcVehicleIcon.busy .pcTruckCab:before,
+.pcVehicleIcon.track .pcTruckCab:before,
+.pcVehicleIcon.temp .pcTruckCab:before,
+.pcVehicleIcon.red .pcTruckCab:before{
+  background:rgba(197,47,42,.55);
+}
+.pcVehicleIcon .pcTruckWheel{
+  position:absolute;
+  bottom:0;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#1f2937;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.pcVehicleIcon .pcTruckWheel.w1{left:4px}
+.pcVehicleIcon .pcTruckWheel.w2{right:3px}
+
+/* Remove every old car drawing and number plate from map markers */
+.pcVehicleIcon .pcCar,
+.pcVehicleIcon .pcLight,
+.pcVehicleIcon .pcVehiclePlate{
+  display:none!important;
+}
+
+/* Fallback map uses the same one-direction truck silhouette */
+.fbCar{
+  width:42px!important;
+  height:42px!important;
+  border-radius:50% 50% 50% 7px!important;
+  transform:rotate(-45deg)!important;
+  background:linear-gradient(145deg,#69b64b,#2f7d25)!important;
+  border:3px solid #fff!important;
+  box-shadow:0 10px 22px rgba(24,55,20,.28)!important;
+}
+.fbCar:before{
+  content:""!important;
+  position:absolute!important;
+  left:9px!important;
+  top:14px!important;
+  width:24px!important;
+  height:14px!important;
+  transform:rotate(45deg)!important;
+  border-radius:2px!important;
+  background:
+    radial-gradient(circle at 5px 13px,#1f2937 0 2.5px,transparent 3px),
+    radial-gradient(circle at 20px 13px,#1f2937 0 2.5px,transparent 3px),
+    linear-gradient(to right,#fff 0 15px,transparent 15px)!important;
+}
+.fbCar:after{
+  content:""!important;
+  position:absolute!important;
+  left:25px!important;
+  top:18px!important;
+  width:8px!important;
+  height:8px!important;
+  transform:rotate(45deg)!important;
+  border-radius:1px 3px 2px 1px!important;
+  background:#fff!important;
+}
 </style>
 
 </head>
@@ -1195,6 +1321,91 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
   setTimeout(applyRoleTools, 300);
   setTimeout(applyRoleTools, 1000);
   setInterval(applyRoleTools, 2000);
+})();
+</script>
+
+
+<script>
+(function(){
+  function truckPinIcon(status){
+    if(typeof L === "undefined") return null;
+    var red = status === "busy" || status === "track" || status === "temp" ||
+              status === "red" || status === "занят" || status === "занята";
+    var cls = red ? "busy red" : "free";
+    return L.divIcon({
+      className: "pcVehicleIcon " + cls,
+      html:
+        '<div class="pcTruckPin">' +
+          '<div class="pcTruck">' +
+            '<span class="pcTruckBody"></span>' +
+            '<span class="pcTruckCab"></span>' +
+            '<span class="pcTruckWheel w1"></span>' +
+            '<span class="pcTruckWheel w2"></span>' +
+          '</div>' +
+        '</div>',
+      iconSize:[46,52],
+      iconAnchor:[23,47]
+    });
+  }
+
+  function markerStatus(obj, index){
+    var d = obj && obj.d ? obj.d : {};
+    var type = String(d.type || d.status || "").toLowerCase();
+    if(type.indexOf("busy") !== -1 || type.indexOf("занят") !== -1 ||
+       type.indexOf("track") !== -1 || type.indexOf("едет") !== -1 ||
+       type.indexOf("temp") !== -1 || type.indexOf("недоступ") !== -1){
+      return "busy";
+    }
+    /* Keep the demo's third/fourth occupied markers red when old data has no type */
+    if(!type && (index === 2 || index === 3)) return "busy";
+    return "free";
+  }
+
+  function patchTruckMarkers(){
+    if(typeof L === "undefined") return;
+
+    var collections = [
+      window.pcLiveMarkers,
+      window.pcMarkers
+    ];
+
+    collections.forEach(function(list){
+      if(!Array.isArray(list)) return;
+      list.forEach(function(obj,index){
+        if(!obj || !obj.m || typeof obj.m.setIcon !== "function") return;
+        var status = markerStatus(obj,index);
+        try{
+          obj.m.setIcon(truckPinIcon(status));
+        }catch(e){}
+      });
+    });
+
+    /* Patch any Leaflet vehicle marker left by older initialization */
+    document.querySelectorAll(".pcVehicleIcon").forEach(function(el){
+      if(el.querySelector(".pcTruckPin")) return;
+      var red = el.classList.contains("busy") ||
+                el.classList.contains("track") ||
+                el.classList.contains("temp");
+      el.className = "pcVehicleIcon " + (red ? "busy red" : "free");
+      el.innerHTML =
+        '<div class="pcTruckPin">' +
+          '<div class="pcTruck">' +
+            '<span class="pcTruckBody"></span>' +
+            '<span class="pcTruckCab"></span>' +
+            '<span class="pcTruckWheel w1"></span>' +
+            '<span class="pcTruckWheel w2"></span>' +
+          '</div>' +
+        '</div>';
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    setTimeout(patchTruckMarkers,350);
+    setTimeout(patchTruckMarkers,900);
+    setTimeout(patchTruckMarkers,1700);
+  });
+  setTimeout(patchTruckMarkers,1200);
+  setInterval(patchTruckMarkers,2200);
 })();
 </script>
 
