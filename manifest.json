@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick Stable Static Radar",
+  "name": "ProfiClick Compact Radar Locate",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7624",
+  "start_url": "./index.html?v=7625",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",

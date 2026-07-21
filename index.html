@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.24 Stable Static Radar</title>
+<title>ProfiClick v7.6.25 Compact Radar Locate</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -2118,6 +2118,164 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
       stabilize();
     }
   },500);
+})();
+</script>
+
+
+<style>
+/* v7625 — compact radar panel + location button */
+#bottomSheet{
+  padding:8px 10px 10px!important;
+  border-radius:24px 24px 18px 18px!important;
+}
+#bottomSheet .sheetHandle{
+  margin:0 auto 7px!important;
+}
+#pcRadarTabs{
+  grid-template-columns:1fr 1fr 1.35fr .85fr!important;
+  gap:6px!important;
+  margin:0 0 8px!important;
+}
+#pcRadarTabs button{
+  height:42px!important;
+  border-radius:16px!important;
+  font-size:11px!important;
+  padding:3px!important;
+}
+#pcRadarTabs .tabIcon{
+  font-size:15px!important;
+}
+#pcRadarSummary{
+  display:none!important;
+}
+#bottomSheet .rangeRow{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  margin:2px 2px 0!important;
+  min-height:34px!important;
+}
+#bottomSheet .rangeRow > span:first-child{
+  font-size:13px!important;
+  min-width:48px!important;
+}
+#bottomSheet .rangeRow > span:last-child{
+  font-size:14px!important;
+  min-width:50px!important;
+  color:#2f7d25!important;
+}
+#bottomSheet input[type=range]{
+  height:22px!important;
+}
+#pcRadarScale,
+#pcRadarTitle{
+  display:none!important;
+}
+#pcLocateBtn{
+  position:absolute;
+  right:18px;
+  bottom:calc(118px + env(safe-area-inset-bottom));
+  z-index:1100;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:1px solid rgba(55,110,42,.18);
+  background:#fff;
+  box-shadow:0 8px 22px rgba(24,55,20,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+#pcLocateBtn:active{
+  transform:scale(.96);
+}
+#pcLocateBtn svg{
+  width:25px;
+  height:25px;
+  stroke:#4d8f31;
+  stroke-width:1.8;
+  fill:none;
+}
+</style>
+
+<script>
+(function(){
+  function ensureLocateButton(){
+    if(document.getElementById('pcLocateBtn')) return;
+    const btn=document.createElement('button');
+    btn.id='pcLocateBtn';
+    btn.type='button';
+    btn.setAttribute('aria-label','Показать моё местоположение');
+    btn.innerHTML=
+      '<svg viewBox="0 0 24 24" aria-hidden="true">'+
+        '<circle cx="12" cy="12" r="4"></circle>'+
+        '<circle cx="12" cy="12" r="8"></circle>'+
+        '<path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>'+
+      '</svg>';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click',()=>{
+      if(!navigator.geolocation){
+        alert('Геолокация недоступна');
+        return;
+      }
+      btn.disabled=true;
+      navigator.geolocation.getCurrentPosition(
+        pos=>{
+          const lat=pos.coords.latitude;
+          const lng=pos.coords.longitude;
+
+          try{
+            if(window.pcMap){
+              window.pcMap.setView([lat,lng],15,{animate:true});
+            }
+          }catch(e){}
+
+          try{
+            if(window.meMarker){
+              window.meMarker.__pcAllowPositionUpdate=true;
+              window.meMarker.setLatLng([lat,lng]);
+              window.meMarker.__pcAllowPositionUpdate=false;
+            }
+          }catch(e){}
+
+          try{
+            if(window.circle){
+              window.circle.setLatLng([lat,lng]);
+            }
+          }catch(e){}
+
+          btn.disabled=false;
+        },
+        ()=>{
+          alert('Не удалось определить местоположение');
+          btn.disabled=false;
+        },
+        {enableHighAccuracy:true,timeout:8000,maximumAge:30000}
+      );
+    });
+  }
+
+  function compactCleanup(){
+    const summary=document.getElementById('pcRadarSummary');
+    if(summary) summary.style.display='none';
+
+    /* Remove any duplicated count text accidentally injected into range area */
+    const sheet=document.getElementById('bottomSheet');
+    if(sheet){
+      sheet.querySelectorAll('.rangeInfo,.radiusInfo,.pcRadarSummary').forEach(el=>{
+        if(el.id!=='pcRadarSummary') el.remove();
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(ensureLocateButton,250);
+    setTimeout(compactCleanup,300);
+    setTimeout(compactCleanup,1200);
+  });
 })();
 </script>
 
