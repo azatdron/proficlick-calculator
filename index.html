@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.21 True Radius Radar</title>
+<title>ProfiClick v7.6.22 Radius Value Fix</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -1881,6 +1881,86 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
   }
   document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,2600));
   setTimeout(boot,4800);
+})();
+</script>
+
+
+<style>
+/* v7622 — one clear radius row */
+#pcRadarTitle,
+#pcRadarScale,
+.radiusTitle,
+.radiusScale{
+  display:none!important;
+}
+.bottomSheet .rangeRow{
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  margin:8px 3px 1px!important;
+}
+.bottomSheet .rangeRow > span{
+  display:block!important;
+  min-width:auto!important;
+  font-size:14px!important;
+  font-weight:950!important;
+}
+.bottomSheet .rangeRow > span:first-child{
+  color:#687386!important;
+}
+.bottomSheet .rangeRow > span:last-child{
+  min-width:52px!important;
+  text-align:right!important;
+  color:#2f7d25!important;
+}
+.bottomSheet .rangeRow input[type=range]{
+  flex:1!important;
+  width:auto!important;
+  margin:0!important;
+}
+</style>
+<script>
+(function(){
+  const values=[10,15,20,25,50,100];
+
+  function syncRadiusLabel(){
+    const slider=document.getElementById('radius');
+    const label=document.getElementById('radiusText');
+    if(!slider || !label) return;
+
+    let km;
+    const dynamic=document.getElementById('pcRadarValue');
+    if(dynamic && /\d+/.test(dynamic.textContent)){
+      km=parseInt(dynamic.textContent,10);
+    }else{
+      const i=Math.max(0,Math.min(values.length-1,Number(slider.value)||0));
+      km=values[i];
+    }
+    label.textContent=km+' км';
+  }
+
+  function install(){
+    const slider=document.getElementById('radius');
+    if(!slider) return false;
+
+    if(!slider.dataset.radiusLabelFix){
+      slider.dataset.radiusLabelFix='1';
+      slider.addEventListener('input',()=>setTimeout(syncRadiusLabel,0));
+      slider.addEventListener('change',()=>setTimeout(syncRadiusLabel,0));
+    }
+    syncRadiusLabel();
+    return true;
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    let n=0;
+    const t=setInterval(()=>{
+      n++;
+      if(install() || n>40) clearInterval(t);
+    },250);
+  });
+
+  setInterval(syncRadiusLabel,700);
 })();
 </script>
 

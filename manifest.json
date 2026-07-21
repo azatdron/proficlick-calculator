@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick True Radius Radar",
+  "name": "ProfiClick Radius Value Fix",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7621",
+  "start_url": "./index.html?v=7622",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",
