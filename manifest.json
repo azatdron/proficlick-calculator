@@ -1,7 +1,7 @@
 {
-  "name": "ProfiClick Israel Radius Popups",
+  "name": "ProfiClick True Radius Radar",
   "short_name": "ProfiClick",
-  "start_url": "./index.html?v=7620",
+  "start_url": "./index.html?v=7621",
   "display": "standalone",
   "background_color": "#f2faf0",
   "theme_color": "#4f8f33",

@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.20 Israel Radius Popups</title>
+<title>ProfiClick v7.6.21 True Radius Radar</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -1538,6 +1538,349 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
   }
   document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,2300));
   setTimeout(boot,4200);
+})();
+</script>
+
+
+<style>
+/* v7621 — true location-centered radius radar */
+.pcRadarTabs{
+  display:grid!important;
+  grid-template-columns:1fr 1fr 1.25fr .85fr!important;
+  gap:7px!important;
+  margin:0 0 10px!important;
+}
+.pcRadarTabs button{
+  min-width:0!important;
+  height:47px!important;
+  border:1px solid var(--line)!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  color:#172033!important;
+  font-size:12px!important;
+  line-height:1.05!important;
+  font-weight:950!important;
+  padding:4px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+}
+.pcRadarTabs button.active{
+  background:#eaf6e4!important;
+  color:#2f7d25!important;
+  border-color:#beddaf!important;
+  box-shadow:none!important;
+}
+.pcRadarTabs .tabIcon{font-size:17px;line-height:1}
+.pcRadarTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:1px 5px 5px;
+  font-size:15px;
+  font-weight:950;
+}
+.pcRadarTitle b{color:#2f7d25;font-size:17px}
+.pcRadarScale{
+  display:flex;
+  justify-content:space-between;
+  margin:4px 5px 0;
+  color:#6b7280;
+  font-size:9px;
+  font-weight:900
+}
+.pcRadarSummary{
+  margin:7px 4px 0;
+  color:#667085;
+  font-size:11px;
+  font-weight:900;
+  text-align:center
+}
+.pcRadarSummary b{color:#2f7d25}
+.bottomSheet{
+  max-height:none!important;
+  overflow:visible!important;
+  padding:10px!important;
+}
+.bottomSheet .modeRow,
+.bottomSheet .filterRow,
+.bottomSheet .radiusTitle,
+.bottomSheet .radiusScale,
+.bottomSheet .radiusInfo{display:none!important}
+.bottomSheet .rangeRow{
+  display:block!important;
+  margin:0!important
+}
+.bottomSheet .rangeRow > span{display:none!important}
+.bottomSheet input[type=range]{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  accent-color:#4d8f31!important
+}
+.pcLocationNotice{
+  position:absolute;
+  left:16px;
+  right:16px;
+  top:calc(env(safe-area-inset-top) + 205px);
+  z-index:900;
+  border-radius:15px;
+  padding:9px 11px;
+  background:rgba(23,32,51,.9);
+  color:#fff;
+  font-size:11px;
+  font-weight:850;
+  text-align:center;
+  pointer-events:none;
+  opacity:0;
+  transition:.2s
+}
+.pcLocationNotice.show{opacity:1}
+</style>
+<script>
+(function(){
+  const RADII=[10,15,20,25,50,100];
+  let center={lat:32.7940,lng:34.9896};
+  let radius=25;
+  let mode='all';
+  let circle=null;
+  let meMarker=null;
+  let ready=false;
+
+  function byId(id){return document.getElementById(id)}
+  function distanceKm(a,b){
+    const R=6371, rad=x=>x*Math.PI/180;
+    const dLat=rad(b.lat-a.lat), dLng=rad(b.lng-a.lng);
+    const s=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
+    return 2*R*Math.asin(Math.sqrt(s));
+  }
+  function notice(text){
+    let n=byId('pcLocationNotice');
+    if(!n){
+      n=document.createElement('div');
+      n.id='pcLocationNotice';
+      n.className='pcLocationNotice';
+      document.body.appendChild(n);
+    }
+    n.textContent=text;
+    n.classList.add('show');
+    clearTimeout(n._t);
+    n._t=setTimeout(()=>n.classList.remove('show'),2200);
+  }
+  function addToMap(marker){
+    try{
+      if(window.pcMap && !window.pcMap.hasLayer(marker)) marker.addTo(window.pcMap);
+    }catch(e){}
+  }
+  function removeFromMap(marker){
+    try{
+      if(window.pcMap && window.pcMap.hasLayer(marker)) window.pcMap.removeLayer(marker);
+    }catch(e){}
+  }
+  function getLatLng(item){
+    try{
+      const p=item.m.getLatLng();
+      return {lat:p.lat,lng:p.lng};
+    }catch(e){
+      const d=item.d||item.o||{};
+      return {lat:Number(d.lat)||0,lng:Number(d.lng)||0};
+    }
+  }
+  function isMine(item,index){
+    const d=item.d||{};
+    return Boolean(d.mine || d.isMine || index===0);
+  }
+  function ensureControls(){
+    const sheet=byId('bottomSheet');
+    if(!sheet) return false;
+    const content=sheet.querySelector('.sheetContent');
+    const range=sheet.querySelector('input[type="range"]');
+    if(!content || !range) return false;
+
+    let tabs=byId('pcRadarTabs');
+    if(!tabs){
+      tabs=document.createElement('div');
+      tabs.id='pcRadarTabs';
+      tabs.className='pcRadarTabs';
+      tabs.innerHTML=
+        '<button data-mode="all" class="active"><span class="tabIcon">🌐</span><span>Все</span></button>'+
+        '<button data-mode="orders"><span class="tabIcon">📦</span><span>Заказы</span></button>'+
+        '<button data-mode="drivers"><span class="tabIcon">🚚</span><span>Исполнители</span></button>'+
+        '<button data-mode="mine"><span class="tabIcon">🚛</span><span>Мои</span></button>';
+      content.insertBefore(tabs,content.firstChild);
+      tabs.querySelectorAll('button').forEach(btn=>{
+        btn.onclick=()=>{
+          mode=btn.dataset.mode;
+          tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));
+          apply(false);
+        };
+      });
+    }
+
+    let title=byId('pcRadarTitle');
+    if(!title){
+      title=document.createElement('div');
+      title.id='pcRadarTitle';
+      title.className='pcRadarTitle';
+      title.innerHTML='<span>Радиус от моей точки</span><b id="pcRadarValue">25 км</b>';
+      range.parentElement.insertBefore(title,range);
+    }
+
+    let scale=byId('pcRadarScale');
+    if(!scale){
+      scale=document.createElement('div');
+      scale.id='pcRadarScale';
+      scale.className='pcRadarScale';
+      scale.innerHTML=RADII.map(v=>'<span>'+v+'</span>').join('');
+      range.insertAdjacentElement('afterend',scale);
+    }
+
+    let sum=byId('pcRadarSummary');
+    if(!sum){
+      sum=document.createElement('div');
+      sum.id='pcRadarSummary';
+      sum.className='pcRadarSummary';
+      scale.insertAdjacentElement('afterend',sum);
+    }
+
+    range.min='0'; range.max=String(RADII.length-1); range.step='1';
+    if(!range.dataset.trueRadar){
+      range.value='3';
+      range.dataset.trueRadar='1';
+    }
+    range.oninput=()=>{
+      radius=RADII[Number(range.value)]||25;
+      apply(true);
+    };
+    range.onchange=range.oninput;
+    return true;
+  }
+  function ensureMapObjects(){
+    if(!window.pcMap || typeof L==='undefined') return;
+    if(!circle){
+      circle=L.circle([center.lat,center.lng],{
+        radius:radius*1000,
+        color:'#4d8f31',
+        weight:2,
+        opacity:.8,
+        fillColor:'#68a94d',
+        fillOpacity:.10,
+        interactive:false
+      }).addTo(window.pcMap);
+    }
+    if(!meMarker){
+      const icon=L.divIcon({
+        className:'userLocIcon',
+        html:'<div class="userPulse"><div class="userDot"></div></div>',
+        iconSize:[54,54],
+        iconAnchor:[27,27]
+      });
+      meMarker=L.marker([center.lat,center.lng],{icon,zIndexOffset:2000,interactive:false}).addTo(window.pcMap);
+    }
+    circle.setLatLng([center.lat,center.lng]).setRadius(radius*1000);
+    meMarker.setLatLng([center.lat,center.lng]);
+  }
+  function fitRadius(){
+    if(!window.pcMap || !circle) return;
+    try{
+      window.pcMap.fitBounds(circle.getBounds(),{
+        paddingTopLeft:[24,205],
+        paddingBottomRight:[24,190],
+        animate:true,
+        duration:.35
+      });
+    }catch(e){}
+  }
+  function apply(shouldFit){
+    if(!ensureControls() || !window.pcMap) return;
+    ensureMapObjects();
+
+    let driverCount=0, orderCount=0, mineCount=0;
+    const drivers=window.pcLiveMarkers||[];
+    const orders=window.pcOrderMarkers||[];
+
+    drivers.forEach((item,index)=>{
+      const inside=distanceKm(center,getLatLng(item))<=radius;
+      const mine=isMine(item,index);
+      const visible=inside && (
+        mode==='all' || mode==='drivers' || (mode==='mine' && mine)
+      );
+      if(inside) driverCount++;
+      if(inside && mine) mineCount++;
+      visible ? addToMap(item.m) : removeFromMap(item.m);
+    });
+
+    orders.forEach(item=>{
+      const inside=distanceKm(center,getLatLng(item))<=radius;
+      const visible=inside && (mode==='all' || mode==='orders');
+      if(inside) orderCount++;
+      visible ? addToMap(item.m) : removeFromMap(item.m);
+    });
+
+    const val=byId('pcRadarValue');
+    if(val) val.textContent=radius+' км';
+
+    const summary=byId('pcRadarSummary');
+    if(summary){
+      const shown = mode==='orders' ? orderCount :
+                    mode==='drivers' ? driverCount :
+                    mode==='mine' ? mineCount :
+                    driverCount+orderCount;
+      summary.innerHTML='<b>'+shown+'</b> показано · '+driverCount+' исполнителей · '+orderCount+' заказов';
+    }
+
+    const stats=document.querySelectorAll('.topStats .stat');
+    if(stats.length>=3){
+      stats[0].querySelector('b').textContent=driverCount;
+      stats[0].querySelector('span').textContent='исполнителей';
+      stats[1].querySelector('b').textContent=orderCount;
+      stats[1].querySelector('span').textContent='заказов';
+      stats[2].querySelector('b').textContent=driverCount+orderCount;
+      stats[2].querySelector('span').textContent='в радиусе';
+    }
+    const ai=document.querySelector('.aiCard b');
+    if(ai) ai.textContent='AI: в радиусе '+radius+' км найдено '+orderCount+' заказов и '+driverCount+' исполнителей';
+
+    if(shouldFit) fitRadius();
+    ready=true;
+  }
+  function locate(){
+    if(!navigator.geolocation){
+      notice('Геолокация недоступна — используется центр Хайфы');
+      apply(true);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos=>{
+        center={lat:pos.coords.latitude,lng:pos.coords.longitude};
+        notice('Радар построен от вашей текущей точки');
+        apply(true);
+      },
+      ()=>{
+        notice('Не удалось получить геолокацию — используется центр Хайфы');
+        apply(true);
+      },
+      {enableHighAccuracy:true,timeout:8000,maximumAge:60000}
+    );
+  }
+  function boot(){
+    ensureControls();
+    let tries=0;
+    const timer=setInterval(()=>{
+      tries++;
+      if(window.pcMap && (window.pcLiveMarkers||[]).length){
+        clearInterval(timer);
+        apply(true);
+        locate();
+        setInterval(()=>apply(false),2500);
+      }else if(tries>30){
+        clearInterval(timer);
+      }
+    },300);
+  }
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,2600));
+  setTimeout(boot,4800);
 })();
 </script>
 
