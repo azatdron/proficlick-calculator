@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="ProfiClick">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>ProfiClick v7.6.22 Radius Value Fix</title>
+<title>ProfiClick v7.6.23 Remove Duplicate Filter</title>
 <style>
 :root{--g:#5b9638;--g2:#2f6623;--bg:#eef7eb;--card:#fff;--ink:#172033;--muted:#717988;--line:#dfead8;--blue:#2478ff;--yellow:#e0b955}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -1961,6 +1961,58 @@ setTimeout(clean,500);setTimeout(clean,1500);setInterval(clean,2500);
   });
 
   setInterval(syncRadiusLabel,700);
+})();
+</script>
+
+
+<style>
+/* v7623 — remove duplicated legacy map filter row */
+#bottomSheet .modeRow,
+#bottomSheet .filterRow,
+#bottomSheet > .modeRow,
+#bottomSheet > .filterRow,
+#bottomSheet .sheetContent > .modeRow,
+#bottomSheet .sheetContent > .filterRow{
+  display:none!important;
+}
+
+/* Keep only the new true-radar tabs */
+#pcRadarTabs{
+  display:grid!important;
+}
+</style>
+<script>
+(function(){
+  function removeLegacyDuplicate(){
+    const sheet=document.getElementById('bottomSheet');
+    if(!sheet) return;
+
+    /* Remove old row containing Все / Мои / Исполнители / info */
+    sheet.querySelectorAll('.modeRow,.filterRow').forEach(el=>{
+      if(el.id!=='pcRadarTabs') el.remove();
+    });
+
+    /* Fallback for builds where old row has no stable class */
+    sheet.querySelectorAll('div').forEach(el=>{
+      if(el.id==='pcRadarTabs' || el.closest('#pcRadarTabs')) return;
+      const buttons=[...el.children].filter(c=>c.tagName==='BUTTON');
+      if(buttons.length<3 || buttons.length>5) return;
+      const text=buttons.map(b=>b.textContent.trim().toLowerCase()).join('|');
+      const legacy =
+        text.includes('все') &&
+        text.includes('мои') &&
+        text.includes('исполнител') &&
+        !text.includes('заказы');
+      if(legacy) el.remove();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(removeLegacyDuplicate,100);
+    setTimeout(removeLegacyDuplicate,800);
+    setTimeout(removeLegacyDuplicate,1800);
+  });
+  setInterval(removeLegacyDuplicate,1800);
 })();
 </script>
 
